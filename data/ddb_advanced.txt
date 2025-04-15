@@ -1,0 +1,60 @@
+Double Double Bonus Poker
+eval
+Royal Flush, Straight Flush, or Quads with low kicker
+RF 4
+Flush or Straight << RF 4
+Full House << Trip Aces
+SF 4 any
+Trips
+Pair of Aces
+Two Pair
+Pair of J-K << RF 3 (KQJ) [no fp, no sp]
+RF 3 (no T) or RF 3 (no A)
+Flush 4
+RF 3 (AKT, AQT, or AJT)
+Straight 4 (K, Q, or J high)
+Pair of 2-T
+AKQJ << SF 3 any (with Q, with J)
+SF 3 any h2
+Straight 4 h0
+RF 2 (QJ)
+SF 3 (5-J high)
+RF 2 (KQ or KJ) [dsc fp] << Straight 4 i h3
+RF 2 (KQ) [no fp] << SF 3 i (J98)
+RF 2 (KJ) [no fp]
+SF 3 i h1
+RF 2 (AK, AQ, or AJ) [no fp]
+Straight 4 i h3
+RF 2 (AK, AQ, or AJ) [dsc fp]
+SF 3 i h0 (235 or 245) << Just an A [dsc 6]
+SF 3 i h0 (346 or 356)
+SF 3 i h0 (457)
+SF 3 i h0 (467) << Just an A [dsc 8, no fp]
+SF 3 i h0 (568 or 578) << Just an A [dsc 9, no fp]
+SF 3 i h0 (679 or 689) << Just an A [dsc 5 or T, no fp]
+SF 3 i h0 (78T or 79T) << Just an A [dsc 6, no fp]
+SF 3 di h1
+SF 3 (A23)
+SF 3 (234) << Just an A [dsc 6]
+Straight 4 i h2
+KQJ
+QJ [no 9] << Just an Ace [dsc 68 or 78, no fp]
+Just an A [no fp] << RF 2 (JT) [dsc 23, 34, or 24, no fp]
+RF 2 (JT) [no fp, no 9, no 8] << Just an Ace [dsc 57 or 67, no 57 suited, no 67 suited]
+QJ [dsc 9]
+Just an A [dsc fp]
+RF 2 (JT) [no fp, no 9, dsc 8]
+KQ or KJ
+Flush 3 (K high, with T) [dsc 9]
+RF 2 (no A, with T)
+Just a K, Q, or J
+SF 3 di h0
+Straight 4 i h0
+Nothing
+
+# Rules that cannot be expressed in this language.
+# Given KQ + A(2-4)(5-8) suited, hold KQ
+# Given KJ + A(2-4)(5-8) suited, hold KJ
+# Given JT suited + An(n+1-7) suited, hold JT suited.
+# It takes 2 flush penalties (plus a 2-4 for KQ or KJ), plus the discards cannot be too large
+#  or they hurt KQ/KJ/JT.

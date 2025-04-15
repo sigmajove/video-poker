@@ -1,0 +1,91 @@
+Kings or Better Joker's Wild
+box score
+
+0 Deuces
+Natural Royal Flush
+Straight Flush
+Flush << RF 4
+Straight << RF 4 or SF 4 any
+Quads
+Full House
+Trips or Two Pair
+
+RF 4 or SF 4 any
+
+RF 3 (A high, no K) [dsc fp] << Pair of A
+RF 3 [others]
+
+Pair of A or K
+Flush 4
+
+SF 3 (345) [dsc K] << Pair of 2-Q
+SF 3 (JT9) [dsc A] << Pair of 2-Q
+SF 3 (5-J high) [no sp]
+Pair of 2-Q
+SF 3 [others]
+SF 3 i << KQJT
+SF 3 di h1
+
+Straight 4 (no A)
+
+RF 2 (AK)
+
+SF 3 di h0 [dsc sp] << RF 2 (KJ or KT)
+SF 3 di h0 [others]
+
+RF 2 (K high)
+RF 2 (A high) [no fp]
+AK
+RF 2 (A high) [dsc fp]
+
+Just a A or K
+
+RF 2 (Q or J high)
+SF 2 (6-9 high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Wild Royal Flush
+Straight Flush
+Quints
+Quads
+Full House
+RF 4
+SF 4 (5-Q high)
+Flush
+SF 4 di (no A, no K) << Trips
+SF 4 any
+Straight or Trips
+Flush 4 (A high)
+RF 3 (A, K, or J high)
+Flush 4 (K high)
+SF 3 (6-T high)
+SF 3 (45)
+SF 3 any (A low)
+SF 3 any (K9)
+
+RF 3 (Q high)
+
+Pair of A
+SF 3 i (6-T high)
+Pair of K
+SF 3 any (34)
+SF 3 any (35)
+SF 3 any (J9)
+SF 3 di [no sp]
+Flush 4 [others]
+SF 3 di [dsc sp]
+SF 3 any (23 or 24)
+Straight 4 (6-J high)
+Pair of 6 [no fp]
+Pair of 7 [no fp]
+Pair of 8 [no fp]
+Pair of 9 [no fp]
+Pair of T [no fp]
+Pair of 6 [dsc fp]
+Pair of 7 [dsc fp]
+Pair of 8 [dsc fp]
+Pair of 9 [dsc fp]
+Pair of T [dsc fp]
+Pair of 5
+Just the deuce

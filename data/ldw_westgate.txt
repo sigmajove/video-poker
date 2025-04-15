@@ -1,0 +1,62 @@
+8/15 Loose Deuces Wild
+eval
+
+0 Deuces
+Natural Royal Flush
+RF 4
+Straight Flush
+Quads
+Full House
+Straight
+Flush
+Trips
+SF 4
+RF 3
+SF 4 i
+One Pair
+Flush 4
+Straight 4 (7-K high)
+SF 3 (5-A high)
+SF 3 i (7-A high)
+RF 2 (J high)
+Straight 4 i (7-A high)
+SF 3 di (7-A high)
+3456 or AKQJ
+RF 2 (Q high)
+SF 3 i (6 high)
+RF 2 (K high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Wild Royal Flush
+Straight Flush
+Quints
+Quads
+Full House
+RF 4
+SF 4 (7-A high)
+Straight or Flush
+SF 4 i (7-A high)
+SF 4 (5-6 high)
+Trips
+SF 4 i (6 high)
+SF 4 di (no A)
+RF 3 (no A)
+SF 4 any (A low)
+SF 3 (7-T high) [no sp, no fp]
+Just the deuce
+
+2 Deuces
+Wild Royal Flush
+Straight Flush
+Quints
+Quads
+RF 4
+Just the deuces
+
+3 Deuces
+Just the deuces
+
+4 Deuces
+Just the deuces
+

@@ -1,0 +1,52 @@
+9/6 Bonus Deluxe
+eval
+# Returns 99.64%
+Royal Flush
+Straight Flush
+RF 4
+Quads
+Full House
+Straight or Flush
+Trips
+Two Pair
+SF 4 any
+Pair of J-A
+RF 3 (AKQ)
+RF 3 (AKJ)
+RF 3 (AQJ)
+RF 3 (KQJ)
+RF 3 (KQT)
+RF 3 (KJT)
+RF 3 (QJT)
+Flush 4
+RF 3 (AKT)
+RF 3 (AQT)
+RF 3 (AJT)
+Straight 4 (K high)
+Pair of 2-T
+Straight 4 (5-Q high)
+SF 3 any h2
+SF 3 h0
+AKQJ
+RF 2 (AQ)
+RF 2 (AJ)
+RF 2 (KQ)
+RF 2 (KJ)
+RF 2 (QJ)
+SF 3 any h1
+RF 2 (AK)
+SF 3 i h0
+Straight 4 i h3
+Straight 4 i h2
+KQJ
+QJ
+RF 2 (JT)
+KQ or KJ
+AK
+RF 2 (QT)
+AQ or AJ
+RF 2 (KT) [no fp]
+Just a A, K, Q, or J
+SF 3 di h0
+Straight 4 i h0
+Nothing

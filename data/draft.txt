@@ -1,0 +1,90 @@
+8/5 Bonus Poker
+AJ
+AK
+AKQJ
+AQ
+Flush
+Flush 4 h0
+Flush 4 h1
+Flush 4 h2
+Full House
+Just a A
+Just a J
+Just a K
+Just a Q
+KJ
+KQ
+KQJ
+Nothing
+Pair of 2
+Pair of 3
+Pair of 4
+Pair of 5
+Pair of 6
+Pair of 7
+Pair of 8
+Pair of 9
+Pair of A
+Pair of J
+Pair of K
+Pair of Q
+Pair of T
+QJ
+Quads
+RF 2 (AJ)
+RF 2 (AK)
+RF 2 (AQ)
+RF 2 (JT)
+RF 2 (KJ)
+RF 2 (KQ)
+RF 2 (KT)
+RF 2 (QJ)
+RF 2 (QT)
+RF 3 (AJT)
+RF 3 (AKJ)
+RF 3 (AKQ)
+RF 3 (AKT)
+RF 3 (AQJ)
+RF 3 (AQT)
+RF 3 (KJT)
+RF 3 (KQJ)
+RF 3 (KQT)
+RF 3 (QJT)
+RF 4
+Royal Flush
+SF 3 di h0
+SF 3 di h1
+SF 3 di h2
+SF 3 h0
+SF 3 h1
+SF 3 i h0
+SF 3 i h1
+SF 3 i h2
+SF 4 h0
+SF 4 h1
+SF 4 h2
+SF 4 i h0
+SF 4 i h1
+SF 4 i h2
+SF 4 i h3
+Straight
+Straight 4 h0
+Straight 4 h1
+Straight 4 h2
+Straight 4 h3
+Straight 4 i h3
+Straight Flush
+Trip 2
+Trip 3
+Trip 4
+Trip 5
+Trip 6
+Trip 7
+Trip 8
+Trip 9
+Trip A
+Trip J
+Trip K
+Trip Q
+Trip T
+Two Pair

@@ -1,0 +1,20 @@
+9/6 Jacks or Better
+Simple
+Full House, Quads, Straight Flush, or Royal Flush
+RF 4
+Two Pair, Trips, Straight, or Flush
+SF 4 any
+Pair of J-A
+RF 3
+Flush 4
+Pair of 2-T
+Straight 4 (5-A high)
+SF 3 any
+RF 2 (no T)
+AKQT, AKJT, or AQJT
+KQJ
+QJ, KQ, or KJ
+RF 2 (JT, QT, or KT)
+AK, AQ, or AJ
+Just a A, K, Q, or J
+Nothing

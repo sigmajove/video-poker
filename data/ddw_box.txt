@@ -1,0 +1,41 @@
+Box Score for Sam's Town Deuces
+
+ 12.06%     8.30 Nothing
+ 27.02%     3.70 Trips
+  5.55%    18.01 Straight
+  2.00%    49.94 Flush
+  2.62%    38.21 Full House
+  6.27%    15.95 Quads
+  0.46%   216.25 Straight Flush
+  0.31%   324.06 Quints
+  0.17%   598.06 Wild Royal
+  0.02%  4765.36 Four Deuces
+  0.00% 44236.10 Royal Flush
+Expected value = 100.9448%
+Variance = 50.1155
+ 1% RoR = $14451.80
+10% RoR = $7225.90
+50% RoR = $2175.21
+
+With a bankroll of $20
+ 0.19% Royal Flush
+ 1.78% Four Deuces
+22.86% Reach $40
+75.16% Bust
+Average cashout $21.00
+Median number of games: 65
+
+With a bankroll of $100
+ 1.70% Royal Flush
+15.75% Four Deuces
+ 0.68% Reach $200
+81.87% Bust
+Average cashout $108.86
+Median number of games: 644
+
+With a bankroll of $541.25
+11.35% Royal Flush
+38.73% Reach $1000
+49.93% Bust
+Average cashout $600.54
+Median number of games: 4198

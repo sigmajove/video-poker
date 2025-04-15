@@ -1,0 +1,23 @@
+Double Double Bonus Poker
+union
+Royal Flush
+Straight Flush
+Quads
+Quads with low kicker
+Flush
+Straight
+Trips
+Full House
+Two Pair
+One Pair
+RF 3
+Flush 4
+Straight 4 (5-A high)
+Straight 4 i (6-A high)
+SF 3 any
+RF 2 (A high, no T)
+RF 2 (no A)
+KQJ, KQ, QJ, KJ, or Just a K, Q, or J
+Just an A
+Flush 3 (K high, with T) [dsc 9]
+Nothing

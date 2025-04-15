@@ -1,0 +1,99 @@
+Two Pair Joker's Wild
+eval
+
+0 Deuces
+Natural Royal Flush
+Straight Flush
+RF 4
+Quads
+Full House
+Flush
+Straight
+Trips
+Two Pair
+SF 4 any
+RF 3
+Flush 4
+Straight 4 (5-K high)
+SF 3 (5-J high)
+One Pair
+SF 3 any (others)
+Straight 4 i
+Straight 4 (A234 or AKQJ)
+RF 2 (JT)
+RF 2 (QT) [no 9, J, or K]
+RF 2 (QJ) [no 9, T, or K]
+Flush 3
+RF 2 (Q high) [others]
+Straight 3 (5-Q high)
+SF 2 (5-T high)
+RF 2 (K high)
+SF 2 i (5-J high)
+SF 2 (34)
+RF 2 (A high)
+SF 2 di (5-Q high)
+SF 2 (23)
+SF 2 i (24)
+Just a T
+Just a 8 or 9
+Just a 9
+Just a 7
+Just a 6
+Just a 5
+Just a 4 [dsc KQJ2] [no fp]
+Just a J [dsc K or Q] [no fp]
+Straight 3 (KQJ) [dsc 34]
+Straight 3 (234) [dsc QJ]
+Nothing
+1 Deuce
+Wild Royal Flush
+Straight Flush
+Quints
+Quads
+Full House
+SF 4 (5-J high)
+RF 4 (QJT)
+Flush
+RF 4 (K high)
+SF 4 i (5-Q high)
+SF 4 (234)
+Straight
+RF 4 (A high)
+SF 4 i (4 high)
+SF 4 (A23)
+SF 4 di
+Trips
+Straight 4 (5-Q high)
+SF 3 (6-T high)
+RF 3 (JT)
+SF 3 (45)
+SF 3 i (6-T high)
+SF 3 i (35 or J9)
+SF 3 (34)
+RF 3 (QJ or QT)
+Flush 4
+Straight 4 (234 or KQJ)
+Straight 4 i (5-K high)
+RF 3 (K high)
+SF 3 any (23 or 24)
+SF 3 di (5-K high)
+Straight 3 (5-J high)
+SF 3 ti
+RF 3 (A high)
+SF 3 any (A2, A3, or A4)
+Pair of 7 [no fp]
+Pair of 8 or 9 [no fp]
+Pair of 6 [no fp]
+Pair of T [no fp]
+Pair of 5 [no fp]
+Pair of 9 [dsc fp]
+Pair of 7 or 8 [dsc fp]
+Pair of T [dsc fp]
+Pair of 5 or 6 [dsc fp]
+Pair of J [no fp]
+Pair of 4 [no fp]
+Pair of J [dsc fp]
+Pair of 4 [dsc fp]
+Straight 3 (QJ)
+Straight 4 (AKQ)
+Just the deuce

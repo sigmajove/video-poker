@@ -1,0 +1,39 @@
+9/6 Jacks or Better
+box score
+#This simplified strategy for 9/6 Jacks uses no penalty cards and
+#returns 99.5429% (as opposed the the optimal 99.5439%)
+Full House, Quads, Straight Flush, or Royal Flush
+Two Pair or Trips
+RF 4
+Straight or Flush
+SF 4 any
+Pair of J-A
+RF 3
+Flush 4
+KQJT
+Pair of 2-T
+Straight 4 (5-Q high)
+SF 3 (5-Q high)
+SF 3 i (Q or J high)
+SF 3 di h2
+RF 2 (QJ)
+AKQJ
+RF 2 (no T)
+KQJ9
+SF 3 any (A low)
+SF 3 (234)
+SF 3 i h0
+AKQT, AKJT, or AQJT
+SF 3 di h1
+KQJ
+QJ
+RF 2 (JT)
+KQ or KJ
+RF 2 (QT)
+AK, AQ, or AJ
+RF 2 (KT)
+Just a A, K, Q, or J
+SF 3 di h0
+Nothing
+
+

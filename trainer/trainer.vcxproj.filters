@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="aa_advanced.txt" />
+    <Text Include="aa_basic.txt" />
+    <Text Include="all_american_basic.txt" />
+    <Text Include="apdw_advanced.txt" />
+    <Text Include="apdw_basic.txt" />
+    <Text Include="db96_basic.txt" />
+    <Text Include="ddb_advanced.txt" />
+    <Text Include="double_bonus_nopen.txt" />
+    <Text Include="double_bonus_optimal.txt" />
+    <Text Include="fpdw_advanced.txt" />
+    <Text Include="fpdw_advanced2.txt" />
+    <Text Include="fpdw_basic.txt" />
+    <Text Include="fpdw_basic2.txt" />
+    <Text Include="jacks_or_better_nopen.txt" />
+    <Text Include="jacks_or_better_simple.txt" />
+    <Text Include="kbjw.txt" />
+    <Text Include="ldw_815.txt" />
+    <Text Include="nsud_basic.txt" />
+    <Text Include="oej_rr.txt" />
+    <Text Include="oej_simple.txt" />
+    <Text Include="old double_bonus_nopen.txt" />
+    <Text Include="stdw_basic.txt" />
+    <Text Include="super_aces.txt" />
+    <Text Include="tpjw.txt" />
+    <Text Include="triple_bonus_plus.txt" />
+    <Text Include="vcdw_basic.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ace.emf" />
+    <None Include="club.emf" />
+    <None Include="diamond.emf" />
+    <None Include="heart.emf" />
+    <None Include="images.aps" />
+    <None Include="jack.emf" />
+    <None Include="joker.ai" />
+    <None Include="joker.emf" />
+    <None Include="king.emf" />
+    <None Include="queen.emf" />
+    <None Include="spade.emf" />
+    <None Include="txt1.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="wild.emf" />
+    <None Include="x2.emf" />
+    <None Include="x3.emf" />
+    <None Include="x4.emf" />
+    <None Include="x5.emf" />
+    <None Include="x6.emf" />
+    <None Include="x7.emf" />
+    <None Include="x8.emf" />
+    <None Include="x9.emf" />
+    <None Include="xa.emf" />
+    <None Include="xj.emf" />
+    <None Include="xk.emf" />
+    <None Include="xq.emf" />
+    <None Include="xt.emf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="back.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="held.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="spade.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="BUH_DUH.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="deal.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="pay.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="wrong.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="handmaster.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="random.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="trainer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="handmaster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="images.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,69 @@
+Full Pay Deuces Wild
+eval
+
+0 Deuces
+Natural Royal Flush
+Full House or Quads
+RF 4
+Trips
+Straight, Flush, or Straight Flush
+SF 4
+RF 3 (Q high) [no K8]
+SF 4 i
+RF 3 [others]
+One Pair
+Flush 4
+Straight 4 (7-K high)
+SF 3 (5-J high)
+SF 3 i (7-Q high)
+SF 3 di (JT7) [dsc AK]
+SF 3 di (JT7) [dsc Q, no 8]
+RF 2 (JT)
+SF 3 di (8-K high)
+QT98 << RF 2 (QT) [no fp, no A or K]
+QJ98 << RF 2 (QJ) [no fp, no A or K]
+AKQT << RF 2 (QT) [no fp, no 8 or 9]
+AKQJ << RF 2 (QJ) [no fp, no 8 or 9]
+Straight 4 i (J-A high)
+RF 2 (Q high) [no fp]
+SF 3 i (6 high)
+SF 3 di (7 high)
+3456
+678T << RF 2 (QT)
+Straight 4 i (7-T high)
+RF 2 (Q high) [dsc fp]
+RF 2 (K high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Straight Flush
+RF 4
+SF 4 (7-Q high)
+Full House, Flush, or Straight
+Straight
+Quints
+Quads
+Trips
+SF 4 any
+RF 3 (K, Q, or J high)
+SF 3 (7-T high)
+RF 3 (AK or AQ) [no fp, no sp, no 3]
+RF 3 (AJ or AT) [no fp, no sp]
+Just the deuce
+
+2 Deuces
+Straight Flush
+Quints
+Quads
+RF 4
+SF 4 (7-T high)
+Just the deuces
+
+3 Deuces
+Wild Royal Flush
+Quints (T-A high)
+Just the deuces
+
+4 Deuces
+Just the deuces
+

@@ -1,0 +1,138 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// EMF
+//
+
+IDR_T_EMF               EMF     DISCARDABLE     "xt.emf"
+IDR_3_EMF               EMF     DISCARDABLE     "x3.emf"
+IDR_4_EMF               EMF     DISCARDABLE     "x4.emf"
+IDR_5_EMF               EMF     DISCARDABLE     "x5.emf"
+IDR_6_EMF               EMF     DISCARDABLE     "x6.emf"
+IDR_7_EMF               EMF     DISCARDABLE     "x7.emf"
+IDR_8_EMF               EMF     DISCARDABLE     "x8.emf"
+IDR_9_EMF               EMF     DISCARDABLE     "x9.emf"
+IDR_A_EMF               EMF     DISCARDABLE     "xa.emf"
+IDR_J_EMF               EMF     DISCARDABLE     "xj.emf"
+IDR_K_EMF               EMF     DISCARDABLE     "xk.emf"
+IDR_Q_EMF               EMF     DISCARDABLE     "xq.emf"
+IDR_2_EMF               EMF     DISCARDABLE     "x2.emf"
+IDR_SPADE_EMF           EMF     DISCARDABLE     "spade.emf"
+IDR_HEART_EMF           EMF     DISCARDABLE     "heart.emf"
+IDR_CLUB_EMF            EMF     DISCARDABLE     "club.emf"
+IDR_DIAMOND_EMF         EMF     DISCARDABLE     "diamond.emf"
+IDR_JACK_EMF            EMF     DISCARDABLE     "jack.emf"
+IDR_QUEEN_EMF           EMF     DISCARDABLE     "queen.emf"
+IDR_KING_EMF            EMF     DISCARDABLE     "king.emf"
+IDR_ACE_EMF             EMF     DISCARDABLE     "ace.emf"
+IDR_WILD_EMF            EMF     DISCARDABLE     "wild.emf"
+IDR_JOKER_EMF           EMF     DISCARDABLE     "joker.emf"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BACK                BITMAP  DISCARDABLE     "bitmap1.bmp"
+IDB_HELD                BITMAP  DISCARDABLE     "held.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// WAVE
+//
+
+IDR_WRONG               WAVE    DISCARDABLE     "wrong.wav"
+IDR_WAVE2               WAVE    DISCARDABLE     "BUH_DUH.wav"
+IDR_DEAL                WAVE    DISCARDABLE     "deal.wav"
+IDR_PAY                 WAVE    DISCARDABLE     "pay.wav"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON    DISCARDABLE     "spade.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// txt
+//
+
+IDR_301                 txt     DISCARDABLE     "fpdw_basic.txt"
+IDR_302                 txt     DISCARDABLE     "double_bonus_nopen.txt"
+IDR_303                 txt     DISCARDABLE     "double_bonus_optimal.txt"
+IDR_304                 txt     DISCARDABLE     "db96_basic.txt"
+IDR_305                 txt     DISCARDABLE     "apdw_basic.txt"
+IDR_306                 txt     DISCARDABLE     "apdw_advanced.txt"
+IDR_307                 txt     DISCARDABLE     "nsud_basic.txt"
+IDR_308                 txt     DISCARDABLE     "stdw_basic.txt"
+IDR_309                 txt     DISCARDABLE     "tpjw.txt"
+IDR_310                 txt     DISCARDABLE     "jacks_or_better_nopen.txt"
+IDR_311                 txt     DISCARDABLE     "aa_advanced.txt"
+IDR_312                 txt     DISCARDABLE     "aa_basic.txt"
+IDR_313                 txt     DISCARDABLE     "kbjw.txt"
+IDR_314                 txt     DISCARDABLE     "fpdw_advanced.txt"
+IDR_315                 txt     DISCARDABLE     "ddb_advanced.txt"
+IDR_316                 txt     DISCARDABLE     "oej_rr.txt"
+IDR_317                 txt     DISCARDABLE     "oej_simple.txt"
+IDR_318                 txt     DISCARDABLE     "ldw_815.txt"
+IDR_319                 txt     DISCARDABLE     "jacks_or_better_simple.txt"
+IDR_320                 txt     DISCARDABLE     "triple_bonus_plus.txt"
+IDR_321                 txt     DISCARDABLE     "super_aces.txt"
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

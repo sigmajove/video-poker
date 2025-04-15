@@ -1,0 +1,38 @@
+Box Score for Full Pay Deuces Wild
+
+ 11.68%     8.56 Nothing
+ 28.33%     3.53 Trips
+  5.57%    17.94 Straight
+  1.74%    57.40 Flush
+  2.12%    47.18 Full House
+  6.44%    15.53 Quads
+  0.41%   242.29 Straight Flush
+  0.32%   314.36 Quints
+  0.19%   513.20 Wild Royal
+  0.02%  4977.85 Four Deuces
+  0.00% 43500.57 Royal Flush
+Expected value = 100.7368%
+Variance = 25.9399
+
+With a bankroll of $20
+ 0.18% Royal Flush
+ 1.54% Four Deuces
+32.91% Reach $40
+65.37% Bust
+Average cashout $20.71
+Median number of games: 60
+
+With a bankroll of $100
+ 2.30% Royal Flush
+20.14% Four Deuces
+ 8.73% Reach $200
+68.83% Bust
+Average cashout $109.23
+Median number of games: 796
+
+With a bankroll of $523.75
+24.88% Royal Flush
+25.03% Reach $1000
+50.10% Bust
+Average cashout $623.40
+Median number of games: 8494

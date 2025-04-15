@@ -1,0 +1,156 @@
+180/80/50 One Eyed Jacks
+Advanced
+
+0 Deuces
+Natural Royal Flush
+Straight Flush
+Quads
+Full House
+RF 4
+SF 4
+SF 4 i (4-J high) (clubs or diamonds)
+SF 4 i (K or Q high) (clubs or diamonds)
+SF 4 i (5-T high) (spades or hearts)
+Flush
+SF 4 i (K or Q high) (spades or hearts)
+Trips
+RF 3 (Q high) (clubs or diamonds)
+Straight
+RF 3 (A-K high) (clubs or diamonds)
+Two Pair
+SF 3 (5-J high)
+Flush 4 (clubs or diamonds)
+RF 3 (A-K high) (spades or hearts)
+SF 3 (234) (clubs or diamonds)
+SF 3 i (5-9 high) (clubs or diamonds)
+One Pair (no Jack)
+SF 3 i (5-6 high) (spades or hearts)
+SF 3 i (9 high) (spades or hearts)
+SF 3 (234) (spades or hearts)
+SF 3 i (7-8 high) (spades or hearts)
+Flush 4 (spades or hearts)
+SF 3 (A23)
+SF 3 i (4 high)
+SF 3 i (T-Q high)
+SF 3 di
+Straight 4 (no A)
+Pair of Jacks
+RF 2 (KJ, QJ, QT, or JT)
+SF 2 (5-8 high) (clubs or diamonds)
+RF 2 (KT)
+SF 2 (89) (clubs or diamonds)
+RF 2 (KQ)
+SF 2 i (46 or 57) (clubs or diamonds)
+RF 2 (AK, AQ, or AT) [no sp]
+SF 2 (45, 56, or 67) (spades or hearts)
+RF 2 (AT) [dsc sp]
+SF 2 (9T) (clubs or diamonds)
+RF 2 (AJ)
+SF 2 i (68) (clubs or diamonds)
+SF 2 any (34 or 35) (clubs or diamonds)
+RF 2 (AK or AQ) [dsc sp]
+SF 2 (78) (spades or hearts)
+SF 2 i (79) (clubs or diamonds)
+SF 2 i (5-8 high) (spades or hearts)
+SF 2 (34) (spades or hearts)
+SF 2 i (8T) (clubs or diamonds)
+Straight 4 (with Ace)
+Straight 4 i (5-T high)
+Straight 4 i (with J)
+SF 2 di (58) (clubs or diamonds)
+SF 2 (89 or 9T) (spades or hearts)
+SF 2 di (69) (clubs or diamonds)
+SF 2 i (24) (clubs or diamonds)
+SF 2 di (47) (clubs or diamonds)
+SF 2 any (23, 25, or 36) (clubs or diamonds)
+SF 2 di (7T) (clubs or diamonds)
+Just a T (clubs or diamonds)
+SF 2 i (79) (spades or hearts)
+Nothing
+
+1 Deuce
+Wild Royal Flush, Straight Flush, or Full House
+Quints
+Quads
+RF 4
+SF 4
+SF 4 i (5-Q high)
+SF 4 di (8-T high) (clubs or diamonds)
+SF 4 i (4 high)
+SF 4 di (5-7 high) (clubs or diamonds)
+SF 4 di (J-K high) (clubs or diamonds)
+SF 4 di (5-T high) (spades or hearts)
+Flush
+Trips (no Jack)
+RF 3 (QT or JT) (clubs or diamonds)
+SF 4 di (K or Q high) (spades or hearts)
+Straight
+RF 3 (QJ) (clubs or diamonds)
+Trips (Jack high)
+RF 3 (K or Q high) (spades or hearts)
+RF 3 (A or K high) (clubs or diamonds)
+SF 3 (5-7 high)
+SF 3 (8-T high) (clubs or diamonds)
+RF 3 (A high) (spades or hearts)
+SF 3 i (5 or 8 high) (clubs or diamonds)
+SF 3 (78) (spades or hearts)
+SF 3 (34) (clubs or diamonds)
+SF 3 i (6 high)
+SF 3 i (9 high) (clubs or diamonds)
+SF 3 any (34 or 35) (spades or hearts)
+SF 3 i (7 high) (clubs or diamonds)
+SF 3 i (7-9 high) (spades or hearts)
+SF 3 (89 or 9T) (spades or hearts)
+SF 3 i (8T or J9) (clubs or diamonds)
+SF 3 di (7-9 high) (clubs or diamonds)
+SF 3 di (5-6 high) (clubs or diamonds)
+SF 3 any (23 or 24) (clubs or diamonds)
+SF 3 di (7-9 high) (spades or hearts)
+SF 3 any (23, 24, 25, or 36) (spades or hearts)
+SF 3 any (7T) (clubs or diamonds)
+SF 3 di (Q9) (clubs or diamonds)
+SF 3 any (6T) (clubs or diamonds)
+Pair of T (clubs or diamonds)
+SF 3 any (8T) (spades or hearts)
+SF 3 di (J8)
+SF 3 ti (6-9 high) (clubs or diamonds)
+SF 3 di (7T) (spades or hearts)
+SF 3 any (A2, A3, A4, or A5) (clubs or diamonds)
+Pair of 5 (clubs or diamonds)
+Pair of 6 (clubs or diamonds)
+SF 3 ti (6-T high) (spades or hearts)
+SF 3 any (A2, A3, A4, or A5) (spades or hearts)
+SF 3 ti (Q8 or K9) (clubs or diamonds)
+Pair of 6 (spades or hearts)
+Pair of 5 (spades or hearts)
+Pair of 7 (clubs or diamonds)
+Pair of 8 (clubs or diamonds)
+Pair of 9 (clubs or diamonds)
+Just the jack
+
+2 Deuces
+Wild Royal Flush
+Quints
+Straight Flush
+Quads
+RF 4
+SF 4
+SF 4 i
+SF 4 di
+SF 4 ti
+Trip T (clubs or diamonds)
+Trip Aces (clubs or diamonds)
+Trip Queens (clubs or diamonds)
+Trip Kings (clubs or diamonds)
+Trip T (spades or hearts)
+Trip 6 (clubs or diamonds)
+Trip 5 (clubs or diamonds)
+Trip 8 (clubs or diamonds)
+Trip 7 (clubs or diamonds)
+Trip 5 (spades or hearts)
+Trip 6 (spades or hearts)
+Trip 9 (clubs or diamonds)
+Trip Aces (spades or hearts)
+Trip 7 (spades or hearts)
+Trip 4
+Just the jacks

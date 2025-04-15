@@ -1,0 +1,41 @@
+Optimal box score for Loose Deuces Wild
+
+ 54.70%     1.83 Nothing
+ 28.51%     3.51 Trips
+  5.60%    17.86 Straight
+  1.63%    61.40 Flush
+  2.12%    47.19 Full House
+  6.54%    15.28 Quads
+  0.39%   257.83 Straight Flush
+  0.32%   313.95 Quints
+  0.17%   584.97 Wild Royal
+  0.02%  4664.42 Four Deuces
+  0.00% 44890.49 Royal Flush
+Expected value = 100.1496%
+Variance = 70.6963
+ 1% RoR = $134951.83
+10% RoR = $67475.92
+50% RoR = $20312.27
+
+With a bankroll of $20
+ 0.16% Royal Flush
+ 1.53% Four Deuces
+19.29% Reach $40
+79.02% Bust
+Average cashout $20.13
+Median number of games: 56
+
+With a bankroll of $100
+ 1.30% Royal Flush
+12.50% Four Deuces
+ 0.53% Reach $200
+85.68% Bust
+Average cashout $101.09
+Median number of games: 508
+
+With a bankroll of $593.75
+ 7.61% Royal Flush
+42.31% Reach $1000
+50.08% Bust
+Average cashout $600.14
+Median number of games: 3229

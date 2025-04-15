@@ -1,0 +1,47 @@
+9/5 Triple Bonus Plus
+Basic
+Royal Flush
+Straight Flush
+Quads
+RF 4
+SF 4 (5-A high)
+Flush or Straight
+SF 4 i or SF 4 (A234)
+Trip Aces
+Full House
+Pair of Aces
+Trip 2-K
+Two Pair
+RF 3 (KQJ or QJT)
+Pair of J, Q, or K
+RF 3 (others)
+Flush 4
+Pair of 2, 3, or 4
+KQJT or QJT9
+SF 3 (JT9)
+JT98
+Pair of 5-T
+Straight 4 (5-T high)
+SF 3 (5-T high)
+SF 3 i (9-Q high)
+SF 3 di h2
+AKQJ
+RF 2 (QJ, KQ, or KJ)
+SF 3 i (6-8 high)
+Straight 4 i h3
+RF 2 (AK, AQ, or AJ)
+SF 3 (3 or 4 high)
+SF 3 i (4 or 5 high)
+SF 3 di h1
+Straight 4 i h2
+KQJ
+QJ
+Just an Ace
+RF 2 (JT)
+KQ or KJ
+RF 2 (QT)
+RF 2 (KT) [no fp]
+Just a K, Q, or J
+SF 3 di h0
+Straight 4 i h0
+Nothing

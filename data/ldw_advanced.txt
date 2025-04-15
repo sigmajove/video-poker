@@ -1,0 +1,57 @@
+Loose Deuces Wild
+half life
+
+0 Deuces
+Natural Royal Flush
+RF 4
+Straight, Flush, Full House, Quads, or Straight Flush
+Trips
+SF 4
+RF 3
+SF 4 i
+One Pair
+Flush 4
+Straight 4 (7-K high)
+SF 3 (5-A high)
+SF 3 i (7-A high)
+RF 2 (J high)
+Straight 4 (AKQJ)
+Straight 4 i (7-A high)
+SF 3 di (9-A high)
+Straight 4 (3456)
+RF 2 (Q high)
+SF 3 i (3 low)
+SF 3 di (3-4 low)
+RF 2 (K high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Wild Royal Flush
+Straight Flush
+Quints
+Full House
+Quads
+RF 4
+SF 4 (7-K high)
+Straight or Flush
+SF 4 i (7-A high)
+SF 4 (345 or 456)
+Trips
+SF 4 i (346 or 356)
+SF 4 di (no A)
+RF 3 (K, Q, or J high)
+SF 3 (7-T high) [no sp, no fp]
+SF 4 any (A low)
+Just the deuce
+
+2 Deuces
+Quints, Straight Flush, or Wild Royal Flush
+Quads
+RF 4
+Just the deuces
+
+3 Deuces
+Just the deuces
+
+4 Deuces
+Just the deuces

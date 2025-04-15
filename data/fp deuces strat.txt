@@ -1,0 +1,66 @@
+Strategy for 0 wild cards
+0) Natural Royal Flush -> 1
+1) RF 4 -> 2
+2) Straight, Flush, or Straight Flush -> 3
+3) SF 4 -> 6
+4) Full House or Quads -> 5
+5) Trips -> 6
+6) RF 3 (Q high) [no K8] -> 7
+7) SF 4 any -> 8
+8) RF 3 [others] -> 9 13
+9) One Pair -> 10 11 18
+10) Straight 4 (7-K high) -> 12 14 15
+11) Flush 4 -> 12 14 15
+12) SF 3 i (7-Q high) -> 16
+13) SF 3 di (JT7) [dsc AK] -> 16
+14) SF 3 di (JT7) [dsc Q, no 8] -> 16
+15) SF 3 (5-J high) -> 16
+16) RF 2 (J high) -> 17
+17) SF 3 di (8-K high) -> 19 20 21
+18) RF 2 (Q high) [dsc AK, no 8 or 9, no fp] -> 19 22
+19) AKQJ or 3456 -> 23
+20) RF 2 (Q high) [dsc 678] -> 26
+21) RF 2 (Q high) [dsc 89, no A or K, no fp] -> 22
+22) Straight 4 i (J-A high) -> 23
+23) RF 2 (Q high) [no fp] -> 24 25
+24) SF 3 di (7 high) -> 26
+25) SF 3 i (5-6 high) -> 26
+26) Straight 4 i (7-T high) -> 27
+27) RF 2 (Q high) [dsc fp] -> 28
+28) == Begin Conflict == ->
+RF 2 (K high) [others] (As 6c 7d Th Kh) ?? Nothing (As 3c 4d Th Kh) 
+Nothing (3s 4c 5d Jh Kh) ?? RF 2 (K high) [no fp, no sp] (3s 4c 5d Th Kh) 
+28) == End Conflict ==
+
+Strategy for 1 wild cards
+0) Straight Flush -> 1
+1) RF 4 -> 2
+2) SF 4 (7-Q high) -> 3
+3) Full House, Flush, or Straight -> 6
+4) Quints -> 5
+5) Quads -> 6
+6) Trips -> 7
+7) SF 4 any -> 8
+8) RF 3 (K, Q, or J high) -> 9
+9) SF 3 (7-T high) -> 10
+10) == Begin Conflict == ->
+RF 3 (A high) [no fp, no sp] (As 3c 4d Ts) ?? Just the deuce (As 3c 4d Js) 
+Just the deuce (As 3c 4d Js) ?? RF 3 (A high) [others] (As 7c Td Js) 
+10) == End Conflict ==
+
+Strategy for 2 wild cards
+0) Quints -> 1
+1) Quads -> 3
+2) Straight Flush -> 3
+3) RF 4 -> 4
+4) SF 4 (7-T high) -> 5
+5) Just the deuces ->
+
+Strategy for 3 wild cards
+0) Quints (T-A high) -> 2
+1) Wild Royal Flush -> 2
+2) Just the deuces ->
+
+Strategy for 4 wild cards
+0) Just the deuces ->
+

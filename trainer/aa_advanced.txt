@@ -1,0 +1,62 @@
+All American Poker
+Advanced
+Royal Flush, Straight Flush, Quads, or Full House
+RF 4
+SF 4 (no Ace)
+Straight, Flush, or Trips
+SF 4 (A234)
+SF 4 i
+RF 3 (QJT)
+RF 3 (KQJ) [no T]
+RF 3 (KQT or KJT) [no 9, no >= J]
+Flush 4
+RF 3 (K high) [others]
+Two Pair
+RF 3 (A high, no T)
+Straight 4 (K or Q high)
+Pair of A, K, Q, or J
+RF 3 (AKT, AQT, or AJT)
+Straight 4 (5-J high)
+SF 3 or SF 3 i
+AKQJ or A234
+Straight 4 i h3
+SF 3 di h2
+Straight 4 i h2
+SF 3 di h1 [no paired gp]
+Straight 4 i h1
+Pair of 2-T
+SF 3 di h0 [no gp]
+Straight 4 i h0
+Flush 3 h1 (Q high, with T) [dsc A8 or 9]
+RF 2 (QJ) [no T+fp]
+KQJ or QJT
+Flush 3 h2
+RF 2 (no T)
+RF 2 (JT) [no A9+fp]
+JT9
+RF 2 (QT) [no K8 or K+fp]
+KQT, KJT, or QJ9
+Flush 3 h1 (A or K high)
+QJ [no A]
+Flush 3 h1 (Q or J high)
+QJ [dsc A]
+AKQ or AKJ
+SF 2 i (J9) [no K8 or K+fp]
+KQ or KJ
+RF 2 (KT)
+SF 2 di (J8) [no sp]
+SF 2 di (Q9) [no A8 or AT]
+AK or AQ
+Just a J [no fp, no 9]
+Just a J [no 7, 8, 9, or T] [dsc 2 suited]
+Just a J [no 7, 8, 9, or T] [dsc 3 suited]
+Just a J [no 7, 8, 9, or T] [dsc 4 suited]
+AJ
+Just a J [others]
+RF 2 (AT)
+Just an A, K, or Q
+Straight 3 h0 (5-T high)
+Flush 3 h0
+SF 2 (4-T high)
+SF 2 i (5-T high)
+Nothing

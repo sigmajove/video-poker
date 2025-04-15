@@ -1,0 +1,40 @@
+7/5 Jacks or Better
+box score
+
+Full House, Quads, Straight Flush, or Royal Flush
+Two Pair or Trips
+RF 4
+Straight or Flush
+SF 4 any
+Pair of J-A
+RF 3
+Flush 4
+Straight 4 (Q-K high)
+Pair of 2-T
+SF 3 i h2
+Straight 4 (5-J high)
+AKQJ
+SF 3 di h2
+RF 2 (KQ, KJ, or QJ)
+SF 3 (6-J high)
+SF 3 i h1
+SF 3 (345)
+RF 2 (AK, AQ, or AJ)
+Straight 4 i h3
+KQJ
+QJ
+SF 3 (A23)
+SF 3 di h1
+KJ [dsc 8T or 9T]
+RF 2 (JT) [no fp]
+SF 3 i h0
+SF 3 (234)
+KJ [no 8T or 9T]
+KQ
+RF 2 (JT) [dsc fp]
+AK, AQ, or AJ
+RF 2 (QT)
+RF 2 (KT) [no fp]
+Just a A, K, Q, or J
+SF 3 di h0
+Nothing

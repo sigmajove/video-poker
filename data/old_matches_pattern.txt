@@ -1,0 +1,357 @@
+#if 0
+bool C_kept_description::matches_pattern (unsigned char *pattern,
+										  int wild_cards)
+{
+	// Analyze the discards for penalty cards
+
+	bool have[num_denoms];
+	// For each denomination, whether at least one was kept.
+
+	int high_denoms;
+	// The number of distinct high denominations (i.e AAKK counts as 2)
+
+	int reach;
+	// The width of the smallest window that holds all the denomination.
+	// A straight is possible only if reach <= 5
+	// If nothing is held, reach == 0
+
+	unsigned char have_discard[num_denoms];
+	// a mask to indicate the suit of each discard
+
+	bool suited_discard = false;
+
+	int min_discard = king + 1;
+	int max_discard = -1;
+
+	int j;
+
+	for (j=0; j<num_denoms; j++)
+	{	
+		have[j] = false;
+		have_discard[j] = false;
+	}
+
+	for (j = 0; j<num_discards; j++)
+	{
+		const card c = discards[j];
+		const int s = suit (c);
+
+		if (s == the_suit)
+		{
+			suited_discard = true;
+		}
+
+		const int p = pips (c);
+		have_discard[p] |= (1 << s);
+
+		// For the purposes of min_discard and max_discard,
+		// ace is counted low.
+		if (p > max_discard) max_discard = p;
+		if (p < min_discard) min_discard = p;
+	}
+
+
+
+	unsigned char *rover = pattern;
+    unsigned char *or_operand = 0;
+
+next_code:
+	{
+		unsigned char code = *rover++;
+		switch (code)
+		{
+		case pc_eof:
+			return true;
+
+		case pc_or:
+			{
+				unsigned char offset = *rover++;
+				_ASSERT (!or_operand);
+				or_operand = rover + offset;
+			}
+			break;
+
+		case pc_else:
+			{
+				unsigned char offset = *rover++;
+				rover += offset;
+				or_operand = 0;
+			}
+			break;
+
+		case pc_no_x:
+			if (have[*rover++]) goto fail;
+			break;
+
+		case pc_with_x:
+			if (!have[*rover++]) goto fail;
+			break;
+
+		case pc_nothing:
+			if (multi[1] + multi[2] + multi[3] + multi[4] != 0) goto fail;
+			break;
+
+		case pc_two_pair:
+			if (multi[1] + multi[3] + multi[4] != 0) goto fail;
+			if (multi[2] != 2) goto fail;
+			break;
+
+		case pc_trips:
+			if (multi[1] + multi[2] + multi[4] != 0) goto fail;
+			if (multi[3] != 1) goto fail;
+			break;
+
+		case pc_full_house:
+			if (multi[1] + multi[4] != 0) goto fail;
+			if (multi[2] != 1) goto fail;
+			if (multi[3] != 1) goto fail;
+			break;
+
+		case pc_quads:
+			if (multi[1] + multi[2] + multi[3] != 0) goto fail;
+			if (multi[4] != 1) goto fail;
+			break;
+
+		case pc_trip_x:
+			if (multi[1] + multi[2] + multi[4] != 0) goto fail;
+			if (multi[3] != 1) goto fail;
+			{
+				int mask = *rover++;
+				mask |= (*rover++)<<8;
+
+				if ((mask & (1 << m_denom[3])) == 0) goto fail;
+			}
+			break;
+
+		case pc_pair_of_x:
+			if (multi[1] + multi[3] + multi[4] != 0) goto fail;
+			if (multi[2] != 1) goto fail;
+			{
+				int mask = *rover++;
+				mask |= (*rover++)<<8;
+
+				if ((mask & (1 << m_denom[2])) == 0) goto fail;
+
+			}
+			break;
+
+		case pc_just_a_x:
+			if (multi[2] + multi[3] + multi[4] != 0) goto fail;
+			if (multi[1] != 1) goto fail;
+			{
+				int mask = *rover++;
+				mask |= (*rover++)<<8;
+
+				if ((mask & (1 << m_denom[1])) == 0) goto fail;
+			}
+			break;
+
+		case pc_RF_n:
+		case pc_SF_n:
+		case pc_Straight_n:
+		case pc_Flush_n:
+
+			if (multi[2] + multi[3] + multi[4] != 0) goto fail;
+			if (multi[1] != *rover++) goto fail;
+
+			if (code == pc_SF_n || code == pc_Straight_n)
+			{
+				int r = *rover++;
+				if (r == 0)
+				{
+					if (reach > 5) goto fail;
+				}
+				else
+				{   if (reach != r) goto fail;
+				}
+			}
+
+			if (code != pc_Straight_n)
+			{
+				if (!suited) goto fail;
+			}
+
+			if (code == pc_RF_n)
+			{
+				if (min_denom < ten) goto fail;
+			}
+
+			break;
+
+		case pc_these_n:
+			if (multi[2] + multi[3] + multi[4] != 0) goto fail;
+			{
+				const int n = *rover++;
+				if (multi[1] != n) goto fail;
+
+				bool answer = true;
+
+				for (int j = 0; j<n; j++)
+				{
+					if (!have[*rover++]) answer = false;
+				}
+				if (!answer) goto fail;
+			}
+			break;
+
+		case pc_high_n:
+			if ((*rover++ & (1 << high_denoms)) == 0) goto fail;
+			break;
+
+		case pc_high_x:
+		case pc_low_x:
+			{
+			    int mask = *rover++;
+				mask |= (*rover++)<<8;
+				int d;
+
+				if (reach == 0) goto fail;
+
+				if (code == pc_low_x)
+				{
+					d = have_ace ? ace : min_non_ace;
+				}
+				else
+				{
+					d = have_ace ? ace : max_non_ace;
+				}
+
+				if ((mask & (1 << d)) == 0) goto fail;
+			}
+			break;
+			
+		case pc_no_fp:
+			if (suited_discard) goto fail;
+			break;
+
+		case pc_dsc_fp:
+			if (!suited_discard) goto fail;
+			break;
+
+		case pc_dsc_sp:
+		case pc_no_sp:
+			{
+				bool has_sp = false;
+				bool check_ace = false;
+
+				if (reach <= 5)
+				{
+					int max_denom = min_denom + reach - 1;
+					int lo = max_denom - 4;
+					int hi = min_denom + 4;
+
+					if (lo < ace) lo = ace;
+					if (hi > king) 
+					{
+						hi = king;
+						check_ace = true;
+					}
+
+					for (int j = lo; j <= hi; j++)
+					{
+						if (!have[j] && have_discard[j]) has_sp = true;
+					}
+
+					if (check_ace)
+					{
+						if (!have[ace] && have_discard[ace]) has_sp = true;
+					}
+
+					if (code == pc_dsc_sp && !has_sp) goto fail;
+					if (code == pc_no_sp  && has_sp)  goto fail;
+				}
+			}
+			break;
+
+		case pc_no_le_x:
+			if (min_discard <= *rover++) goto fail;
+			break;
+
+		case pc_dsc_le_x:
+			if (min_discard > *rover++) goto fail;
+			break;
+
+		case pc_no_ge_x:
+			if (max_discard >= *rover++) goto fail;
+			if (have_discard[ace]) goto fail;
+			break;
+
+		case pc_dsc_ge_x:
+			{
+				int x = *rover++;
+				if (!have_discard[ace] && max_discard < x) goto fail;
+			}
+			break;
+
+		case pc_no_these_n:
+		case pc_dsc_these_n:
+			{
+				int n = *rover++;
+				bool answer = true;
+
+				for (int j = 0; j<n; j++)
+				{
+					if (!have_discard[*rover++]) 
+					{	answer = false;
+					}
+				}
+
+				if ((!answer) ^ (code == pc_no_these_n)) goto fail;
+			}
+			break;
+
+		case pc_no_these_suited_n:
+		case pc_dsc_these_suited_n:
+			{
+				int n = *rover++;
+				int answer = ~0;
+				for (int j = 0; j<n; j++)
+				{
+					answer &= have_discard[*rover++];
+				}
+
+				if ((answer == 0) ^ (code == pc_no_these_suited_n)) goto fail;
+			}
+			break;
+
+		case pc_no_these_offsuit_n:
+		case pc_dsc_these_offsuit_n:
+			{
+				int n = *rover++;
+				bool answer = true;
+
+				if (suited)
+				{
+					int mask = ~(1 << the_suit);
+
+					for (int j = 0; j<n; j++)
+					{
+						if ((have_discard[*rover++] & mask) == 0)
+						{
+							answer = false;
+						}
+					}
+				}
+				else
+				{
+					answer = false;
+					rover += n;
+				}
+
+				if ((!answer) ^ (code == pc_no_these_offsuit_n)) goto fail;
+			}
+			break;
+
+		default:
+			_ASSERT(0);
+		}
+		goto next_code;
+
+fail:
+		if (!or_operand) return false;
+		rover = or_operand;
+		or_operand = 0;
+		goto next_code;
+	}
+}
+#endif

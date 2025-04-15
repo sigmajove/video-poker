@@ -1,0 +1,53 @@
+9/7 Double Bonus Poker
+box score
+
+Royal Flush, Straight Flush, or Quads
+Full House << Trip Aces
+RF 4
+Straight or Flush
+SF 4 any
+Trips
+Pair of Aces
+Two Pair
+Flush 4 h3
+RF 3 (KQJ or QJT)
+Flush 4 h2
+Pair of K, Q, or J
+Flush 4 (others)
+RF 3 (others)
+Straight 4 (no Ace)
+Pair of 2-4
+SF 3 (JT9)
+SF 3 i (QJ9)
+AKQJ
+Pair of 5-T
+SF 3 di h2
+SF 3 i h1 (no A)
+Straight 4 i h3
+SF 3 (5-T high)
+Flush 3 h2 (A or K high)
+RF 2 (no T)
+SF 3 i (4-T high)
+Straight 4 i h2
+SF 3 di h1
+SF 3 (3-4 high)
+KQJ or QJT
+Straight 4 i h1
+A234
+RF 2 (JT)
+QJ
+Flush 3 h1
+RF 2 (QT)
+SF 3 di h0 [no sp]
+AKQ or AKJ [dsc 9]
+KQ or KJ
+Just an A [no fp]
+Just an A [no <= 5]
+Just an A [dsc T offsuit]
+SF 3 di h0 [dsc sp]
+RF 2 (KT)
+AK, AQ, or AJ
+Just an A, K, Q, or J
+Straight 4 i h0
+Flush 3 h0
+Nothing

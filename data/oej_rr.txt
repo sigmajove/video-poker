@@ -1,0 +1,95 @@
+180/80/50 One Eyed Jacks
+box score
+
+0 Deuces
+Natural Royal Flush
+Straight Flush
+Full House
+Quads
+Trips
+
+RF 4
+SF 4
+SF 4 i
+
+Straight or Flush
+
+RF 3 
+Two Pair
+SF 3 (4-J high)
+One Pair (no J)
+Flush 4
+SF 3 i (5-Q high)
+SF 3 any (A low) 
+SF 3 di (6-K high)
+Straight 4 (no A)
+Pair of Jacks
+
+RF 2 (no A)
+SF 2 (5-8 high)
+RF 2 (A high)
+SF 2 (9 high)
+SF 2 i (5-8 high)
+SF 2 (4 high)
+Straight 4 (A234 or AKQJ)
+SF 2 (T high)
+Straight 4 i (5-J high)
+SF 2 i (9 high)
+Straight 4 i (AKJT, AQJT, KJT9, KQJ9, QJT8, or QJ98)
+SF 2 i (T high)
+Just a T (clubs or diamonds)
+Nothing
+
+1 Deuce
+Quints
+Full House
+Quads
+Wild Royal Flush
+Straight Flush
+RF 4
+SF 4
+SF 4 i
+SF 4 di
+Flush, Straight, or Trips
+RF 3
+SF 3
+SF 3 i
+SF 3 di
+
+Pair of T (clubs or diamonds)
+Pair of 6 (clubs or diamonds)
+Pair of 5 (clubs or diamonds)
+Pair of 6 (spades or hearts)
+Pair of 5 (spades or hearts)
+Pair of 7 (clubs or diamonds)
+Pair of 8 (clubs or diamonds)
+Pair of 9 (clubs or diamonds)
+Just the deuce
+
+2 Deuces
+Straight Flush
+Quints
+Quads
+Wild Royal Flush
+RF 4
+SF 4
+SF 4 i
+SF 4 di
+
+Trip T (clubs or diamonds)
+Trip Aces (clubs or diamonds)
+Trip Queens (clubs or diamonds)
+Trip Kings (clubs or diamonds)
+Trip T (spades or hearts)
+Trip 6 (clubs or diamonds)
+Trip 5 (clubs or diamonds)
+Trip 8 (clubs or diamonds)
+Trip 7 (clubs or diamonds)
+Trip 5 (spades or hearts)
+Trip 6 (spades or hearts)
+Trip 9 (clubs or diamonds)
+Trip Aces (spades or hearts)
+Trip 7 (spades or hearts)
+Trip 4
+
+Just the deuces

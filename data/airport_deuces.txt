@@ -1,0 +1,63 @@
+Airport Deuces Wild
+eval
+
+0 Deuces
+Natural Royal Flush
+RF 4
+Straight, Flush, Straight Flush, or Quads
+Full House
+Trips
+SF 4 any
+RF 3
+Two Pair
+Flush 4
+SF 3 (7-J high)
+One Pair
+Straight 4 (7-K high)
+SF 3 (5-6 high)
+SF 3 i (7-K high)
+SF 3 di (no A)
+RF 2 (Q or J high)
+3456 or AKQJ
+Straight 4 i (7-A high)
+RF 2 (K high)
+SF 3 any (A low)
+SF 2 (7-T high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Wild Royal Flush, Quints, Straight Flush, or Full House
+Quads
+RF 4
+Flush
+SF 4 (5-J high)
+SF 4 i (8-Q high)
+Straight
+SF 4 i (7 high)
+Trips
+SF 4 i (4-6 high)
+SF 4 di
+RF 3 (K, Q, or J high)
+SF 3 (7-T high)
+RF 3 (A high)
+SF 3 i (7-J high)
+SF 3 (5-6 high) [no fp, no sp]
+Straight 4 (7-Q high)
+Just the deuce
+
+2 Deuces
+Straight Flush, Quints, or Wild Royal Flush
+Quads
+RF 4
+SF 4 (5-J high)
+SF 4 i (7-J high)
+Just the deuces
+
+3 Deuces
+Quints
+Wild Royal Flush
+Just the deuces
+
+4 Deuces
+Just the deuces
+

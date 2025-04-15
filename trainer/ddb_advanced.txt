@@ -1,0 +1,50 @@
+Double Double Bonus Poker
+Advanced
+
+Royal Flush
+Straight Flush
+Quads with low kicker
+Trip Aces
+Full House
+RF 4
+Flush
+Straight
+SF 4 any
+Trips (2-K high)
+Pair of Aces
+Two Pair
+RF 3 (KQJ) [no fp, no sp]
+Pair of K, Q, or J
+RF 3 (no A) or RF 3 (no T)
+Flush 4
+RF 3 (A high, with T)
+Straight 4 (K, Q, or J high)
+Pair of 2-T
+Straight 4 h0
+SF 3 any (QJ8 or QJ9)
+AKQJ
+SF 3 any h2
+RF 2 (QJ)
+SF 3 (5-J high)
+RF 2 (KQ or KJ)
+SF 3 i h1
+RF 2 (A high, no T) [no fp]
+Straight 4 i h3
+RF 2 (A high, no T) [dsc fp]
+SF 3 (A23 or 234)
+SF 3 i h0
+SF 3 di h1
+Straight 4 i h2
+KQJ
+QJ
+Just an Ace
+KQ
+RF 2 (QT or JT) [no fp]
+KJ
+RF 2 (QT or JT) [dsc fp]
+Flush 3 (with K, with T) [dsc 9]
+RF 2 (KT)
+Just a K, Q, or J
+SF 3 di h0
+Straight 4 i h0
+Nothing

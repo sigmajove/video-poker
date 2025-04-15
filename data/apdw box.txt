@@ -1,0 +1,38 @@
+Box Score for 11/15 AP Deuces Wild
+
+ 12.11%     8.26 Nothing
+ 26.71%     3.74 Trips
+  5.65%    17.69 Straight
+  2.12%    47.19 Flush
+  2.61%    38.28 Full House
+  6.07%    16.49 Quads
+  0.56%   179.75 Straight Flush
+  0.31%   325.20 Quints
+  0.19%   530.33 Wild Royal
+  0.02%  5590.77 Four Deuces
+  0.00% 43370.96 Royal Flush
+Expected value = 99.9545%
+Variance = 25.0917
+
+With a bankroll of $20
+ 0.18% Royal Flush
+ 1.37% Four Deuces
+32.25% Reach $40
+66.21% Bust
+Average cashout $19.96
+Median number of games: 60
+
+With a bankroll of $100
+ 2.29% Royal Flush
+17.77% Four Deuces
+ 7.94% Reach $200
+72.00% Bust
+Average cashout $99.44
+Median number of games: 790
+
+With a bankroll of $637.50
+24.79% Royal Flush
+25.27% Reach $1000
+49.94% Bust
+Average cashout $631.39
+Median number of games: 8881

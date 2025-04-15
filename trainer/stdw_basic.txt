@@ -1,0 +1,67 @@
+Sam's Town Deuces
+Basic
+
+0 Deuces
+Natural Royal Flush
+RF 4
+Full House
+Straight Flush
+Quads
+Flush
+Straight
+Trips
+SF 4 any
+RF 3
+Two Pair
+Flush 4
+SF 3 (7-A high)
+One Pair
+Straight 4 (7-K high)
+SF 3 (5-6 high)
+SF 3 i (6-A high)
+SF 3 di (no A)
+RF 2 (Q or J high)
+3456 or AKQJ
+SF 3 any (A low)
+Straight 4 i (7-A high)
+RF 2 (K high) [no fp]
+Nothing
+
+
+1 Deuce
+Wild Royal Flush
+Straight Flush
+Quints
+Full House
+Quads
+RF 4 (no A)
+Flush
+RF 4 (A high)
+SF 4 (no A)
+SF 4 i (7-A high)
+SF 4 i (6 high) [no gp, no 7]
+SF 4 di (no A) [no gp]
+Trips
+Straight
+SF 4 any (A low)
+RF 3 (Q or J high)
+SF 3 (7-T high)
+RF 3 (K high)
+SF 3 i (7-J high) [no fp]
+SF 3 (56) [no fp, no sp]
+Just the deuce
+
+2 Deuces
+Wild Royal Flush
+Straight Flush
+Quints
+Quads
+RF 4
+Just the deuces
+
+3 Deuces
+Just the deuces
+
+4 Deuces
+Just the deuces
+

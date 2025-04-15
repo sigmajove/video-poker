@@ -1,0 +1,50 @@
+Box Score for Kings or Better Joker's Wild
+
+ 55.79%     1.79 Nothing
+ 14.04%     7.12 High Pair
+ 11.07%     9.03 Two Pair
+ 13.37%     7.48 Trips
+  1.66%    60.27 Straight
+  1.57%    63.65 Flush
+  1.57%    63.85 Full House
+  0.85%   117.04 Quads
+  0.06%  1736.51 Straight Flush
+  0.01% 10724.03 Quints
+  0.01%  9266.67 Wild Royal
+  0.00% 38608.47 Royal Flush
+Expected value = 100.9946%
+Variance = 33.6280
+ 1% RoR = $8461.27
+10% RoR = $4230.64
+50% RoR = $1273.55
+
+With a bankroll of $20
+ 0.15% Royal Flush
+ 0.62% Wild Royal
+ 0.54% Quints
+ 3.32% Straight Flush
+31.36% Reach $40
+64.02% Bust
+Average cashout $20.72
+Median number of games: 45
+
+With a bankroll of $100
+ 2.14% Royal Flush
+ 7.72% Quints
+26.77% Reach $200
+63.37% Bust
+Average cashout $110.29
+Median number of games: 642
+
+With a bankroll of $606.25
+34.10% Royal Flush
+15.95% Reach $1175
+49.95% Bust
+Average cashout $769.90
+Median number of games: 10360
+
+With a bankroll of $625
+50.03% Reach $1250
+49.97% Bust
+Average cashout $800.13
+Median number of games: 11050

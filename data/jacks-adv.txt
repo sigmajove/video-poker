@@ -1,0 +1,46 @@
+9/6 Jacks or Better
+eval
+Full House, Quads, Straight Flush, or Royal Flush
+Two Pair or Trips
+RF 4
+Straight or Flush
+SF 4 any
+Pair of J-A
+# Weird exception
+# RF 3 AhT + T-K os + 2-9 suited
+# Go for the flush
+RF 3
+Flush 4
+KQJT
+Pair of 2-T
+Straight 4 (5-Q high)
+SF 3 (5-Q high)
+SF 3 i (Q or J high)
+SF 3 di h2
+# Weird exception: RF2 QJ vs AKQJ
+RF 2 (QJ) [no fp]
+AKQJ
+RF 2 (QJ) [dsc fp]
+RF 2 (no T)
+KQJ9
+SF 3 any (A low)
+SF 3 (234)
+SF 3 i h0
+AKQT, AKJT, or AQJT
+#  Weird exception: sometimes 79J suited better than KQJ9
+SF 3 di h1
+KQJ
+QJ
+RF 2 (JT) [no fp]
+KQ
+KJ
+RF 2 (JT) [dsc fp]
+RF 2 (QT) [no fp]
+AK, AQ, or AJ
+RF 2 (QT) [dsc fp]
+RF 2 (KT)
+Just a A, K, Q, or J
+SF 3 di h0
+Nothing
+
+

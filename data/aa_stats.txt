@@ -1,0 +1,47 @@
+Box Score for All American Poker
+
+ 58.06%     1.72 Nothing
+ 18.35%     5.45 High Pair
+ 11.96%     8.36 Two Pair
+  6.88%    14.53 Trips
+  1.84%    54.27 Straight
+  1.57%    63.81 Flush
+  1.10%    91.06 Full House
+  0.23%   444.09 Quads
+  0.01%  7052.83 Straight Flush
+  0.00% 43135.07 Royal Flush
+Expected value = 100.7211%
+Variance = 26.9048
+ 1% RoR = $9818.85
+10% RoR = $4909.43
+50% RoR = $1477.88
+
+With a bankroll of $20
+ 0.15% Royal Flush
+ 0.89% Straight Flush
+14.13% Quads
+17.78% Reach $40
+67.05% Bust
+Average cashout $20.57
+Median number of games: 48
+
+With a bankroll of $100
+ 1.89% Royal Flush
+11.58% Straight Flush
+22.92% Reach $200
+63.61% Bust
+Average cashout $107.36
+Median number of games: 633
+
+With a bankroll of $526.25
+24.29% Royal Flush
+25.65% Reach $1000
+50.06% Bust
+Average cashout $620.70
+Median number of games: 8178
+
+With a bankroll of $582.50
+50.02% Reach $1165
+49.98% Bust
+Average cashout $699.43
+Median number of games: 10057

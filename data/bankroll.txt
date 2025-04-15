@@ -1,0 +1,121 @@
+I've been working on some more computer programs, trying to answer
+a question of some interest to video poker players.  Namely, how
+much money do you need to play the games?
+
+To get an idea, I came up with two scenarios.  First suppose you put $100
+into a quarter machine, and keep playing until you reach or pass $200,
+either by hitting a big jackpot hand, or a series of smaller wins that 
+put you over.  What are the chances of each of these outcomes?
+
+Next suppose you want to start with an amount of money, and keep playing
+until you either lose it all, or reach $1000, either by hitting
+a royal or getting a series of smaller wins that put you over.  And say
+you want to have a 50-50 shot at reaching $1000.  How much money do you
+need to start with?
+
+I've answered these questions for the four games for which I've sent you
+strategies.  Plus, for each scenario, I've computed the median number of
+games you need to play before either reaching the goal or going bust.
+When I say that the median is N, it means that half of the time you will
+need fewer than N games and half of the time you will need more.
+
+Here are the answers for the four games.
+
+----------------------------------
+
+Full-Pay Deuces Wild
+
+With a bankroll of $100
+ 2.30% Royal Flush
+20.14% Four Deuces
+ 8.73% Reach $200
+68.83% Bust
+Median number of games: 796
+
+With a bankroll of $523.75
+24.88% Royal
+25.03% Reach $1000
+50.10% Bust
+Median number of games: 8494
+
+----------------------------------
+
+16/10 NSU Deuces Wild
+
+With a bankroll of $100
+ 2.21% Royal Flush
+17.91% Four Deuces
+ 6.93% Reach $200
+72.95% Bust
+Median number of games: 768
+
+With a bankroll of $662.50
+23.80% Royal
+26.10% Reach $1000
+50.10% Bust
+Median number of games: 8633
+
+----------------------------------
+
+10/7 Double Bonus
+
+With a bankroll of $100
+ 1.19% Royal Flush
+11.48% Quad Aces
+25.54% Reach $200
+61.79% Bust
+Median number of games: 454
+
+With a bankroll of $581.25
+18.50% Royal
+31.57% Reach $1000
+49.92% Bust
+Median number of games: 7039
+
+----------------------------------
+
+9/6 Jacks or Better
+
+With a bankroll of $100
+ 3.84% Royal Flush
+24.06% Reach $200
+72.10% Bust
+Median number of games: 1173
+
+With a bankroll of $791.25
+39.92% Royal
+ 9.98% Reach $1000
+50.10% Bust
+Median number of games: 14777
+
+----------------------------------
+
+What does it all mean?  Well, if you are going for a Royal,
+Full-Pay Deuces Wild is your game of choice.  It's the game
+that needs the least money to get the most Royals.  NSU Deuces
+is similar to Full-Pay Deuces, but all the numbers are a little
+bit worse.
+
+Double Bonus has a very different footprint than the Deuces Wild
+games.  The money required is in between the two Deuces games.
+But you are much more likely to get to $1000 by working your way
+up than by getting a Royal.  That's not a good thing, because an
+early Royal can net you nearly $1000, whereas working your way up
+to $1000 only nets you $420.
+
+Jacks or Better is not a good option for the long term.  A 50-50
+shot at $1000 costs nearly $800.  But if you don't want to risk
+much money, it's not a bad choice.  Of the four games, it's the one
+that is most likely to eat your $100 bill.  However, losing that $100
+will take a lot longer on this machine than the others. And each $100
+bill you feed it has a much greater chance of hitting a Royal than the
+other machines. Plus, it is the game with the simplest strategy.  The problem
+with the game is that it doesn't have any jackpots like Four Deuces or Four
+Aces, which give $100 bills back. So if you want to have a reasonable chance
+of hitting a Royal, all the $100 bills you will have to feed it will come out
+of your wallet.
+
+ -- Scott
+
+
+

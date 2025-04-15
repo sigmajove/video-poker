@@ -1,0 +1,77 @@
+10/7 Double Bonus Poker
+Ultimate
+Royal Flush or Straight Flush
+Quads
+Trip Aces
+Full House
+RF 4
+Straight or Flush
+SF 4 any
+Trips or Two Pair
+Pair of Aces
+Flush 4 h3
+RF 3 (KQJ or QJT)
+Pair of K, Q, or J
+Flush 4 h2
+RF 3
+Flush 4 h0 or h1
+Straight 4 (no Ace)
+Pair of 2-4
+SF 3 (JT9)
+SF 3 i (QJ9)
+AKQJ
+Pair of 5-T
+SF 3 i (K, Q, or J high)
+SF 3 di h2 (K or Q high)
+Straight 4 i h3
+Flush 3 h2 (K high) [dsc >= 9]
+SF 3 (5-T high)
+RF 2 (KJ or QJ)
+SF 3 i h0 (T high) [no AJ suited]
+RF 2 (KQ)
+SF 3 di h1 [dsc AQ suited]
+SF 3 any (A low)
+SF 3 i h0 (6-9 high)
+Flush 3 h2 (A high)
+RF 2 (AQ or AJ)
+Straight 4 i h2 (no Ace)
+SF 3 di h1 [no AQ suited]
+RF 2 (AK)
+SF 3 (234)
+A234
+SF 3 i h0 (5 high)
+Straight 4 i h1
+KQJ or QJT
+QJ
+RF 2 (JT) [no A8, A9, K7, or K8]
+Flush 3 h1 (J high) [dsc A]
+RF 2 (JT) [dsc A8 or A9]
+Flush 3 h1 (Q high, with T)
+RF 2 (QT) [no K8, A9, 569 suited, or 579 suited]
+SF 3 di h0 [no sp]
+Flush 3 h1 (A high)
+Flush 3 h1 (K high) [dsc A]
+Flush 3 h1 (Q high, no T) [dsc A]
+RF 2 (QT) [dsc A9]
+KQ or KJ [no 9 or T]
+AKQ or AKJ
+Flush 3 h1 (J high) [no A]
+RF 2 (JT) [dsc K7 or K8]
+Flush 3 h1 (K high) [no A]
+RF 2 (QT) [dsc K8]
+Flush 3 h1 (Q high, no T) [no A]
+Just an A [no fp]
+Just an A [no <= 5]
+Just an A [dsc T offsuit]
+AK, AQ, or AJ
+Just an A [others]
+KQ or KJ [dsc 9 or T]
+Just a J [no fp, no 5689]
+Just a J [dsc 2]
+SF 3 di h0 [dsc sp]
+Just a J [others]
+RF 2 (KT)
+Just a K or Q
+Straight 4 i h0
+Flush 3 h0
+Nothing

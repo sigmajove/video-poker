@@ -1,0 +1,42 @@
+Box Score for 10/7 Double Bonus Poker
+
+ 56.84%     1.76 Nothing
+ 19.12%     5.23 High Pair
+ 12.44%     8.04 Two Pair
+  7.21%    13.87 Trips
+  1.50%    66.63 Straight
+  1.53%    65.53 Flush
+  1.12%    89.49 Full House
+  0.16%   622.67 Quads
+  0.02%  5032.40 Quad Aces
+  0.05%  1908.19 Quad 2,3 or 4
+  0.01%  8829.78 Straight Flush
+  0.00% 48425.81 Royal Flush
+Expected value = 100.1669%
+Variance = 28.1565
+
+With a bankroll of $20
+ 0.13% Royal Flush
+ 0.70% Straight Flush
+ 3.23% Quad 2,3 or 4
+ 1.23% Quad Aces
+ 9.91% Quads
+10.32% Reach $40
+74.48% Bust
+Average cashout $20.13
+Median number of games: 48
+
+With a bankroll of $100
+ 1.19% Royal Flush
+11.48% Quad Aces
+25.54% Reach $200
+61.79% Bust
+Average cashout $101.21
+Median number of games: 454
+
+With a bankroll of $581.25
+18.50% Royal Flush
+31.57% Reach $1000
+49.92% Bust
+Average cashout $599.95
+Median number of games: 7039

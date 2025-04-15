@@ -1,0 +1,70 @@
+Full Pay Deuces Wild
+half life
+
+# Strategy for full-pay deuces wild
+
+0 Deuces
+Natural Royal Flush
+Full House or Quads
+RF 4
+Trips
+Straight
+Flush
+Straight Flush
+SF 4 i (Q high) << RF 3 (QJT)
+SF 4 any
+RF 3
+One Pair
+Flush 4
+Straight 4 (7-K high)
+SF 3 (5-J high)
+SF 3 i (7-Q high)
+RF 2 (J high)
+SF 3 di (8-K high)
+AKQJ or 3456
+SF 3 i (6 high) << RF 2 (Q high)
+SF 3 di (7 high) << RF 2 (Q high)
+Straight 4 i (7-A high)
+RF 2 (Q high)
+RF 2 (K high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Wild Royal Flush
+Straight Flush
+RF 4
+SF 4 (7-Q high)
+Full House
+Flush
+Straight
+Quints
+Quads
+Trips
+SF 4 any
+RF 3 (K, Q, or J high)
+SF 3 (7-T high)
+#RF 3 (AK) [no fp, no sp, no 34, no 35, no 36, no 37, no 38, no 39]
+RF 3 (A high) [no fp, no sp, no 34, no 35]
+#RF 3 (AJ) [no fp, no sp, no 34]
+#RF 3 (AT) [no fp, no sp]
+Just the deuce
+
+2 Deuces
+Straight Flush
+Quints
+Quads
+Wild Royal Flush
+RF 4
+SF 4 (7-T high)
+Just the deuces
+
+3 Deuces
+Wild Royal Flush
+Quints (T-A high)
+Just the deuces
+
+4 Deuces
+Just the deuces
+
+
+

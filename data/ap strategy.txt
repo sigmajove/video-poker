@@ -1,0 +1,128 @@
+11/15 AP Deuces Wild
+order
+
+0 Deuces
+Natural Royal Flush
+RF 4
+Straight, Flush, or Straight Flush
+Full House or Quads
+Trips
+SF 4 or SF 4 i
+RF 3
+Two Pair
+Flush 4
+SF 3 (7-A high)
+One Pair
+Straight 4 (7-K high)
+
+SF 3 (345), SF 3 (456), SF 3 i (6 high), or SF 3 di (no A)
+
+SF 3 (567)
+SF 3 (8-J high)
+
+SF 3 i (7-K high) [no gp]
+
+SF 3 i (5 high)
+
+RF 2 (Q or J high)
+
+3456, Straight 4 i (7-A high), or AKQJ
+
+SF 3 any (A low)
+
+RF 2 (KJ) [no fp, no 789]
+RF 2 (KT) [no fp, no 678, 679, or 689]
+RF 2 (KT) [no fp, dsc 678]
+RF 2 (KT) [no fp, dsc 679]
+RF 2 (KT) [no fp, dsc 689]
+RF 2 (KQ) [no fp]
+RF 2 (KJ) [no fp, dsc 789]
+
+RF 2 (K high) [dsc fp] 
+SF 2 (7-T high) [no fp]
+Nothing
+
+1 Deuce
+Straight Flush
+RF 4
+# Flush or better
+Flush
+Full House
+Quints
+Quads
+#
+# This is SF 4, 4i
+SF 4 (no A)
+SF 4 i (7-A high) # not 3x6 
+#
+Straight
+SF 4 i (6 high) # 3x6
+SF 4 di (no A)
+Trips
+RF 3 (Q or J high)
+RF 3 (KQ)
+RF 3 (KJ) 
+RF 3 (KT)
+
+SF 3 (67)
+SF 3 (78)
+SF 3 (89)
+SF 3 (9T)
+RF 3 (AT)
+RF 3 (AQ)
+RF 3 (AK)
+RF 3 (AJ)
+
+# The order actually matters here
+SF 3 i (57)
+SF 3 i (68)
+SF 3 i (79)
+SF 3 i (8T) [dsc 6, 7, or 9]
+SF 3 i (8T) [no 6, 7, or 9]
+SF 3 i (J9) [no 7, 8, 9, T, J, or Q]
+SF 3 i (J9) [dsc 7, 8, 9, T, J, or Q]
+SF 3 (56) [no AT]
+SF 3 (56) [dsc AT]
+SF 3 (45) [dsc fp]
+SF 3 (45) [no fp]
+#
+Straight 4 (567) [dsc T offsuit]
+Straight 4 (567) [dsc T onsuit]
+Straight 4 (567) [no T]
+Straight 4 (678) [dsc J or Q offsuit]
+Straight 4 (678) [no J or Q offsuit]
+Straight 4 (789) [dsc Q, K offsuit, or A offsuit]
+Straight 4 (789) [no Q, K offsuit, or A offsuit]
+Straight 4 (89T) [no 3]
+Straight 4 (89T) [dsc 3]
+Straight 4 (JT9) [dsc A offsuit]
+Straight 4 (JT9) [no A offsuit]
+Straight 4 (QJT) [dsc 3 or 4]
+Straight 4 (QJT) [no 3 or 4]
+SF 3 di (7 high)
+SF 3 di (58) [no fp] [dsc JT] 
+SF 3 di (9 high)
+SF 3 di (T high)
+SF 3 di (J high)
+SF 3 di (Q high)
+SF 4 any (A low)
+Just the deuce
+
+2 Deuces
+Straight Flush, Quints, or Wild Royal Flush
+RF 4 (JT)
+Quads
+RF 4 (A, K, or Q high)
+SF 4
+SF 4 i (5-J high)
+SF 4 di (7-Q high)
+Just the deuces
+
+3 Deuces
+Quints
+Wild Royal Flush
+Just the deuces
+
+4 Deuces
+Just the deuces
+

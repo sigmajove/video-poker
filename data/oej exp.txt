@@ -1,0 +1,187 @@
+One Eyed Jacks
+eval
+
+0 Deuces
+Full House
+Natural Royal Flush
+Quads
+Trips
+Straight Flush
+RF 4
+SF 4 (5-Q high)
+Flush
+SF 4 (A234)
+SF 4 i
+RF 3
+Straight
+Two Pair
+Pair of Aces
+Flush 4
+SF 3 any (A low)
+SF 3 (4-J high)
+SF 3 i (5-Q high) (clubs or diamonds)
+Pair of Q or T
+SF 3 i (5-Q high) (spades or hearts)
+Pair of 2-9 or K
+SF 3 di (6-K high)
+RF 2 (A high)
+Just an A
+Straight 4 (5-K high)
+RF 2 (no Ace)
+SF 2 (5-7 high)
+SF 2 (8-9 high)
+SF 2 i (6-7 high)
+SF 2 (9T) [no fp]
+SF 2 i (8 high)
+Pair of Jacks
+Nothing
+
+1 Deuce
+Quints
+Full House
+Quads
+Straight Flush
+RF 4
+
+SF 4 (5-J high)
+SF 4 i (5-Q high)
+SF 4 (A23 or 234)
+SF 4 i (A low)
+SF 4 di (5-K high)
+
+Flush
+Trips << RF 3 (suited with jack)
+RF 3 (AQ) (spades or hearts)
+RF 3 (AK) (spades or hearts)
+RF 3 (AT) (spades or hearts)
+RF 3 (QT) (spades or hearts)
+Straight
+RF 3 (KT) (spades or hearts)
+RF 3 (QT) (clubs or diamonds)
+RF 3 (KQ) (spades or hearts)
+RF 3 (AJ)
+RF 3 (JT)
+RF 3 (AT) (clubs or diamonds)
+RF 3 (AQ) (clubs or diamonds)
+RF 3 (AK) (clubs or diamonds)
+Flush 4 (A high)
+SF 3 (45) (clubs or diamonds)
+SF 3 (56) (spades or hearts)
+SF 3 (67) (spades or hearts)
+SF 3 (67) (clubs or diamonds)
+SF 3 (56) (clubs or diamonds)
+SF 3 (78) (clubs or diamonds)
+RF 3 (QJ)
+SF 3 (89) (clubs or diamonds)
+SF 3 (9T) (clubs or diamonds)
+SF 3 (A2) (spades or hearts)
+SF 3 i (A3) (spades or hearts)
+SF 3 di (A4) (spades or hearts)
+SF 3 (45) (spades or hearts)
+SF 3 di (A4) (clubs or diamonds)
+SF 3 i (A3) (clubs or diamonds)
+SF 3 (A2) (clubs or diamonds)
+RF 3 (KT) (clubs or diamonds)
+RF 3 (KQ) (clubs or diamonds)
+SF 3 i (46) (clubs or diamonds)
+SF 3 i (57) (spades or hearts)
+SF 3 i (68) (clubs or diamonds)
+SF 3 i (57) (clubs or diamonds)
+SF 3 (78) (spades or hearts)
+SF 3 i (35) (clubs or diamonds)
+SF 3 i (79) (clubs or diamonds)
+SF 3 i (46) (spades or hearts)
+SF 3 (34) (clubs or diamonds)
+SF 3 i (68) (spades or hearts)
+SF 3 i (8T) (clubs or diamonds)
+Pair of Aces
+RF 3 (KJ)
+SF 3 i (35) (spades or hearts)
+SF 3 (89) (spades or hearts)
+SF 3 (34) (spades or hearts)
+SF 3 (9T) (spades or hearts)
+SF 3 i (J9) (clubs or diamonds)
+SF 3 di (69) (clubs or diamonds)
+SF 3 di (58) (clubs or diamonds)
+SF 3 di (36) (clubs or diamonds)
+SF 3 i (79) (spades or hearts)
+SF 3 di (47) (clubs or diamonds)
+SF 3 di (25) (clubs or diamonds)
+SF 3 di (69) (spades or hearts)
+SF 3 i (24) (clubs or diamonds)
+SF 3 di (7T) (clubs or diamonds) << SF 3 (23) (clubs or diamonds)
+SF 3 di (58) (spades or hearts)
+SF 3 (23) (clubs or diamonds)
+SF 3 di (47) (spades or hearts)
+SF 3 di (36) (spades or hearts)
+SF 3 i (8T) (spades or hearts)
+SF 3 di (Q9) (clubs or diamonds)
+SF 3 i (24) (spades or hearts)
+SF 3 di (25) (spades or hearts)
+SF 3 (23) (spades or hearts)
+SF 3 di (J8) (clubs or diamonds)
+Flush 3 (37) (clubs or diamonds)
+Flush 3 (48) (clubs or diamonds)
+Flush 3 (59) (clubs or diamonds)
+Flush 3 (6T) (spades or hearts)
+Flush 3 (26) (clubs or diamonds)
+Flush 3 (6T) (clubs or diamonds)
+SF 3 di (7T) (spades or hearts)
+Flush 3 (48) (spades or hearts)
+Flush 3 (26) (spades or hearts)
+Flush 3 (37) (spades or hearts)
+Flush 3 (59) (spades or hearts)
+Pair of 6 (clubs or diamonds)
+SF 3 di (Q9) (spades or hearts)
+Pair of T (clubs or diamonds)
+Pair of 5 (clubs or diamonds)
+Pair of 7 (clubs or diamonds)
+Pair of 6 (spades or hearts)
+Just the deuce
+
+2 Deuces
+Quints
+Quads
+Straight Flush
+SF 4 (3-T high)
+RF 4
+SF 4 (A2)
+SF 4 i (4-J high)
+SF 4 di (25)
+SF 4 di (36)
+SF 4 i (A3)
+SF 4 di (47)
+SF 4 di (A4)
+SF 4 di (58)
+SF 4 di (J8)
+Flush 4 (48)
+Flush 4 (Q8)
+Flush 4 (A5)
+SF 4 di (69)
+SF 4 di (Q9)
+Flush 4 (59)
+Flush 4 (26)
+Flush 4 (K9)
+SF 4 di (7T)
+Flush 4 (37)
+Flush 4 (J7)
+Flush
+Flush 4 (6T)
+Trip T (clubs or diamonds)
+Trip 5 (clubs or diamonds)
+Trip 6 (clubs or diamonds)
+Trip 7 (clubs or diamonds)
+Trip 8 (clubs or diamonds)
+Trip 6 (spades or hearts)
+Trip 5 (spades or hearts)
+Trip 9 (clubs or diamonds)
+Trip Aces (clubs or diamonds)
+Trip Queens (clubs or diamonds)
+Trip 4 (clubs or diamonds)
+Trip 7 (spades or hearts)
+Trip T (spades or hearts)
+Trip 4 (spades or hearts)
+Trip 8 (spades or hearts)
+Trip Kings (clubs or diamonds)
+Trip 9 (spades or hearts)
+Just the deuces

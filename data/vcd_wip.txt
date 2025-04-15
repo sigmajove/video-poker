@@ -1,0 +1,65 @@
+Vegas Club Deuces
+box score
+
+0 Deuces
+Natural Royal Flush
+Quads
+Full House
+Trips
+RF 4
+Straight Flush
+SF 4 (7-A high)
+Straight or Flush
+SF 4 (3456)
+SF 4 i
+RF 3
+SF 3 (7-A high)
+One Pair
+Flush 4
+Straight 4 (7-K high)
+SF 3 (5-6 high)
+SF 3 i (6-K high)
+SF 3 di (no A)
+RF 2 (Q or J high)
+3456 or AKQJ
+Straight 4 i (7-A high)
+RF 2 (K high) [no fp]
+RF 2 (K high) [no sp]
+SF 2 (67 or 78) [no fp, no sp]
+Nothing
+
+1 Deuce
+Full House, Quints, Straight Flush, or Wild Royal Flush
+Quads
+RF 4
+SF 4 (no A)
+SF 4 i (7-Q high)
+SF 4 i (6 high)
+SF 4 di (no A)
+Straight, Flush, or Trips
+RF 3 (Q or J high)
+SF 3 (7-T high)
+RF 3 (K high)
+SF 3 i (7-J high)
+SF 4 any (A low)
+SF 3 (56)
+SF 3 (45) [no fp, no sp]
+Just the deuce
+
+2 Deuces
+Wild Royal Flush
+Straight Flush
+Quints
+RF 4 (JT)
+Quads
+RF 4 (others)
+SF 4 (7-T high)
+Just the deuces
+
+3 Deuces
+Wild Royal Flush
+Just the deuces
+
+4 Deuces
+Just the deuces
+

@@ -1,0 +1,96 @@
+Full Pay Deuces Wild
+eval
+
+#The optimal return is 100.76196120%
+#This strategy returns 100.76173307%
+
+
+0 Deuces
+Natural Royal Flush
+RF 4
+# any paying hand
+Straight Flush
+Quads
+Full House
+Flush
+Straight
+Trips
+#
+SF 4
+RF 3 (Q high) [no K8]
+SF 4 i
+RF 3 [others]
+One Pair
+Flush 4
+Straight 4 (7-K high)
+
+SF 3 di (JT7) [dsc Q, no 8]
+SF 3 di (JT7) [dsc AK]
+
+RF 2 (J high) [dsc 7 onsuit] 
+
+SF 3
+SF 3 i (no 3, no A)
+SF 3 di (T-A high)
+
+RF 2 (J high) [no 589 suited]
+SF 3 di (8-9 high)
+
+# These are the RF 2 (Q high) that beat an inside straight
+RF 2 (QT) [dsc 678]
+RF 2 (QT) [dsc 679, no fp]
+RF 2 (Q high) [dsc AK, no 8 or 9, no fp]
+RF 2 (Q high) [dsc 89, no A or K, no fp]
+
+# RF 2 (Q high) beats SF 3, 3 i (3 low)
+RF 2 (Q high) [dsc 346 suited, 356 suited, 347 suited, 357 suited, or 367 suited]
+
+SF 3 i (3 low) or SF 3 di (3 low)
+Straight 4 i (7-A high), 3456, or AKQJ
+RF 2 (Q high) [others]
+
+RF 2 (K high) [no fp, no sp]
+#RF 2 (K high) [others] # not
+Nothing
+
+1 Deuce
+Wild Royal Flush
+Quints
+Straight Flush
+Quads
+RF 4
+SF 4 (7-A high)
+Full House
+Flush
+Straight
+Trips
+SF 4 (345 or 456)
+SF 4 i
+SF 4 di
+RF 3 (K, Q, or J high)
+SF 3 (7-Q high)
+RF 3 (AK) [no fp, no sp, no 3]
+RF 3 (AQ) [no fp, no sp, no 3]
+RF 3 (AJ) [no fp, no sp]
+RF 3 (AT) [no fp, no sp]
+#RF 3 (A high) [others] # not
+Just the deuce
+
+2 Deuces
+Wild Royal Flush
+Quints
+Straight Flush
+Quads
+RF 4
+SF 4 (7-A high)
+Just the deuces
+
+3 Deuces
+Wild Royal Flush
+Quints (T-A high)
+Just the deuces
+
+4 Deuces
+Just the deuces
+
+

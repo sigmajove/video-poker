@@ -1,0 +1,63 @@
+11/15 AP Deuces Wild
+eval
+
+0 Deuces
+Natural Royal Flush
+RF 4
+Straight, Flush, Straight Flush, or Quads
+Full House
+Trips
+SF 4 any
+RF 3
+Two Pair
+Flush 4
+SF 3 (7-A high)
+One Pair
+SF 3 i (7-K high) [no gp]
+Straight 4 (7-K high)
+SF 3 (5-6 high)
+SF 3 i (6 high)
+SF 3 di (no A)
+RF 2 (Q or J high)
+SF 3 any (A low)
+3456 or AKQJ
+Straight 4 i (7-A high)
+RF 2 (K high)
+SF 2 (7-T high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Wild Royal Flush, Quints, Straight Flush, or Full House
+Quads
+RF 4
+Flush
+SF 4 any (no A)
+SF 4 i (A high)
+Straight or Trips
+SF 4 any (A low)
+RF 3 (K, Q, or J high)
+SF 3 (6-T high)
+SF 3 i (7-J high)
+RF 3 (A high)
+SF 3 (45)
+Straight 4 (T-Q high)
+Just the deuce
+
+2 Deuces
+Straight Flush, Quints, or Wild Royal Flush
+RF 4 (JT)
+Quads
+RF 4 (A, K, or Q high)
+SF 4
+SF 4 i (5-A high)
+SF 4 di (7-A high)
+Just the deuces
+
+3 Deuces
+Quints
+Wild Royal Flush
+Just the deuces
+
+4 Deuces
+Just the deuces
+

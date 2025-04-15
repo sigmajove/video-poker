@@ -1,0 +1,94 @@
+180/80/50 One Eyed Jacks
+Intermediate
+
+0 Deuces
+Natural Royal Flush
+Straight Flush
+Quads
+Full House
+RF 4
+SF 4
+SF 4 i
+Flush
+Straight
+Trips
+RF 3
+Two Pair
+SF 3 (5-J high)
+Flush 4 (clubs or diamonds)
+One Pair (no Jack)
+SF 3 (234)
+Flush 4 (spades or hearts)
+SF 3 i (5-Q high)
+SF 3 (A23)
+SF 3 i (4 high)
+SF 3 di
+Straight 4 (no A)
+Pair of Jacks
+RF 2 (no A)
+SF 2 (5-T high)
+RF 2 (A high)
+SF 2 (34)
+SF 2 i (5-T high)
+Straight 4 (with Ace), Straight 4 i (5-T high), or Straight 4 i (with J)
+SF 2 di (5-T high) (clubs or diamonds)
+SF 2 (23) (clubs or diamonds)
+Just a T (clubs or diamonds)
+SF 2 i (24) (clubs or diamonds)
+Nothing
+
+1 Deuce
+Wild Royal Flush, Straight Flush, or Full House
+Quints
+Quads
+RF 4
+SF 4 (4-J high)
+SF 4 i (5-Q high)
+SF 4 di (6-K high)
+SF 4 (3 high), SF 4 i (4 high), or SF 4 di (5 high)
+Flush
+Straight
+Trips
+RF 3
+SF 3 (4-T high)
+SF 3 i (5-J high)
+SF 3 any (23 or 24)
+SF 3 di (5-T high)
+SF 3 di (J-Q high) (clubs or diamonds)
+Pair of T (clubs or diamonds)
+SF 3 ti (6-T high)
+SF 3 any (A2, A3, A4, or A5)
+Pair of 5 (clubs or diamonds)
+Pair of 6 (clubs or diamonds)
+SF 3 ti (Q9 or K9) (clubs or diamonds)
+Pair of 6 (spades or hearts)
+Pair of 5 (spades or hearts)
+Pair of 7 (clubs or diamonds)
+Pair of 8 (clubs or diamonds)
+Pair of 9 (clubs or diamonds)
+Just the deuce
+
+2 Deuces
+Wild Royal Flush
+Quints
+Straight Flush
+Quads
+RF 4
+SF 4 (3-T high)
+SF 4 i (4-J high)
+SF 4 di (5-J high)
+SF 4 ti (6-J high)
+SF 4 any (Q8, Q9, or K9)
+SF 4 any (A2, A3, A4, or A5)
+Trip A (clubs or diamonds)
+Trip Q (clubs or diamonds)
+Trip T
+Trip K (clubs or diamonds)
+Trip 6
+Trip 5
+Trip 8 (clubs or diamonds)
+Trip 9 (clubs or diamonds)
+Trip 7
+Trip 4
+Just the deuces
+

@@ -1,0 +1,83 @@
+Kings or Better Joker's Wild
+
+No Joker
+Full House or better
+RF 4
+Flush
+SF 4 any
+Straight
+Trips
+Two Pair
+RF 3 (A high, no K) [no fp]
+RF 3 (AKx)
+RF 3 (K or Q high)
+High Pair
+RF 3 (A high, no K) [dsc fp]
+Flush 4
+SF 3 (6-T high) [no sp]
+Low Pair [dsc >= K]
+SF 3 (345 or JT9) [no sp]
+Low Pair [no >= K]
+SF 3 (5-J high) [dsc sp]
+SF 3 (234)
+Straight 4 (K high)
+SF 3 any (A low)
+SF 3 di (Kn9)
+SF 3 i (2n4-Jn9)
+Straight 4 (5-Q high)
+RF 2 (AK)
+SF 3 di (2n5-Qn9) [no sp]
+RF 2 (KJ or QT)
+SF 3 di (2n5-Qn9) [dsc sp]
+RF 2 (KQ)
+RF 2 (AQ, AJ, or AT) [no fp]
+AK
+RF 2 (AQ, AJ, or AT) [dsc fp]
+Just a A or K
+RF 2 (QJ, JT, or JT)
+Nothing
+
+1 Deuce
+Full House or Better
+RF 4
+SF 4 (5-Q high)
+Flush
+SF 4 (3-4 high)
+SF 4 i
+SF 4 di (K high)
+SF 4 di (A low)
+Trips
+SF 4 di (6-Q high)
+Straight
+Flush 4 (A high)
+RF 3 (A, K, or J high)
+Flush 4 (K high)
+SF 3 (6-T high)
+SF 3 any (A low)
+SF 3 (45)
+RF 3 (Q high)
+SF 3 ti (K9)
+Pair of A
+SF 3 i (6-T high)
+Pair of K
+SF 3 i (J9)
+SF 3 i (35)
+SF 3 (34)
+SF 3 di [no sp]
+Flush 4 (others)
+SF 3 di [dsc sp]
+SF 3 i (24)
+SF 3 (23)
+Straight 4 (6-J, or K high)
+Pair of 7 [no fp]
+Pair of 6 [no fp]
+Pair of 8 [no fp]
+Pair of T [no fp]
+Pair of 9 [no fp]
+Pair of 5
+Pair of 7 [dsc fp]
+Pair of 6 [dsc fp]
+Pair of 8 [dsc fp]
+Pair of T [dsc fp]
+Pair of 9 [dsc fp]
+Just the deuce

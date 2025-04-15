@@ -1,0 +1,35 @@
+8/5 Bonus Poker
+box score
+Royal Flush, Straight Flush, Quads, or Full House
+Trips or Two Pair
+RF 4
+Straight or Flush
+SF 4 any
+Pair of J-A
+RF 3
+Flush 4
+KQJT
+Pair of 2-T
+Straight 4 (5-Q high)
+SF 3 any h2
+AKQJ
+RF 2 (no T)
+SF 3 h1
+SF 3 i h1
+SF 3 h0
+Straight 4 i h3
+KQJ
+QJ
+SF 3 di h1
+KJ [dsc 8T or 9T]
+RF 2 (JT) [no fp]
+SF 3 i h0
+KQ
+KJ [no 8T or 9T]
+AK, AQ, or AJ
+RF 2 (JT) [dsc fp]
+RF 2 (QT)
+RF 2 (KT) [no fp]
+Just a A, K, Q, or J
+SF 3 di h0
+Nothing

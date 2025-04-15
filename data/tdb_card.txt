@@ -1,0 +1,60 @@
+9/6 Triple Double Bonus
+1-1-2-4-6-9-50-80-160-400-800-50-800
+
+With a bankroll of $100
+ 0.88% Royal Flush
+ 5.79% Quad 2, 3 or 4 w/low kicker
+ 2.36% Quad Aces w/low kicker
+ 5.00% Quad Aces
+ 5.26% Reach $200
+80.70% Bust
+Average cashout $92.24
+Median number of games: 278
+
+Strategy (returns 98.1523%)
+
+Royal Flush or Straight Flush
+Quads [keep a low kicker]
+RF 4
+Straight or Flush
+Trip A-4 [keep a low kicker]
+Full House
+SF 4 any
+Trip 5-K
+Pair of Aces
+Two Pair
+RF 3 (A high, no T)
+RF 3 (K or Q high)
+Pair of J, Q, or K
+Flush 4
+RF 3 (AKT, AQT, or AJT)
+Pair of 2, 3, or 4
+Straight 4 (no A)
+SF 3 (JT9)
+SF 3 i h2
+Pair of 5-T
+AKQJ
+SF 3 di h2
+SF 3 (>= 345)
+RF 2 (QJ)
+SF 3 i h1
+Straight 4 i h3
+RF 2 (AK, AQ, AJ, KJ, or KQ)
+Flush 3 h2
+SF 3 di h1
+SF 3 i h0
+SF 3 (A23 or 234)
+Straight 4 i h2
+Just an Ace
+KQJ or QJT
+QJ
+RF 2 (JT)
+KQ or KJ
+Flush 3 h1 (K high)
+RF 2 (KT or QT)
+Flush 3 h1 (Q or J high)
+Just a K, Q, or J
+SF 3 di h0
+Straight 4 i h0
+Flush 3 h0
+Nothing

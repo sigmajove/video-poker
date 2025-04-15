@@ -1,0 +1,55 @@
+All American Poker
+half life
+
+Royal Flush, Straight Flush, Quads, or Full House
+RF 4
+SF 4 (no Ace)
+Straight, Flush, or Trips
+SF 4 i or SF 4 (A234)
+RF 3 (QJT)
+RF 3 (K high) [no sp]
+Flush 4
+RF 3 (K high) [dsc sp]
+Two Pair
+RF 3 (A high, no T)
+Straight 4 (K or Q high)
+Pair of A, K, Q, or J
+RF 3 (AKT, AQT, or AJT)
+Straight 4 (5-J high)
+SF 3 or SF 3 i
+AKQJ or A234
+Straight 4 i h3
+SF 3 di h2
+Straight 4 i h2
+SF 3 di h1
+Straight 4 i h1
+Pair of 2-T
+Straight 4 i h0
+SF 3 di h0
+RF 2 (QJ)
+KQJ or QJT
+Flush 3 h2
+RF 2 (no T)
+RF 2 (JT)
+KQT, KJT, QJ9, or JT9
+RF 2 (QT)
+Flush 3 h1 (A or K high)
+RF 2 (KT)
+QJ
+Flush 3 h1 (Q or J high)
+AKQ or AKJ
+AK, AQ, or KQ
+SF 2 i (J9) or SF 2 di (Q9)
+KJ
+SF 2 di (J8) [no sp]
+Just a J [no fp, no 9]
+Just a J [no 7, no 8, no 9, no T]
+AJ
+RF 2 (AT)
+Just an A, K, Q, or J
+Straight 3 h0 (5-T high)
+Flush 3 h0
+SF 2 (5-T high)
+SF 2 i (5-T high)
+SF 2 (34)
+Nothing

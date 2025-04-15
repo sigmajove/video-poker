@@ -1,0 +1,67 @@
+Full Pay Deuces Wild
+eval
+
+0 Deuces
+Natural Royal Flush
+RF 4
+Straight, Flush, Full House, Quads, or Straight Flush
+Trips
+SF 4
+RF 3 (QJT) [no K8]
+SF 4 i
+RF 3
+One Pair
+Straight 4 (7-K high) or Flush 4
+SF 3
+SF 3 i (7-Q high)
+SF 3 di (JT7) [dsc Q, no 8]
+SF 3 di (JT7) [dsc AK]
+RF 2 (JT) [dsc 7 onsuit] 
+RF 2 (JT) [no 589 suited]
+SF 3 di (8-K high)
+RF 2 (Q high) [dsc 678]
+RF 2 (Q high) [dsc 679, no fp]
+RF 2 (Q high) [dsc AK, no 8 or 9, no fp]         
+RF 2 (Q high) [dsc 89, no A or K, no fp]
+RF 2 (Q high) [dsc 346 suited]
+RF 2 (Q high) [dsc 356 suited]
+RF 2 (Q high) [dsc 347 suited]
+RF 2 (Q high) [dsc 357 suited]
+RF 2 (Q high) [dsc 367 suited]
+SF 3 di (3 low)
+SF 3 i (3 low)
+Straight 4 i (7-A high)
+Straight 4 (AKQJ or 3456)
+RF 2 (Q high)
+RF 2 (K high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Straight Flush, Quints, or Wild Royal Flush
+Quads
+RF 4
+SF 4 (7-K high)
+Straight, Straight, Flush, or Full House
+Trips
+SF 4 any
+RF 3 (K, Q, or J high)
+SF 3 (7-J high)
+RF 3 (AK or AQ) [no fp, no sp, no 3]
+RF 3 (AJ or AT) [no fp, no sp]
+Just the deuce
+
+2 Deuces
+Straight Flush, Quints, or Wild Royal Flush
+Quads
+RF 4
+SF 4 (7-K high)
+Just the deuces
+
+3 Deuces
+Wild Royal Flush
+Quints (T-A high)
+Just the deuces
+
+4 Deuces
+Just the deuces
+

@@ -1,0 +1,87 @@
+11/15 AP Deuces Wild
+box score
+
+0 Deuces
+Full House, Quads, or Natural Royal Flush
+Trips
+RF 4
+Straight, Flush, or Straight Flush
+SF 4 or SF 4 i
+RF 3
+Two Pair
+Flush 4
+SF 3 (7-A high)
+One Pair
+SF 3 i (7-K high) [no gp]
+Straight 4 (7-K high)
+SF 3 (5-6 high)
+SF 3 i (6 high)
+SF 3 di (no A)
+RF 2 (Q or J high)
+SF 3 any (A low)
+RF 2 (KJ) [no fp, dsc 789]
+RF 2 (KT) [no fp, dsc 678, 679, or 689]
+3456 or AKQJ
+Straight 4 i (7-A high)
+RF 2 (K high)
+SF 2 (7-T high) [no fp, no sp]
+Nothing
+
+1 Deuce
+Wild Royal Flush, Quints, Straight Flush, or Full House
+Quads
+RF 4
+Flush
+SF 4 any (no A)
+SF 4 i (A high)
+Straight or Trips
+SF 4 any (A low)
+
+RF 3 (Q or J high)
+RF 3 (KT)
+SF 3 (67 or 89)
+RF 3 (KJ)
+SF 3 (78 or 9T)
+RF 3 (KQ)
+SF 3 i (57)
+SF 3 i (8T) [no 6, 7, or 9]
+SF 3 (56) [dsc AT]
+RF 3 (AT)
+SF 3 i (68)
+SF 3 i (8T) [dsc 6, 7, or 9]
+SF 3 i (J9) [no 7, 8, T, or Q]
+SF 3 (56)
+RF 3 (AJ)
+SF 3 i (J9) [dsc 7, 8, T, or Q]
+SF 3 i (79)
+RF 3 (AK or AQ)
+SF 3 (45)
+
+SF 3 di (58) [no fp] [dsc JT]
+
+Straight 4 (567) [dsc T]
+Straight 4 (678) [dsc J or Q offsuit]
+Straight 4 (789) [dsc Q, K offsuit, or A offsuit]
+Straight 4 (89T) [no 3]
+Straight 4 (JT9)
+Straight 4 (QJT) [no 3 or 4]
+Just the deuce
+
+2 Deuces
+Straight Flush, Quints, or Wild Royal Flush
+RF 4 (JT)
+Quads
+RF 4 (A, K, or Q high)
+SF 4 i (5-J high)
+SF 4 di (7-Q high)
+SF 4
+Just the deuces
+
+3 Deuces
+Quints
+Wild Royal Flush
+Just the deuces
+
+4 Deuces
+Just the deuces
+

@@ -1,0 +1,187 @@
+One Eyed Jacks
+eval
+
+0 Deuces
+Full House
+Natural Royal Flush
+Quads
+Trips
+Straight Flush
+RF 4
+SF 4 (5-Q high)
+Flush
+SF 4 (A234)
+SF 4 i
+RF 3
+Straight
+Two Pair
+Pair of Aces
+Flush 4
+SF 3 any (A low)
+SF 3 (4-J high)
+SF 3 i (T-Q high) (clubs or diamonds)
+SF 3 i (5-9 high)
+One Pair (no A, no J)
+SF 3 di (6-J high)
+SF 3 di (K or Q high) (clubs or diamonds)
+SF 3 i (T high) (spades or hearts)
+RF 2 (A high)
+SF 3 i (Q high) (spades or hearts)
+Just an Ace
+RF 2 (QT) (clubs or diamonds)
+SF 3 di (K or Q high) (spades or hearts)
+Straight 4 (5-K high)
+RF 2 (JT)
+RF 2 (QJ)
+Pair of Jacks
+RF 2 (KJ)
+RF 2 (KQ or KT) (clubs or diamonds)
+RF 2 (QT) (spades or hearts)
+SF 2 (45, 56, or 67) (clubs or diamonds)
+SF 2 (78 or 89) (clubs or diamonds) [no fp]
+RF 2 (KQ or KT) (spades or hearts)
+SF 2 (56 or 67) (spades or hearts) [no fp]
+SF 2 (9T) (clubs or diamonds) [no fp]
+SF 2 (45) (spades or hearts) [no fp]
+SF 2 (56 or 67) (spades or hearts) [dsc fp]
+
+SF 2 (78 or 89) (clubs or diamonds) [dsc fp]
+SF 2 i (46 or 57) (clubs or diamonds)
+SF 2 i (68) (clubs or diamonds) [no fp]
+SF 2 (45) (spades or hearts) [dsc fp]
+SF 2 (9T) (clubs or diamonds) [dsc fp]
+
+SF 2 (34) (clubs or diamonds) [no fp]
+SF 2 i (35) (clubs or diamonds) [no fp]
+
+SF 2 (78) (spades or hearts) [no fp]
+SF 2 i (79 or 8T) (clubs or diamonds) [no fp]
+SF 2 i (68) (spades or hearts) [no fp, no 7 or 9]
+SF 2 i (68) (clubs or diamonds) [dsc fp]
+
+Flush 3 (no J) (clubs or diamonds) [no J]
+SF 2 i (57) (spades or hearts) [no fp] [no 4, 5, or 8]
+SF 2 (34) (spades or hearts) [no fp, no sp]
+SF 2 i (35) (spades or hearts) [no fp, no sp]
+
+Nothing
+
+1 Deuce
+Quints
+Full House
+Quads
+Straight Flush
+RF 4
+
+SF 4 (4-J high)
+SF 4 i (5-Q high)
+SF 4 any (A low)
+SF 4 di (6-J high)
+SF 4 di (K or Q high) (clubs or diamonds)
+Flush
+SF 4 di (K or Q high) (spades or hearts)
+RF 3 (A or Q high) (suited with jack)
+Trips (no Jack)
+RF 3 (K high) (suited with jack)
+Straight
+RF 3 (AK, AQ, AT, or QT) (clubs or diamonds)
+RF 3 (AJ)
+RF 3 (JT)
+Flush 4 (A high)
+SF 3 (6-7 high) (spades or hearts)
+SF 3 (5-6 high) (clubs or diamonds)
+SF 3 (7-T high) (clubs or diamonds)
+RF 3 (QJ) << Trip Jacks
+SF 3 (5 high) (spades or hearts)
+Trip Jacks
+SF 3 any (A low)
+RF 3 (AK, AQ, or AT) (other wild suit)
+RF 3 (KQ or KT) (clubs or diamonds)
+SF 3 (78) (spades or hearts)
+SF 3 i (46, 57, or 68)
+SF 3 i (79 or 8T) (clubs or diamonds)
+SF 3 (34)
+SF 3 i (35)
+Pair of Aces
+RF 3 (KJ)
+SF 3 (89 or 9T) (spades or hearts)
+SF 3 i (79) (spades or hearts)
+SF 3 i (8T) (spades or hearts)
+SF 3 i (J9)
+SF 3 i (79) (clubs or diamonds)
+RF 3 (QT) (other wild suit)
+SF 3 di (69)
+SF 3 di (5-8 high)
+SF 3 di (Q9) (clubs or diamonds)
+SF 3 (23)
+SF 3 i (24)
+SF 3 i (8T) (clubs or diamonds)
+RF 3 (KT) (other wild suit)
+SF 3 di (7T or J8)
+RF 3 (KQ) (other wild suit)
+Flush 4 (no A, no J) [no J]
+
+Flush 3 (48)
+Flush 3 (59)
+Flush 3 (6T)
+Flush 3 (26)
+Flush 3 (37)
+Flush 3 (Q8 or K9) (clubs or diamonds)
+
+Pair of T (suited with jack)
+SF 3 di (Q9) (spades or hearts)
+Pair of 6 (clubs or diamonds)
+Pair of 7 (clubs or diamonds) [no fp]
+Pair of T (clubs or diamonds)
+Pair of 5 (clubs or diamonds)
+Pair of 6 (spades or hearts)
+Pair of 8 (clubs or diamonds) [no fp]
+Just the deuce
+
+2 Deuces
+Quints
+Quads
+Straight Flush
+SF 4 (3-T high)
+RF 4
+SF 4 i (4-J high)
+
+SF 4 di (36)
+SF 4 di (69)
+SF 4 ti (6T)
+SF 4 di (47)
+SF 4 di (7T)
+SF 4 ti (37)
+SF 4 ti (J7)
+SF 4 di (58)
+SF 4 di (J8)
+SF 4 any (A low)
+SF 4 ti (48)
+SF 4 ti (Q8)
+SF 4 di (25)
+SF 4 ti (26)
+SF 4 di (Q9)
+SF 4 ti (59)
+SF 4 ti (K9)
+
+Flush
+
+Trip T (clubs or diamonds)
+Trip 5 (clubs or diamonds)
+Trip 6 (clubs or diamonds)
+Trip 7 (clubs or diamonds)
+Trip 8 (clubs or diamonds)
+Trip 6 (spades or hearts)
+Trip 5 (spades or hearts)
+Trip 9 (clubs or diamonds)
+Trip Aces (clubs or diamonds)
+Trip Queens (clubs or diamonds)
+Trip 4 (clubs or diamonds)
+Trip 7 (spades or hearts)
+Trip T (spades or hearts)
+Trip 4 (spades or hearts)
+Trip 8 (spades or hearts)
+Trip Kings (clubs or diamonds)
+Trip 9 (spades or hearts)
+Just the deuces
+

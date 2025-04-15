@@ -1,0 +1,41 @@
+9/5 Jacks or Better
+haas
+
+Full House, Quads, Straight Flush, or Royal Flush
+Two Pair or Trips
+RF 4
+Straight or Flush
+SF 4 any
+Pair of J-A
+RF 3
+Flush 4
+KQJT
+Pair of 2-T
+Straight 4 (5-Q high)
+SF 3 i h2
+AKQJ
+SF 3 di h2
+RF 2 (KQ, KJ, or QJ)
+SF 3 (6-J high)
+SF 3 i h1
+RF 2 (AK, AQ, or AJ)
+Straight 4 i h3
+SF 3 (345)
+KQJ
+QJ
+SF 3 (A23)
+SF 3 di h1
+RF 2 (JT) [no fp] << KJ [dsc 8T or 9T]
+KJ
+SF 3 i h0
+KQ
+RF 2 (JT) [dsc fp]
+SF 3 (234)
+AK
+AQ
+AJ
+RF 2 (QT)
+RF 2 (KT) [no fp]
+Just a A, K, Q, or J
+SF 3 di h0
+Nothing

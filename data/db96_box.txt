@@ -1,0 +1,42 @@
+Box Score for 9/6 Double Bonus Poker
+
+ 56.94%     1.76 Nothing
+ 19.00%     5.26 High Pair
+ 12.45%     8.03 Two Pair
+  7.22%    13.85 Trips
+  1.50%    66.78 Straight
+  1.53%    65.39 Flush
+  1.12%    89.42 Full House
+  0.16%   622.87 Quads
+  0.02%  4947.66 Quad Aces
+  0.05%  1907.48 Quad 2,3 or 4
+  0.01%  8825.23 Straight Flush
+  0.00% 48216.92 Royal Flush
+Expected value = 97.5162%
+Variance = 27.9437
+
+With a bankroll of $20
+ 0.13% Royal Flush
+ 0.69% Straight Flush
+ 3.19% Quad 2,3 or 4
+ 1.23% Quad Aces
+ 9.77% Quads
+ 6.18% Reach $40
+78.81% Bust
+Average cashout $18.11
+Median number of games: 48
+
+With a bankroll of $100
+ 1.09% Royal Flush
+10.65% Quad Aces
+19.25% Reach $200
+69.00% Bust
+Average cashout $83.64
+Median number of games: 417
+
+With a bankroll of $797.50
+14.21% Royal Flush
+35.68% Reach $1000
+50.11% Bust
+Average cashout $584.76
+Median number of games: 5897

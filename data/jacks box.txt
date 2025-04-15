@@ -1,0 +1,36 @@
+Box Score for Full Pay Jacks or Better
+
+ 54.56%     1.83 Nothing
+ 21.44%     4.66 High Pair
+ 12.93%     7.73 Two Pair
+  7.44%    13.43 Trips
+  1.12%    89.00 Straight
+  1.10%    91.14 Flush
+  1.15%    86.87 Full House
+  0.24%   423.29 Quads
+  0.01%  9133.59 Straight Flush
+  0.00% 39724.42 Royal Flush
+Expected value = 99.5429%
+Variance = 19.7793
+
+With a bankroll of $20
+ 0.22% Royal Flush
+ 0.98% Straight Flush
+36.15% Reach $40
+62.65% Bust
+Average cashout $19.49
+Median number of games: 68
+
+With a bankroll of $100
+ 3.84% Royal Flush
+24.06% Reach $200
+72.10% Bust
+Average cashout $91.29
+Median number of games: 1173
+
+With a bankroll of $791.25
+39.92% Royal Flush
+ 9.98% Reach $1000
+50.10% Bust
+Average cashout $700.64
+Median number of games: 14777
