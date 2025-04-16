@@ -3,8 +3,8 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <windows.h>
 #include <stdlib.h>
+#include <windows.h>
 
 #include <string>
 
@@ -524,25 +524,6 @@ void do_paint(HWND hwnd) {
     card_pos(j, cc);
     draw_card(hdc, cc, c_display[j], j < c_face_up);
 
-#if 0
-		if (j < c_face_up && pips(c_display[j]) == deuce)
-		{
-			// Draw in "Wild!"
-
-			int x0 = (cc.left + cc.right) / 2;
-			int y0 = (cc.top + cc.bottom) / 2;
-
-			x0 -= wild_bitmap_size.bmWidth/2;
-			y0 -= wild_bitmap_size.bmHeight/2;
-
-			SelectObject(bitmap_hdc, (HGDIOBJ) wild_bitmap);
-			BitBlt(hdc, x0, y0, 
-				   wild_bitmap_size.bmWidth,
-		           wild_bitmap_size.bmHeight, bitmap_hdc, 0, 0, SRCCOPY);
-
-		}
-#endif
-
     held_pos(j, cc);
     if (c_held & (1 << j)) {
       SelectObject(bitmap_hdc, (HGDIOBJ)held_bitmap);
@@ -755,7 +736,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
   return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-void make_button(const char *label, int id, int &x, HWND hwnd, HINSTANCE hInst) {
+void make_button(const char *label, int id, int &x, HWND hwnd,
+                 HINSTANCE hInst) {
   SIZE button_size;
   HDC hdc = GetDC(hwnd);
   TEXTMETRIC tm;
@@ -767,11 +749,11 @@ void make_button(const char *label, int id, int &x, HWND hwnd, HINSTANCE hInst) 
   button_size.cy = control_height;
 
   CreateWindowA("button", label, WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
-               x = x - button_size.cx, 4,
+                x = x - button_size.cx, 4,
 
-               button_size.cx, button_size.cy,
+                button_size.cx, button_size.cy,
 
-               hwnd, (HMENU)id, hInst, NULL);
+                hwnd, (HMENU)id, hInst, NULL);
 }
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
@@ -787,12 +769,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
   held_bitmap = LoadImage(hInst, MAKEINTRESOURCE(IDB_HELD), IMAGE_BITMAP, 0, 0,
                           LR_DEFAULTCOLOR);
   GetObject(held_bitmap, sizeof(held_bitmap_size), &held_bitmap_size);
-
-#if 0
-	wild_bitmap = 
-	LoadImage(hInst, MAKEINTRESOURCE (IDB_WILD), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
-	GetObject(wild_bitmap, sizeof (wild_bitmap_size), &wild_bitmap_size);
-#endif
 
   back_bitmap = LoadImage(hInst, MAKEINTRESOURCE(IDB_BACK), IMAGE_BITMAP, 0, 0,
                           LR_DEFAULTCOLOR);
@@ -818,16 +794,16 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
   RegisterClassEx(&wndclass);
 
   hwnd = CreateWindowA(szAppName,              // window class name
-                      "Video Poker Trainer",  // window caption
-                      Style,
-                      CW_USEDEFAULT,  // initial x position
-                      0,              // initial y position
-                      CW_USEDEFAULT,  // x size
-                      0,              // y size
-                      NULL,           // parent window handle
-                      NULL,           // use window class menu
-                      hInst,          // program instance handle
-                      NULL);          // creation parameters
+                       "Video Poker Trainer",  // window caption
+                       Style,
+                       CW_USEDEFAULT,  // initial x position
+                       0,              // initial y position
+                       CW_USEDEFAULT,  // x size
+                       0,              // y size
+                       NULL,           // parent window handle
+                       NULL,           // use window class menu
+                       hInst,          // program instance handle
+                       NULL);          // creation parameters
 
   {
     LOGFONT lfont;
@@ -974,10 +950,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
   DeleteObject(hfont);
   DeleteObject(background);
   DeleteObject(held_bitmap);
-
-#if 0
-	DeleteObject(wild_bitmap);
-#endif
 
   DeleteObject(back_bitmap);
   DeleteObject(back_brush);
