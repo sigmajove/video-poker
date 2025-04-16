@@ -75,12 +75,25 @@ enum parser_codes {
   pc_least_sp
 };
 
-typedef struct C_strategy_line {
+// The output produced by parse_line.
+struct strategy_line {
+  strategy_line() : pattern(0), options(0), image(0) {};
+
+  // The encoded meaning of the parsed input.
+  // A pointer to a series of parser codes and small integers.
+  // The client is responsible for deleting it.
   unsigned char *pattern;
+
+  // options is the contents of the line after the first #
+  // The parser does not know the syntax of the options;
+  // it just copies over the characters.
+  // The client is responsible for deleting it.
   char *options;
+
+  // The original parsed characters, with the options stripped off.
+  // The client is reponsible for deleting it.
   char *image;
-  C_strategy_line() : pattern(0), options(0), image(0) {};
-} strategy_line;
+};
 
 typedef class C_enum_match {
  private:

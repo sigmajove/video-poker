@@ -346,7 +346,7 @@ void parser(const char *name, const char *output_file = 0) {
                 strcmp(parse_buffer, "1 Deuce") == 0)) {
       // Deuce Divider
       if (pat.size() != 0) {
-        pat.push_back(C_strategy_line());
+        pat.push_back(strategy_line());
 
         if (current_wild == -1) {
           printf("Inconsistent deuce headers\n");
@@ -385,7 +385,7 @@ void parser(const char *name, const char *output_file = 0) {
 done_reading_file:
   fclose(input);
 
-  pat.push_back(C_strategy_line());
+  pat.push_back(strategy_line());
 
   if (current_wild == -1) {
     wild_count[0] = pat.size();
