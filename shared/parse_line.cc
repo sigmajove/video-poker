@@ -664,7 +664,6 @@ static bool high_sequence() {
   }
 }
 
-
 static bool low_sequence() {
   char buffer[num_denoms];
   char *b = buffer;
@@ -763,7 +762,6 @@ static void or_wrapper(int start, patch_list &else_list) {
   parse_output->at(start) = pc_or;
   make_patch(start + 1);
 }
-
 
 static void bracket_clause() {
   if (match("least sp")) {
@@ -887,7 +885,6 @@ static void opt_bracket_modifiers() {
     bracket_modifier();
   }
 }
-
 
 static void top_phrase() {
   if (match("Nothing")) {
@@ -1108,7 +1105,6 @@ static void top_phrase() {
 
   opt_paren_modifiers();
 }
-
 
 void parse_main(const char *line) {
   parse_ptr = line;
