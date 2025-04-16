@@ -2,13 +2,13 @@
 
 #include <vector>
 
-void C_enum_match::buf_unput() {
+void enum_match::buf_unput() {
   if (buffer_length > 0) {
     buffer_length -= 1;
   }
 }
 
-void C_enum_match::buf_put(const char *item) {
+void enum_match::buf_put(const char *item) {
   _ASSERT(item);
   int n = strlen(item);
   buf_check(n);
@@ -16,7 +16,7 @@ void C_enum_match::buf_put(const char *item) {
   buffer_length += n;
 }
 
-void C_enum_match::buf_putchar(char item) {
+void enum_match::buf_putchar(char item) {
   buf_check(1);
   name_buffer[buffer_length++] = item;
 }
@@ -54,7 +54,7 @@ static int count_suits(unsigned x) {
   }
 }
 
-bool C_enum_match::matches_tail(unsigned mask, unsigned char *pattern) {
+bool enum_match::matches_tail(unsigned mask, unsigned char *pattern) {
   // Analyze the discards for penalty cards
 
   bool suited = true;
@@ -637,7 +637,7 @@ fail:
 }
 }
 
-void C_enum_match::check(unsigned mask) {
+void enum_match::check(unsigned mask) {
   unsigned char *save_pat_eof = pat_eof;
 
   if (*pat == pc_eof || *pat == pc_prefer) {
@@ -663,7 +663,7 @@ void C_enum_match::check(unsigned mask) {
   }
 }
 
-void C_enum_match::find(unsigned char *pattern) {
+void enum_match::find(unsigned char *pattern) {
   const unsigned end_marker = 0xff;
   pat = pattern;
 
@@ -1524,7 +1524,7 @@ loop:
   }
 }
 
-char *C_enum_match::name(strategy_line &line) {
+char *enum_match::name(strategy_line &line) {
   if (line.options == 0) {
     return line.image;
   }
@@ -1623,7 +1623,7 @@ done:
   return name_buffer;
 }
 
-void C_enum_match::buf_check(int length) {
+void enum_match::buf_check(int length) {
   if (buffer_length + length > buffer_max) {
     int new_max = 2 * buffer_max;
 

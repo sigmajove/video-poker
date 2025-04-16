@@ -95,7 +95,29 @@ struct strategy_line {
   char *image;
 };
 
-typedef class C_enum_match {
+class enum_match {
+ public:
+  enum_match() : name_buffer(0), parms(0), buffer_length(0), buffer_max(0) {}
+
+  // Input parameters
+  card hand[5];
+  int hand_size;
+  int wild_cards;
+  game_parameters *parms;
+
+  // Output parameters set by find
+  bool result_vector[32];
+  unsigned char matches[32];
+  int match_count;
+
+  void find(unsigned char *pattern);
+
+  // Looks at the state set by find to assign a
+  // name to the match, interpreting the the options
+  // string in the line.  The storage points to
+  // a local buffer.
+  char *name(strategy_line &line);
+
  private:
   unsigned char *pat, *pat_eof;
   bool ace_is_low;
@@ -111,32 +133,4 @@ typedef class C_enum_match {
   void buf_putchar(char item);
   void buf_check(int length);
   // Appends to name_buffer.
-
- public:
-  // Input parameters
-  card hand[5];
-  int hand_size;
-  int wild_cards;
-  game_parameters *parms;
-
-  // Output parameters set by find
-  bool result_vector[32];
-  unsigned char matches[32];
-  int match_count;
-
-  void find(unsigned char *pattern);
-
-  char *name(strategy_line &line);
-  // Look at the state set by find to assign a name
-  // to the match, interpreting the the options
-  // string in the line.  The storage points to a
-  // local buffer.
-
-  C_enum_match() {
-    name_buffer = 0;
-    parms = 0;
-    buffer_length = 0;
-    buffer_max = 0;
-  }
-
-} enum_match;
+};
