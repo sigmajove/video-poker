@@ -103,13 +103,27 @@ class enum_match {
   card hand[5];
   int hand_size;
   int wild_cards;
-  game_parameters *parms;
 
-  // Output parameters set by find
+  game_parameters *parms;  // Needed to tell if a card is "high".
+
+  // Output parameters set by find. result_vector and matches
+  // are two different ways of representing the same data.
+
+  // One bit for each if the possible 32 combinations of five cards.
   bool result_vector[32];
+
+  // The index in result_vector of each set bit.
   unsigned char matches[32];
+
+  // The number of bits set in result vector, and the number of masks
+  // stored in matches.
   int match_count;
 
+  // pattern is an encoded meaning of a strategy line.
+  // It might mean, for example, "low pair".
+  // The input hand is examined for every combination that matches the pattern.
+  // For example, if the pattern is "low pair" and hand is 22337, the
+  // matches are the bit masks 11000 and 00110.
   void find(unsigned char *pattern);
 
  private:
