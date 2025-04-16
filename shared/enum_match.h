@@ -97,7 +97,7 @@ struct strategy_line {
 
 class enum_match {
  public:
-  enum_match() : name_buffer(0), parms(0), buffer_length(0), buffer_max(0) {}
+  enum_match() {}
 
   // Input parameters
   card hand[5];
@@ -112,25 +112,10 @@ class enum_match {
 
   void find(unsigned char *pattern);
 
-  // Looks at the state set by find to assign a
-  // name to the match, interpreting the the options
-  // string in the line.  The storage points to
-  // a local buffer.
-  char *name(strategy_line &line);
-
  private:
   unsigned char *pat, *pat_eof;
   bool ace_is_low;
+
   void check(unsigned mask);
   bool matches_tail(unsigned mask, unsigned char *pattern);
-  char *name_buffer;
-  int buffer_length;
-  int buffer_max;
-
-  void buf_clear() { buffer_length = 0; }
-  void buf_unput();
-  void buf_put(const char *item);
-  void buf_putchar(char item);
-  void buf_check(int length);
-  // Appends to name_buffer.
 };
