@@ -16,7 +16,6 @@
 #include "vpoker.h"
 
 const char const *szAppName = "VideoPokerTrainer";
-const wchar_t *const wideAppName = L"VideoPokerTrainer";
 
 const COLORREF yellow = RGB(255, 253, 193);
 
@@ -760,7 +759,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
                    int nShowCmd) {
   HWND hwnd;
   MSG msg;
-  WNDCLASSEX wndclass;
+  WNDCLASSEXA wndclass;
 
   global_instance = hInst;
 
@@ -788,10 +787,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
   wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
   wndclass.hbrBackground = background;
   wndclass.lpszMenuName = 0;
-  wndclass.lpszClassName = wideAppName;
+  wndclass.lpszClassName = szAppName;
   wndclass.hIconSm = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON));
 
-  RegisterClassEx(&wndclass);
+  RegisterClassExA(&wndclass);
 
   hwnd = CreateWindowA(szAppName,              // window class name
                        "Video Poker Trainer",  // window caption
@@ -806,7 +805,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
                        NULL);          // creation parameters
 
   {
-    LOGFONT lfont;
+    LOGFONTA lfont;
     ZeroMemory(&lfont, sizeof lfont);
 
     lfont.lfHeight = cardheight / 7;
@@ -814,9 +813,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
     lfont.lfCharSet = ANSI_CHARSET;
     lfont.lfQuality = PROOF_QUALITY;
     lfont.lfPitchAndFamily = FF_SWISS;
-    wcscpy(lfont.lfFaceName, L"Arial");
+    strcpy(lfont.lfFaceName, "Arial");
 
-    hfont = CreateFontIndirect(&lfont);
+    hfont = CreateFontIndirectA(&lfont);
   }
 
   // Size the window to hold the text
@@ -942,9 +941,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine,
 
   outline_pen = CreatePen(PS_SOLID, card_outline, RGB(0, 0, 0));
 
-  while (GetMessage(&msg, NULL, 0, 0)) {
+  while (GetMessageA(&msg, NULL, 0, 0)) {
     TranslateMessage(&msg);
-    DispatchMessage(&msg);
+    DispatchMessageA(&msg);
   }
 
   DeleteObject(hfont);
