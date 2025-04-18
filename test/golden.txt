@@ -1,0 +1,66 @@
+9/6 Jacks or Better
+
+Inaccurate moves
+
+Flush 4
+ As 2s Ts Js Qh
+ == == == ==   
+
+RF 3
+ 2s 3h Ts Js Qs
+       == == ==
+
+weight 0.00000174
+
+Just a A, K, Q, or J
+ 2s 3h 9c Ts Ks
+             ==
+
+RF 2 (QT or KT)
+ 2s 3s 4h Tc Qc
+          == ==
+
+weight 0.00000086
+
+SF 3 di h1
+ As 7h Th Jh Qc
+    == == ==   
+
+Straight 4 i h3
+ As 8h Th Jc Qh
+ ==    == == ==
+
+weight 0.00000021
+
+23) Full House, Quads, Straight Flush, or Royal Flush -> 20a[As 2s 2h 2c 2d] 22[As Ts Js Qs Ks]
+22) RF 4 -> 21[As Th Jh Qh Kh]
+21) Straight or Flush -> 20b[2s 3s 4s 5h 6s]
+20a) Two Pair or Trips -> 19[As 2h Js Jh Jd]
+20b) SF 4 any -> 19[9s Ts Js Qs Qh]
+19) Pair of J-A -> 18[As Ts Jh Qs Qc]
+18) RF 3 -> 17a[2s 3h Ts Js Qs] 17b[2s Th Jc Qc Kc]
+17a) Flush 4 -> 16[As 2s 3s 3h Js]
+17b) KQJT -> 16[Ts Th Js Qh Kc]
+16) Pair of 2-T -> 15[2s 3s 4h 5s 5c]
+15) Straight 4 (5-Q high) -> 13a[6s 8h 9h Th Jc] 14a[As 9h Th Jc Qh] 14b[8s 9h Tc Jh Kh]
+14a) SF 3 i (Q or J high) -> 13b[As 9h Jh Qh Kc]
+14b) SF 3 di h2 -> 13b[As 8h Jh Qh Kc]
+13a) SF 3 (5-Q high) -> 12[As 9h Th Jh Ks]
+13b) AKQJ << RF 2 (QJ) [no fp] -> 12[As 2s Js Qh Kc]
+12) RF 2 (no T) -> 11[As 2s Th Jc Qc] 9a[2s 3s 4s Jh Qh] 9b[As 2s 4s Jh Qh] 9c[2s 3s 5s Jh Qh]
+11) Straight 4 i h3 -> 10[As 8h Th Jc Qh]
+10) SF 3 di h1 -> 9d[7s 9s Js Qh Kc]
+9a) SF 3 (A23 or 234) -> 8[As 2s 3s Jh Qc]
+9b) SF 3 i (A low) -> 8[As 2s 4s Jh Qc]
+9c) SF 3 i h0 -> 8[6s 8s 9s Jh Qc]
+9d) KQJ -> 8[2s 8s Js Qh Kc]
+8) QJ -> 7[7s 8s Th Jh Qc]
+7) RF 2 (JT) [no fp] -> 6[2s 3s Th Jh Kc]
+6) KQ or KJ -> 4b[As 2s 3h Qh Kc] 5[2s 8h Ts Js Kc]
+5) RF 2 (JT) [dsc fp] -> 4a[As 2h 3c Th Jh]
+4a) AK or AJ -> 3[As 2h 9c Th Kh]
+4b) AQ << RF 2 (QT) [no fp] -> 3[As 2h 9c Th Qh]
+3) RF 2 (QT or KT) -> 2[2s 3s 4h Tc Qc]
+2) Just a A, K, Q, or J -> 1[2s 3s 4h 6s Jc]
+1) SF 3 di h0 -> 0[4s 5s 8s 9h Tc]
+0) Nothing ->

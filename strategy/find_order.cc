@@ -1,41 +1,36 @@
 #include "find_order.h"
-#include <algorithm>
-#include <set>
-#include <queue>
 
-typedef struct {
+#include <algorithm>
+#include <cstdio>
+#include <format>
+#include <queue>
+#include <set>
+#include <string>
+#include <vector>
+
+struct denom {
   char val;
   char count;
-} denom;
+};
 
-void print_hand(FILE *file, denom *first, denom *last) {
-  for (denom *d = first; d <= last; d++) {
-    for (int j = 1; j <= d->count; j++) {
-      switch (d->val) {
-        case ace:
-          fprintf(file, " A");
-          break;
+std::string format_hand(const card *hand, int size) {
+  std::string result;
+  result.reserve(3 * size);
+  for (int j = 0; j < size;) {
+    result.push_back(denom_image[pips(*hand)]);
+    result.push_back(suit_image[suit(*hand)]);
+    ++hand;
+    ++j;
 
-        case jack:
-          fprintf(file, " J");
-          break;
-
-        case queen:
-          fprintf(file, " Q");
-          break;
-
-        case king:
-          fprintf(file, " K");
-          break;
-
-        default:
-          fprintf(file, " %d", d->val + 1);
-          break;
-      }
+    if (j < size) {
+      result.push_back(' ');
     }
   }
+  return result;
+}
 
-  fprintf(file, "\n");
+void print_hand(FILE *file, const card *hand, int size) {
+  fprintf(file, "%s\n", format_hand(hand, size).c_str());
 }
 
 move_desc::move_desc()
@@ -116,9 +111,8 @@ move_desc *resolve(char code, int *denom, int msize, int *discard, int dsize)
 }
 #endif
 
-C_bool_matrix::C_bool_matrix(int n) {
-  order = n;
-  const int size = n * n;
+bool_matrix::bool_matrix(int n) : order(n) {
+  const int size = order * order;
   data = new bool[size];
 
   for (int i = 0; i < size; i++) {
@@ -126,8 +120,7 @@ C_bool_matrix::C_bool_matrix(int n) {
   }
 }
 
-C_bool_matrix::C_bool_matrix(const C_bool_matrix &t) {
-  order = t.order;
+bool_matrix::bool_matrix(const bool_matrix &t) : order(t.order) {
   const int size = order * order;
   data = new bool[size];
 
@@ -136,7 +129,7 @@ C_bool_matrix::C_bool_matrix(const C_bool_matrix &t) {
   }
 }
 
-C_bool_matrix::~C_bool_matrix() { delete[] data; }
+bool_matrix::~bool_matrix() { delete[] data; }
 
 /// This should be a template ////
 
@@ -238,7 +231,7 @@ void C_move_list::add_conflict(move_desc *right, move_desc *wrong,
   move_info &i = *const_cast<move_info *>(&const_i);
 
   if (weight < 0.0) {
-    print_hand(c_hand, 5);
+    print_hand(stdout, c_hand, 5);
     printf("right = %s\n", right->name());
     printf("wrong = %s\n", wrong->name());
     printf("weight = %.5f\n", weight);
@@ -256,7 +249,7 @@ void C_move_list::add_conflict(move_desc *right, move_desc *wrong,
   }
 }
 
-void print_hand(FILE *file, struct mlist *edge, int hand_size) {
+static void print_hand_edge(FILE *file, struct mlist *edge, int hand_size) {
   unsigned mask = edge->c_mask;
 
   fprintf(file, "(");
@@ -416,10 +409,9 @@ void C_move_list::greedy_cycle_killer(const std::set<move_desc *> &component) {
       good->m->cyclic.pop_front();
       _ASSERT(!has_cycle(component));
 
-      fprintf(output_file, "%.8f Exception: %s << %s [", rover->significance(),
-              bad->m->name(), good->m->name());
-      output_hand(output_file, good->hand, hand_size);
-      fprintf(output_file, "]\n");
+      fprintf(output_file, "%.8f Exception: %s << %s [%s]\n",
+              rover->significance(), bad->m->name(), good->m->name(),
+              format_hand(good->hand, hand_size).c_str());
     }
   }
 
@@ -760,16 +752,16 @@ void conflict_dfs::dfs(int i) {
       if (i_good != 0 && j_good != 0) {
         fputs(index[i]->name(), file);
         fputc(' ', file);
-        print_hand(file, i_good, hand_size);
+        print_hand_edge(file, i_good, hand_size);
         fputs("?? ", file);
         fputs(index[j]->name(), file);
         fputc(' ', file);
-        print_hand(file, j_good, hand_size);
+        print_hand_edge(file, j_good, hand_size);
         fputc('\n', file);
       } else {
         fputs(index[i]->name(), file);
         fputc(' ', file);
-        print_hand(file, i_good, hand_size);
+        print_hand_edge(file, i_good, hand_size);
         fputs(">> ", file);
         fputs(index[j]->name(), file);
         fputc('\n', file);
@@ -830,7 +822,7 @@ static void print_answer(FILE *file, int scc_counter, int_queue &order,
         for (;;) {
           if (x->scc_parent_edge) {
             fprintf(file, "%s ", x->scc_parent_desc->name());
-            print_hand(file, x->scc_parent_edge, hand_size);
+            print_hand_edge(file, x->scc_parent_edge, hand_size);
           }
 
           if (x->scc_parent_edge || x->scc_backlink) {
@@ -838,7 +830,7 @@ static void print_answer(FILE *file, int scc_counter, int_queue &order,
           }
 
           if (x->scc_backlink) {
-            print_hand(file, x->scc_backlink, hand_size);
+            print_hand_edge(file, x->scc_backlink, hand_size);
             fprintf(file, "%s ", x->scc_backlink->head->name());
           }
 
@@ -864,11 +856,12 @@ static void print_answer(FILE *file, int scc_counter, int_queue &order,
   }
 }
 
-static void PrintId(FILE *file, const move_desc *move) {
+static std::string FormatId(const move_desc *move) {
   if (move->value_id < 0) {
-    fprintf(file, "%d", move->value);
+    return std::format("{}", move->value);
   } else {
-    fprintf(file, "%d%c", move->value, 'a' + move->value_id);
+    return std::format("{}{}", move->value,
+                       static_cast<char>('a' + move->value_id));
   }
 }
 
@@ -876,8 +869,7 @@ void C_move_list::print_the_answer(FILE *file, bool_matrix &haas) {
   for (move_vector::iterator rover = print_order.begin();
        rover != print_order.end(); rover++) {
     if (do_print_haas) {
-      PrintId(file, *rover);
-      fprintf(file, ") ");
+      fprintf(file, "%s) ", FormatId(*rover).c_str());
     } else if (do_print_value) {
       fprintf(file, "%d) ", (*rover)->value);
     }
@@ -891,11 +883,9 @@ void C_move_list::print_the_answer(FILE *file, bool_matrix &haas) {
 
     if (do_print_haas) {
       fprintf(file, " ->");
+      std::vector<std::string> pieces;
       for (int i = 0; i < haas.size(); i++) {
         if (haas.at((*rover)->print_id, i)) {
-          fprintf(file, " ");
-          PrintId(file, haas_index[i]);
-
           // Print the hand that inspired this edge.
           move_pair_set::iterator found =
               conflicts.find(move_pair(*rover, haas_index[i]));
@@ -903,14 +893,18 @@ void C_move_list::print_the_answer(FILE *file, bool_matrix &haas) {
           const move_info &print_desc =
               found->x1.total_weight > found->x2.total_weight ? found->x1
                                                               : found->x2;
-          fprintf(file, "[");
-          output_hand(file, print_desc.hand, hand_size);
-          fprintf(file, "]");
+          pieces.push_back(
+              std::format(" {}[{}]", FormatId(haas_index[i]),
+                          format_hand(print_desc.hand, hand_size)));
         }
       }
+      // Sort the pieces for test reproducibility
+      std::sort(pieces.begin(), pieces.end());
+      for (const std::string &p : pieces) {
+        fprintf(file, "%s", p.c_str());
+      }
+      fprintf(file, "\n");
     }
-
-    fprintf(file, "\n");
   }
 }
 
@@ -944,22 +938,6 @@ void C_move_list::find_closure(FILE *file) {
   }
 
   print_the_answer(file, haas);
-
-#if 0
-  bool_vector printed(scc_counter);
-  int_queue order;
-  int_vector index(scc_counter);
-
-  {
-    for (int i=0; i<scc_counter; i++) {
-      print_dfs(i, scc_counter, printed, order, index, haas);
-    }
-  }
-
-  print_answer
-  (file, scc_counter, order, index, move_index,
-   haas, hand_size, do_print_haas);
-#endif
 }
 
 C_move_list::C_move_list(int hsize) {

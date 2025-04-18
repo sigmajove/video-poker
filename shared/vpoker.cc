@@ -37,25 +37,6 @@ const char *short_payoff_image[] = {
     static_cast<const char *>("WR"), static_cast<const char *>("FD"),
     static_cast<const char *>("RF")};
 
-void output_hand(FILE *file, const card *hand, int size) {
-  for (int j = 0; j < size;) {
-    putc(denom_image[pips(*hand)], file);
-    putc(suit_image[suit(*hand)], file);
-
-    j += 1;
-    hand += 1;
-
-    if (j < size) putc(' ', file);
-  }
-}
-
-void print_hand(FILE *file, const card *hand, int size) {
-  output_hand(file, hand, size);
-  putc('\n', file);
-}
-
-void print_hand(const card *hand, int size) { print_hand(stdout, hand, size); }
-
 void print_move(FILE *file, const card *hand, int hand_size, unsigned mask) {
   for (int j = 0; j < hand_size; j++) {
     const int c = hand[j];

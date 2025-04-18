@@ -37,9 +37,6 @@ extern const char suit_image[];
 
 inline bool is_black(int suit) { return (suit & 1) == 0; }
 
-extern void print_hand(const card *hand, int size);
-extern void print_hand(FILE *file, const card *hand, int size);
-extern void output_hand(FILE *file, const card *hand, int size);
 extern void print_move(FILE *file, const card *hand, int hand_size,
                        unsigned mask);
 

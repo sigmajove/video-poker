@@ -1,28 +1,32 @@
 #pragma once
 
-#include "vpoker.h"
+#include <cstdio>
 #include <list>
 #include <set>
 #include <vector>
 
-typedef class C_bool_matrix {
+#include "vpoker.h"
+
+void print_hand(FILE *file, const card *hand, int size);
+
+class bool_matrix {
+ public:
+  bool_matrix(int n);
+  bool_matrix(const bool_matrix &);
+  ~bool_matrix();
+
+  inline bool &at(int i, int j) {
+    _ASSERT(0 <= i && i < order);
+    _ASSERT(0 <= j && j < order);
+    return data[i * order + j];
+  }
+
+  inline int size() { return order; }
+
+ private:
   bool *data;
   int order;
-public:
-  C_bool_matrix (int n);
-  C_bool_matrix (const C_bool_matrix&);
-  ~C_bool_matrix();
-
-  inline bool& at(int i, int j) {
-    _ASSERT (0<= i && i< order);
-    _ASSERT (0<=j && j<order);
-    return data[i*order+j];
-  }
-
-  inline int size() {
-    return order;
-  }
-} bool_matrix;
+};
 
 struct move_desc;
 
@@ -33,7 +37,7 @@ struct mlist {
   unsigned char c_mask;
 };
 
-typedef std::list<move_desc*> mmm;
+using mmm = std::list<move_desc *>;
 
 struct move_desc {
   virtual char *name() = 0;
@@ -73,22 +77,10 @@ struct move_desc {
   //_move_desc(char *n);
 };
 
+using move_iter = std::list<move_desc *>;
+using int_map = std::map<int, move_desc *>;
 
-#if 0
-struct ltstr {
-  bool operator()(const char* s1, const char* s2) const {
-    return strcmp(s1, s2) < 0;
-  }
-};
-
-
-typedef std::map<const char*, move_desc*, ltstr> string_map;
-#endif
-
-typedef std::list<move_desc*> move_iter;;
-typedef std::map<int, move_desc*> int_map;
-
-typedef std::map<move_desc*, int> move_map;
+using move_map = std::map<move_desc *, int>;
 
 typedef class C_move_list {
   struct move_info {
@@ -98,15 +90,14 @@ typedef class C_move_list {
     card hand[5];
     unsigned char mask;
 
-    move_info (move_desc *i) : m(i), total_weight(0.0),
-      max_weight (0.0) {};
+    move_info(move_desc *i) : m(i), total_weight(0.0), max_weight(0.0) {};
   };
 
   struct move_pair {
     move_info x1, x2;
     // By convention x1.m < x2.m;
 
-    bool operator< (const move_pair &r) const;
+    bool operator<(const move_pair &r) const;
     // To allow sets
 
     // A measure of how much this conflict matters.
@@ -116,7 +107,7 @@ typedef class C_move_list {
       // return std::abs(x1.total_weight - x2.total_weight);
     }
 
-    move_pair(move_desc *i1, move_desc*i2);
+    move_pair(move_desc *i1, move_desc *i2);
   };
 
   struct sort_by_significance {
@@ -125,33 +116,30 @@ typedef class C_move_list {
     }
   };
 
-  typedef std::vector<const move_pair*> move_pair_vector;
+  typedef std::vector<const move_pair *> move_pair_vector;
 
   struct move_pair_lt {
-    bool operator() (const move_pair* &l, const move_pair* &r) const;
+    bool operator()(const move_pair *&l, const move_pair *&r) const;
   };
 
   typedef std::set<move_pair> move_pair_set;
   move_pair_set conflicts;
 
-  typedef std::set<move_desc*> move_set;
+  using move_set = std::set<move_desc *>;
   move_set good_moves;
 
   int hand_size;
   move_map move_number;
   int number_moves;
 
-  int scc_algorithm (move_desc *x);
-  //struct mlist *parent_edge,
-  //move_desc *parent_desc);
-
+  int scc_algorithm(move_desc *x);
   int new_scc_algorithm(move_desc *x);
 
-  void greedy_cycle_killer(const std::set<move_desc*> &component);
-  bool has_cycle(const std::set<move_desc*> &component);
+  void greedy_cycle_killer(const std::set<move_desc *> &component);
+  bool has_cycle(const std::set<move_desc *> &component);
   bool detect_cycle(move_desc *m);
 
-  typedef std::vector<move_desc*> move_vector;
+  typedef std::vector<move_desc *> move_vector;
   move_vector print_order;
   move_vector haas_index;
   int print_counter;
@@ -161,7 +149,7 @@ typedef class C_move_list {
   void find_closure(FILE *file);
   move_iter moves;
   void print_moves(FILE *file);
-  void print_the_answer (FILE *file, bool_matrix &haas);
+  void print_the_answer(FILE *file, bool_matrix &haas);
 
   int df_counter;
   move_desc *stack;
@@ -171,24 +159,20 @@ typedef class C_move_list {
 
   FILE *output_file;
 
-public:
+ public:
   C_move_list(int hsize);
 
   int_map move_index;
 
-  void add_move (move_desc *m);
+  void add_move(move_desc *m);
   // Register a move with the class.
   // Must register all moves before creating
   // any conflicts.
 
-  void add_conflict (move_desc* right,
-                     move_desc* wrong,
-                     double weight,
-                     card *c_hand,
-                     unsigned right_move);
+  void add_conflict(move_desc *right, move_desc *wrong, double weight,
+                    card *c_hand, unsigned right_move);
 
   void display(FILE *file, bool deuces, bool print_haas, bool print_value);
   void sort_moves(FILE *file);
 
 } move_list;
-
