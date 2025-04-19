@@ -8,7 +8,7 @@ import tempfile
 # Does not check if the code has been recompiled if necessary.
 
 
-def test():
+def test(strategy_file, golden_file):
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
         temp_file.close()
         print(f"The file is named {temp_file.name}")
@@ -18,18 +18,18 @@ def test():
         subprocess.run(
             [
                 prefix + "x64/Release/strategy.exe",
-                prefix + "data/jacks-96.txt",
+                f"{prefix}data/{strategy_file}",
                 temp_file.name,
             ]
         )
         if filecmp.cmp(
-            temp_file.name, prefix + "test/golden.txt", shallow=False
+            temp_file.name, f"{prefix}test/{golden_file}", shallow=False
         ):
             print("Test passes")
         else:
             print("Differences detected")
             with open(temp_file.name) as f1, open(
-                prefix + "test/golden.txt"
+                f"{prefix}test/{golden_file}"
             ) as f2:
                 for line in difflib.Differ().compare(
                     f1.readlines(), f2.readlines()
@@ -38,5 +38,9 @@ def test():
         os.remove(temp_file.name)
 
 
+def run_tests():
+    test("jacks-96.txt", "golden.txt")
+    test("fpdw_practical.txt", "golden_deuces.txt")
+
 if __name__ == "__main__":
-    test()
+    run_tests()

@@ -1,0 +1,119 @@
+Full Pay Deuces Wild
+
+Inaccurate moves
+
+AKQJ or 3456
+ As 3h Jh Qh Kc
+ ==    == == ==
+
+RF 2 (Q high) << Straight 4 i
+ As 3s Jh Qh Kc
+       == ==   
+
+weight 0.00000042
+
+RF 2 (J high)
+ 3s 7h 8c Th Jh
+          == ==
+
+SF 3 di (8-A high)
+ As 7h Th Jh Qc
+    == == ==   
+
+weight 0.00000024
+
+Nothing
+ 3s 4h 5h Qc Kc
+               
+
+RF 2 (K high) [no fp, no sp]
+ 5s 7h 8c Td Kd
+          == ==
+
+weight 0.00000022
+
+RF 3 (QJT)
+ 3s 8h Th Jh Qh
+       == == ==
+
+SF 4 i
+ 8s Ts Js Qs Kh
+ == == == ==   
+
+weight 0.00000003
+
+0 Deuces
+17) Natural Royal Flush -> 16[As Ts Js Qs Ks]
+16) RF 4 -> 15a[9s Ts Js Qs Ks] 15b[As Th Jh Qh Kh]
+15a) Straight Flush -> 14b[3s 4s 5s 6s 7s]
+15b) Straight or Flush -> 14b[3s 4s 5s 6s 7h]
+14a) Trips << Quads or Full House -> 13[Ts Js Qs Qc Qd]
+14b) SF 4 -> 13[9s 9h Ts Js Qs]
+13) RF 3 (QJT) -> 12[3s 8h Th Jh Qh]
+12) SF 4 i -> 11[As 9h Th Jh Kh]
+11) RF 3 (others) -> 10[3s Th Jh Kh Kc]
+10) One Pair -> 9a[As 3s 4s 6s 6h] 9b[4s 5s 6h 7s 7c]
+9a) Flush 4 -> 8a[3s 4s 5s 6h 8s] 8b[As 4s 5s 6h 7s]
+9b) Straight 4 (7-K high) -> 8a[As 4h 5h 6h 7c] 8b[As 4h 5h 6c 7h]
+8a) SF 3 (5-A high) -> 7[As 3h 9c Tc Jc]
+8b) SF 3 i (7-A high) -> 7[As 8h Th Jh Kc]
+7) RF 2 (J high) -> 6[3s 7h 8c Th Jh]
+6) SF 3 di (8-A high) -> 5[As 8h Jh Qh Kc]
+5) AKQJ or 3456 -> 4[As 3h Jh Qh Kc]
+4) RF 2 (Q high) << Straight 4 i -> 3a[3s 4s 6s Th Qh] 3b[3s 4s 7s Th Qh]
+3a) SF 3 i (6 high) -> 2[3s 5s 6s 8h 9c]
+3b) SF 3 di (7 high) -> 2[3s 5s 7s 8h 9c]
+2) Straight 4 i (7-A high) -> 1[6s 7s 8h Tc Kc]
+1) RF 2 (K high) [no fp, no sp] -> 0[5s 7h 8c Td Kd]
+0) Nothing ->
+
+Inaccurate moves
+
+Just the deuce
+ As 4h 5c Ks
+            
+
+RF 3 (AK or AQ) [no fp, no sp, no 3]
+ As 7h 8c Qs
+ ==       ==
+
+weight 0.00000028
+
+Just the deuce
+ As 3h 4c Js
+            
+
+RF 3 (AJ or AT) [no fp, no sp]
+ As 7h 8c Ts
+ ==       ==
+
+weight 0.00000019
+
+1 Deuce
+9) Quads << Quints -> 8[As Ah Ac Ad]
+8) Wild Royal Flush, Straight Flush, Quints, Full House, or Quads -> 7[As Ts Js Qs]
+7) RF 4 -> 6[As 9s Ts Js]
+6) SF 4 (7-A high) -> 5[5s 6s 7s 7h]
+5) Straight, Flush, or Trips -> 4[As 3s 4s 5h]
+4) SF 4 any -> 3[As 9h Th Qh]
+3) RF 3 (K, Q, or J high) -> 2[6s 7s Th Jh]
+2) SF 3 (7-J high) -> 1a[As 6h 7h Qs] 1b[As 6h 7h Js]
+1a) RF 3 (AK or AQ) [no fp, no sp, no 3] -> 0[As 7h 8c Qs]
+1b) RF 3 (AJ or AT) [no fp, no sp] -> 0[As 7h 8c Ts]
+0) Just the deuce ->
+
+2 Deuces
+4) Quints -> 3b[Ah Ac Ad]
+3a) Straight Flush -> 2[As Ts Js]
+3b) Quads -> 2[As Ts Th]
+2) RF 4 -> 1[As 9s Ts]
+1) SF 4 (7-T high) -> 0[As 9h Th]
+0) Just the deuces ->
+
+3 Deuces
+1a) Wild Royal Flush -> 0[As Ts]
+1b) Quints (T-A high) -> 0[Ts Th]
+0) Just the deuces ->
+
+4 Deuces
+

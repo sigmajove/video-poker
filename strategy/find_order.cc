@@ -591,10 +591,22 @@ void C_move_list::sort_moves(FILE *file) {
     for (move_pair_vector::iterator rover = bad_boyz.begin();
          rover != bad_boyz.end(); rover++) {
       const move_pair &q = **rover;
-      fprintf(file, "%s\n", q.x1.m->name());
-      print_move(file, q.x1.hand, hand_size, q.x1.mask);
-      fprintf(file, "%s\n", q.x2.m->name());
-      print_move(file, q.x2.hand, hand_size, q.x2.mask);
+      std::string move1 =
+          std::format("{}\n{}", q.x1.m->name(),
+                      move_image(q.x1.hand, hand_size, q.x1.mask));
+      std::string move2 =
+          std::format("{}\n{}", q.x2.m->name(),
+                      move_image(q.x2.hand, hand_size, q.x2.mask));
+
+      // For some reason these don't show up in a consistent order.
+      // Swap them for test reproducibility.
+      if (move1 > move2) {
+        std::swap(move1, move2);
+      }
+
+      fputs(move1.c_str(), file);
+      fputs(move2.c_str(), file);
+
       fprintf(file, "weight %.8f\n\n",
               q.x1.total_weight < q.x2.total_weight ? q.x1.total_weight
                                                     : q.x2.total_weight);

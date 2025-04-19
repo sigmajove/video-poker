@@ -1,5 +1,5 @@
 Full Pay Deuces Wild
-box score
+haas
 # Strategy for full-pay deuces wild
 
 0 Deuces
@@ -56,6 +56,3 @@ Just the deuces
 
 4 Deuces
 Just the deuces
-
-
-

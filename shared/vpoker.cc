@@ -37,28 +37,37 @@ const char *short_payoff_image[] = {
     static_cast<const char *>("WR"), static_cast<const char *>("FD"),
     static_cast<const char *>("RF")};
 
-void print_move(FILE *file, const card *hand, int hand_size, unsigned mask) {
+std::string move_image(const card *hand, int hand_size, unsigned mask) {
+  std::string result;
+
   for (int j = 0; j < hand_size; j++) {
     const int c = hand[j];
-
-    fputc(' ', file);
-    fputc(denom_image[pips(c)], file);
-    fputc(suit_image[suit(c)], file);
+    result.push_back(' ');
+    result.push_back(denom_image[pips(c)]);
+    result.push_back(suit_image[suit(c)]);
   }
-  fputc('\n', file);
+  result.push_back('\n');
 
   for (int k = 0; k < hand_size; k++) {
-    fprintf(file, " ");
+    result.push_back(' ');
     if (mask & 1) {
-      fprintf(file, "==");
+      result.push_back('=');
+      result.push_back('=');
     } else {
-      fprintf(file, "  ");
+      result.push_back(' ');
+      result.push_back(' ');
     }
 
     mask >>= 1;
   }
 
-  fprintf(file, "\n\n");
+  result.push_back('\n');
+  result.push_back('\n');
+  return result;
+}
+
+void print_move(FILE *file, const card *hand, int hand_size, unsigned mask) {
+  fputs(move_image(hand, hand_size, mask).c_str(), file);
 }
 
 struct ltstr {

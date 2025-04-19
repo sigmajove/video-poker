@@ -1,6 +1,9 @@
 #pragma once
 
+#include <stdio.h>
+
 #include <map>
+#include <string>
 
 typedef unsigned char card;
 const int num_denoms = 13;
@@ -9,7 +12,6 @@ const int deck_size = num_denoms * num_suits;
 const int joker = deck_size;
 
 inline int pips(card c) { return c >> 2; }
-
 inline int suit(card c) { return c & 3; }
 
 inline card make_card(int denom, int suit) {
@@ -37,8 +39,8 @@ extern const char suit_image[];
 
 inline bool is_black(int suit) { return (suit & 1) == 0; }
 
-extern void print_move(FILE *file, const card *hand, int hand_size,
-                       unsigned mask);
+std::string move_image(const card *hand, int hand_size, unsigned mask);
+void print_move(FILE *file, const card *hand, int hand_size, unsigned mask);
 
 // Game description
 
