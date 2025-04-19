@@ -1213,11 +1213,5 @@ StrategyLine parse_line(const char *line, int wild_cards) {
   char *result_image = new char[result_size];
   strcpy_s(result_image, result_size, line);
 
-  unsigned char *rover = result_pattern;
-
-  for (std::size_t j = 0; j < n; j++) {
-    *rover++ = output[j];
-  }
-
-  return StrategyLine(result_pattern, nullptr, result_image);
+  return StrategyLine(output, result_image);
 }

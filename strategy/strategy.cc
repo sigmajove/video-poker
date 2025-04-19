@@ -65,8 +65,6 @@ bool domain::operator==(const domain &y) const {
   return true;
 }
 
-using line_list = std::vector<StrategyLine>;
-
 void canonicalize(domain &d, domain &best_name) {
   bool first = 1;
 
@@ -127,7 +125,7 @@ void oej_canonicalize(domain &d, domain &best_name, int wild_cards) {
   }
 }
 
-static StrategyLine *get_image(line_list &pat) {
+static StrategyLine *get_image(std::vector<StrategyLine> &pat) {
   int n = pat.size();
   StrategyLine *result = new StrategyLine[n];
   StrategyLine *rover = result;
@@ -175,7 +173,7 @@ void parser(const char *name, const char *output_file = 0) {
 
   int parse_buffer_size = 10;
   char *parse_buffer = new char[parse_buffer_size];
-  line_list pat;
+  std::vector<StrategyLine> pat;
 
   // Parameters
   vp_game *the_game = nullptr;

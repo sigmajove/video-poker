@@ -1,4 +1,7 @@
 #pragma once
+
+#include <vector>
+
 #include "game.h"
 #include "vpoker.h"
 
@@ -77,13 +80,39 @@ enum parser_codes {
 
 // The output produced by parse_line.
 struct StrategyLine {
-  StrategyLine() : pattern(nullptr), options(nullptr), image(nullptr) {}
-  StrategyLine(unsigned char *pattern, char *options, char *image)
-      : pattern(pattern), options(options), image(image) {}
+  StrategyLine() : options(nullptr), image(nullptr) {}
+
+  StrategyLine(std::vector<unsigned char> &pattern_input, char *image)
+      : options(nullptr), image(image) {
+    pattern_buffer = std::move(pattern_input);
+    pattern = pattern_buffer.data();
+  }
+
+  // Copy constructor.
+  StrategyLine(const StrategyLine& other) {
+      pattern_buffer = other.pattern_buffer;  // Makes a copy
+      pattern = pattern_buffer.data();
+
+      // Who owns this stuff?
+      image = other.image;
+      options = other.options;
+  }
+
+  // Assignment constructor
+  StrategyLine &operator=(const StrategyLine &other) {
+    if (this != &other) {
+      pattern_buffer = other.pattern_buffer;  // Makes a copy
+      pattern = pattern_buffer.data();
+
+      // Who owns this stuff?
+      image = other.image;
+      options = other.options;
+    }
+    return *this;
+  }
 
   // The encoded meaning of the parsed input.
   // A pointer to a series of parser codes and small integers.
-  // The client is responsible for deleting it.
   unsigned char *pattern;
 
   // options is the contents of the line after the first #
@@ -95,6 +124,9 @@ struct StrategyLine {
   // The original parsed characters, with the options stripped off.
   // The client is reponsible for deleting it.
   char *image;
+
+ private:
+  std::vector<unsigned char> pattern_buffer;
 };
 
 class enum_match {
