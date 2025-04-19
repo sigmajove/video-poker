@@ -215,13 +215,9 @@ void read_strategy_file() {
         tail = &(selected_strategy[wild_count]);
       } else {
         // Nonempty line
-        StrategyLine strline;
-        parse_line(line,
-                   selected_game->number_wild_cards == 0 ? -1 : wild_count,
-                   strline);
-        tail->push_back(strline);
+        tail->push_back(parse_line(
+            line, selected_game->number_wild_cards == 0 ? -1 : wild_count));
       }
-
       delete line;
     }
 

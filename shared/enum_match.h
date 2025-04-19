@@ -77,7 +77,9 @@ enum parser_codes {
 
 // The output produced by parse_line.
 struct StrategyLine {
-  StrategyLine() : pattern(0), options(0), image(0) {};
+  StrategyLine() : pattern(nullptr), options(nullptr), image(nullptr) {}
+  StrategyLine(unsigned char *pattern, char *options, char *image)
+      : pattern(pattern), options(options), image(image) {}
 
   // The encoded meaning of the parsed input.
   // A pointer to a series of parser codes and small integers.

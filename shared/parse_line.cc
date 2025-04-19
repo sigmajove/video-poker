@@ -2,6 +2,7 @@
 
 #include <string.h>
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
@@ -1163,27 +1164,24 @@ void parse_main(const char *line) {
   }
 }
 
-void parse_line(const char *line, int wild_cards, StrategyLine &result) {
+StrategyLine parse_line(const char *line, int wild_cards) {
   parse_wild_cards = wild_cards;
   parse_output = new code_list;
   parse_main(line);
   parse_output->push_back(pc_eof);
 
-  {
-    int n = parse_output->size();
-    unsigned char *result_pattern = new unsigned char[n];
-    const int result_size = strlen(line) + 1;
-    char *result_image = new char[result_size];
-    strcpy_s(result_image, result_size, line);
+  const std::size_t n = parse_output->size();
+  unsigned char *result_pattern = new unsigned char[n];
+  const std::size_t result_size = strlen(line) + 1;
+  char *result_image = new char[result_size];
+  strcpy_s(result_image, result_size, line);
 
-    unsigned char *rover = result_pattern;
+  unsigned char *rover = result_pattern;
 
-    for (int j = 0; j < n; j++) {
-      *rover++ = parse_output->at(j);
-    }
-
-    delete parse_output;
-    result.pattern = result_pattern;
-    result.image = result_image;
+  for (std::size_t j = 0; j < n; j++) {
+    *rover++ = parse_output->at(j);
   }
+
+  delete parse_output;
+  return StrategyLine(result_pattern, nullptr, result_image);
 }

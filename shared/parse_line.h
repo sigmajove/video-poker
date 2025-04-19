@@ -2,4 +2,4 @@
 
 #include "enum_match.h"
 
-void parse_line(const char *line, int wild_cards, StrategyLine &result);
+StrategyLine parse_line(const char *line, int wild_cards);

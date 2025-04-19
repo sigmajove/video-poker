@@ -363,8 +363,7 @@ void parser(const char *name, const char *output_file = 0) {
 
       current_wild = parse_buffer[0] - '0';
     } else {
-      StrategyLine temp;
-      parse_line(parse_buffer, current_wild, temp);
+      StrategyLine temp = parse_line(parse_buffer, current_wild);
       temp.options = line_options;
       pat.push_back(temp);
     }
