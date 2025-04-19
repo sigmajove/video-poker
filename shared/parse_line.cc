@@ -9,15 +9,58 @@
 #include "vpoker.h"
 
 using patch_list = std::vector<int>;
-using code_list = std::vector<unsigned char>;
 
-static const char *parse_ptr;
-static const char *parse_input;
-static code_list *parse_output;
-static int parse_digit;
-static int parse_wild_cards;
+class LineParser {
+ public:
+  LineParser(int wild_cards, std::vector<unsigned char> *output)
+      : parse_wild_cards(wild_cards), parse_output(output) {}
 
-static void parse_error() {
+  void parse_main(const char *line);
+
+ private:
+  void parse_error();
+  bool match(const char *pat);
+  void digit();
+  void opt_inside();
+  bool peek_n(const char *pat, int &mask);
+  void opt_high();
+  bool opt_digit();
+  int card_value(char p);
+  void card_range(int &mask);
+  void denom();
+  void sequence_op(int op_code, char *start, char *end);
+  bool high_cards();
+  bool low_cards();
+  void or_phrase();
+  void high_low(int op_code, const char *pos, const char *final);
+  int one_card();
+  void with_or_no(int op_code);
+  void make_patch(int where);
+  void or_finish(patch_list &else_list);
+  void or_list(const char *final);
+  void paren_clause();
+  void paren_modifier();
+  void opt_paren_modifiers();
+  bool peek(const char *pat);
+  bool is_card_name(char p);
+  bool high_sequence();
+  bool low_sequence();
+  void sequence(bool is_no);
+  void or_wrapper(int start, patch_list &else_list);
+  void bracket_clause();
+  void bracket_modifier();
+  void opt_bracket_modifiers();
+  void top_phrase();
+
+  const int parse_wild_cards;
+  std::vector<unsigned char> *const parse_output;
+
+  const char *parse_ptr;
+  const char *parse_input;
+  int parse_digit;
+};
+
+void LineParser::parse_error() {
   int head = parse_ptr - parse_input;
   std::string msg;
   msg.append(parse_input, head);
@@ -27,7 +70,7 @@ static void parse_error() {
   throw msg;
 }
 
-static bool match(const char *pat) {
+bool LineParser::match(const char *pat) {
   const int n = strlen(pat);
   if (strncmp(pat, parse_ptr, n) == 0) {
     parse_ptr += n;
@@ -37,7 +80,7 @@ static bool match(const char *pat) {
   return false;
 }
 
-static void digit() {
+void LineParser::digit() {
   int w = parse_wild_cards <= 0 ? 0 : parse_wild_cards;
 
   switch (*parse_ptr) {
@@ -56,7 +99,7 @@ static void digit() {
   parse_error();
 }
 
-static void opt_inside() {
+void LineParser::opt_inside() {
   int reach;
 
   if (match(" i")) {
@@ -83,9 +126,8 @@ static void opt_inside() {
   parse_output->push_back(reach);
 }
 
-static bool peek_n(const char *pat, int &mask)
-/* Look for the pattern followed by the digit 0-5 */
-{
+// Look for the pattern followed by the digit 0-5.
+bool LineParser::peek_n(const char *pat, int &mask) {
   const int n = strlen(pat);
   if (strncmp(pat, parse_ptr, n) == 0) {
     switch (parse_ptr[n]) {
@@ -105,7 +147,7 @@ static bool peek_n(const char *pat, int &mask)
   return false;
 }
 
-static void opt_high() {
+void LineParser::opt_high() {
   int mask = 0;
 
   if (!peek_n(" h", mask)) {
@@ -136,7 +178,7 @@ write_mask:
   parse_output->push_back(mask);
 }
 
-static bool opt_digit() {
+bool LineParser::opt_digit() {
   int w = parse_wild_cards <= 0 ? 0 : parse_wild_cards;
 
   if (*parse_ptr == ' ') {
@@ -162,7 +204,7 @@ static bool opt_digit() {
   return false;
 }
 
-int card_value(char p) {
+int LineParser::card_value(char p) {
   if (p == 0) {
     return -1;
   }
@@ -178,7 +220,7 @@ int card_value(char p) {
   }
 }
 
-static void card_range(int &mask) {
+void LineParser::card_range(int &mask) {
   if (match("Aces") || match("Ace")) {
     mask |= (1 << ace);
     return;
@@ -255,7 +297,7 @@ static void card_range(int &mask) {
   parse_error();
 }
 
-static void denom() {
+void LineParser::denom() {
   int mask = 0;
 
   card_range(mask);
@@ -284,7 +326,7 @@ write_mask:
   parse_output->push_back((mask >> 8) & 0xff);
 }
 
-static void sequence_op(int op_code, char *start, char *end) {
+void LineParser::sequence_op(int op_code, char *start, char *end) {
   parse_output->push_back(op_code);
   parse_output->push_back(end - start);
   for (char *rover = start; rover < end; rover++) {
@@ -294,11 +336,9 @@ static void sequence_op(int op_code, char *start, char *end) {
 
 static char card_name[] = "AKQJT98765432A";
 
-static bool high_cards() {
-  /* One or more names in a row, in decending order,
-   * starting with a high card.
-   */
-
+// One or more names in a row, in decending order,
+// starting with a high card.
+bool LineParser::high_cards() {
   char buffer[num_denoms];
   char *b = buffer;
 
@@ -337,11 +377,9 @@ static bool high_cards() {
   }
 }
 
-static bool low_cards() {
-  /* One or more card names that are in ascending order
-   * and contain no high cards.
-   */
-
+// One or more card names that are in ascending order
+// and contain no high cards.
+bool LineParser::low_cards() {
   char buffer[num_denoms];
   char *b = buffer;
 
@@ -378,7 +416,7 @@ static bool low_cards() {
   }
 }
 
-static void or_phrase() {
+void LineParser::or_phrase() {
   if (high_cards()) {
     return;
   }
@@ -388,7 +426,7 @@ static void or_phrase() {
   parse_error();
 }
 
-static void high_low(int op_code, const char *pos, const char *final) {
+void LineParser::high_low(int op_code, const char *pos, const char *final) {
   int mask = 0;
   parse_output->push_back(op_code);
   denom();
@@ -398,7 +436,7 @@ static void high_low(int op_code, const char *pos, const char *final) {
   parse_ptr = final;
 }
 
-static int one_card() {
+int LineParser::one_card() {
   if (match("Aces") || match("Ace")) {
     return ace;
   }
@@ -426,12 +464,12 @@ static int one_card() {
   return result;
 }
 
-static void with_or_no(int op_code) {
+void LineParser::with_or_no(int op_code) {
   parse_output->push_back(op_code);
   parse_output->push_back(one_card());
 }
 
-static void make_patch(int where) {
+void LineParser::make_patch(int where) {
   int delta = parse_output->size() - (where + 1);
   if (delta < 0 || delta > 255) {
     printf("Patch offset error %d\n", delta);
@@ -441,13 +479,13 @@ static void make_patch(int where) {
   parse_output->at(where) = delta;
 }
 
-static void or_finish(patch_list &else_list) {
+void LineParser::or_finish(patch_list &else_list) {
   for (patch_list::iterator p = else_list.begin(); p != else_list.end(); ++p) {
     make_patch(*p);
   }
 }
 
-static void or_list(const char *final) {
+void LineParser::or_list(const char *final) {
   patch_list else_list;
   bool first = true;
 
@@ -490,7 +528,7 @@ static void or_list(const char *final) {
   }
 }
 
-static void paren_clause() {
+void LineParser::paren_clause() {
   const char *final = strchr(parse_ptr, ')');
   if (!final) {
     parse_error();
@@ -534,7 +572,7 @@ static void paren_clause() {
   }
 }
 
-static void paren_modifier() {
+void LineParser::paren_modifier() {
   if (match("others)")) {
     return;  // (others) has no semantics
   }
@@ -582,13 +620,13 @@ static void paren_modifier() {
   }
 }
 
-static void opt_paren_modifiers() {
+void LineParser::opt_paren_modifiers() {
   while (match(" (")) {
     paren_modifier();
   }
 }
 
-static bool peek(const char *pat) {
+bool LineParser::peek(const char *pat) {
   const int n = strlen(pat);
   if (strncmp(pat, parse_ptr, n) == 0) {
     return true;
@@ -597,7 +635,7 @@ static bool peek(const char *pat) {
   return false;
 }
 
-static bool is_card_name(char p) {
+bool LineParser::is_card_name(char p) {
   switch (p) {
     case 'A':
     case 'K':
@@ -617,7 +655,7 @@ static bool is_card_name(char p) {
   return false;
 }
 
-static bool high_sequence() {
+bool LineParser::high_sequence() {
   char buffer[num_denoms];
   char *b = buffer;
 
@@ -665,7 +703,7 @@ static bool high_sequence() {
   }
 }
 
-static bool low_sequence() {
+bool LineParser::low_sequence() {
   char buffer[num_denoms];
   char *b = buffer;
 
@@ -717,7 +755,7 @@ static bool low_sequence() {
   }
 }
 
-static void sequence(bool is_no) {
+void LineParser::sequence(bool is_no) {
   int patch_loc = parse_output->size();
   int op_code;
 
@@ -742,7 +780,7 @@ static void sequence(bool is_no) {
   parse_error();
 }
 
-static void or_wrapper(int start, patch_list &else_list) {
+void LineParser::or_wrapper(int start, patch_list &else_list) {
   // Insert two dummy bytes
   parse_output->push_back(0);
   parse_output->push_back(0);
@@ -764,7 +802,7 @@ static void or_wrapper(int start, patch_list &else_list) {
   make_patch(start + 1);
 }
 
-static void bracket_clause() {
+void LineParser::bracket_clause() {
   if (match("least sp")) {
     parse_output->push_back(pc_least_sp);
     return;
@@ -839,7 +877,7 @@ static void bracket_clause() {
   }
 }
 
-static void bracket_modifier() {
+void LineParser::bracket_modifier() {
   if (match("others]")) {
     return;  // (others) has no semantics
   }
@@ -881,13 +919,13 @@ static void bracket_modifier() {
   }
 }
 
-static void opt_bracket_modifiers() {
+void LineParser::opt_bracket_modifiers() {
   while (match(" [")) {
     bracket_modifier();
   }
 }
 
-static void top_phrase() {
+void LineParser::top_phrase() {
   if (match("Nothing")) {
     if (parse_wild_cards > 0) {
       parse_error();
@@ -1107,7 +1145,7 @@ static void top_phrase() {
   opt_paren_modifiers();
 }
 
-void parse_main(const char *line) {
+void LineParser::parse_main(const char *line) {
   parse_ptr = line;
   parse_input = line;
 
@@ -1165,12 +1203,11 @@ void parse_main(const char *line) {
 }
 
 StrategyLine parse_line(const char *line, int wild_cards) {
-  parse_wild_cards = wild_cards;
-  parse_output = new code_list;
-  parse_main(line);
-  parse_output->push_back(pc_eof);
+  std::vector<unsigned char> *const output = new std::vector<unsigned char>;
+  LineParser(wild_cards, output).parse_main(line);
+  output->push_back(pc_eof);
 
-  const std::size_t n = parse_output->size();
+  const std::size_t n = output->size();
   unsigned char *result_pattern = new unsigned char[n];
   const std::size_t result_size = strlen(line) + 1;
   char *result_image = new char[result_size];
@@ -1179,9 +1216,9 @@ StrategyLine parse_line(const char *line, int wild_cards) {
   unsigned char *rover = result_pattern;
 
   for (std::size_t j = 0; j < n; j++) {
-    *rover++ = parse_output->at(j);
+    *rover++ = output->at(j);
   }
 
-  delete parse_output;
+  delete output;
   return StrategyLine(result_pattern, nullptr, result_image);
 }
