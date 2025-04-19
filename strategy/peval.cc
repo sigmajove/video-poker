@@ -81,11 +81,11 @@ struct estate {
   line_info *strategy_info;
   int trace_count;
   FILE *trace_file[max_trace];
-  strategy_line *trace_line[max_trace];
+  StrategyLine *trace_line[max_trace];
 };
 
 static void evaluate(hand_iter &h, int deuces, C_left &left,
-                     strategy_line *lines, estate &e, game_parameters &parms) {
+                     StrategyLine *lines, estate &e, game_parameters &parms) {
   // Compute the expected value of an initial five-card hand
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
@@ -107,7 +107,7 @@ static void evaluate(hand_iter &h, int deuces, C_left &left,
 
   double best_value = -1.0, strategy_value = -1.0;
 
-  strategy_line *best_strategy = lines;
+  StrategyLine *best_strategy = lines;
   unsigned strategy_mask = 0;
 
   // Incrementing the binary mask iterates over all
@@ -248,7 +248,7 @@ static void print_detail(FILE *file, const card *hand, int hand_size,
   left.replace(hand, hand_size, deuces);
 }
 
-void eval_strategy(const vp_game &game, strategy_line *lines[],
+void eval_strategy(const vp_game &game, StrategyLine *lines[],
                    const char *filename) {
   int counter = 0;
   int timer = 0;
@@ -284,12 +284,12 @@ void eval_strategy(const vp_game &game, strategy_line *lines[],
 
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
 
-    strategy_line *strategy_w = lines[wild_cards];
+    StrategyLine *strategy_w = lines[wild_cards];
 
     // Scan the strategy looking for trace directives */
     {
       e.trace_count = 0;
-      strategy_line *rover = strategy_w;
+      StrategyLine *rover = strategy_w;
       while (rover->pattern) {
         if (rover->options && strncmp(rover->options, " trace ", 7) == 0) {
           if (e.trace_count >= max_trace) {
@@ -319,7 +319,7 @@ void eval_strategy(const vp_game &game, strategy_line *lines[],
 
     // Allocate structure for strategy eval
     {
-      strategy_line *rover = strategy_w;
+      StrategyLine *rover = strategy_w;
 
       while (rover->pattern) {
         rover += 1;
@@ -474,7 +474,7 @@ static double evaluate_play(card *hand, int hand_size, bool *result_vector,
 typedef std::map<std::pair<int, int>, double> prune_data;
 
 static void evaluate_for_prune(hand_iter &h, int deuces, C_left &left,
-                               strategy_line *lines, int strategy_length,
+                               StrategyLine *lines, int strategy_length,
                                game_parameters &parms, double multiplier,
                                prune_data &accum) {
   // Compute the expected value of an initial five-card hand
@@ -539,7 +539,7 @@ struct sort_compare {
   }
 };
 
-void prune_strategy(const vp_game &game, strategy_line *lines[],
+void prune_strategy(const vp_game &game, StrategyLine *lines[],
                     int *strategy_length, const char *filename) {
   int counter = 0;
   int timer = 0;
@@ -569,7 +569,7 @@ void prune_strategy(const vp_game &game, strategy_line *lines[],
 
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
 
-    strategy_line *strategy_w = lines[wild_cards];
+    StrategyLine *strategy_w = lines[wild_cards];
     int strategy_l = strategy_length[wild_cards];
 
     prune_data accum;
@@ -1329,7 +1329,7 @@ struct vstate {
 };
 
 static void variance(hand_iter &h, int deuces, C_left &left,
-                     strategy_line *lines, vstate &e, game_parameters &parms) {
+                     StrategyLine *lines, vstate &e, game_parameters &parms) {
   // Compute the probability distribution of an initial five-card
   // hand consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
@@ -1346,7 +1346,7 @@ static void variance(hand_iter &h, int deuces, C_left &left,
   left.remove(matcher.hand, matcher.hand_size, deuces);
   // Subtract the hand to be evaluated from the left structure
 
-  strategy_line *best_strategy = lines;
+  StrategyLine *best_strategy = lines;
 
   // Incrementing the binary mask iterates over all
   // 2^hand_size combinations of cards to be kept.
@@ -1395,7 +1395,7 @@ static void variance(hand_iter &h, int deuces, C_left &left,
   left.replace(matcher.hand, matcher.hand_size, deuces);
 }
 
-void box_score(const vp_game &game, strategy_line *lines[],
+void box_score(const vp_game &game, StrategyLine *lines[],
                const char *filename) {
   int counter = 0;
   int timer = 0;
@@ -1431,7 +1431,7 @@ void box_score(const vp_game &game, strategy_line *lines[],
 
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
 
-    strategy_line *strategy_w = lines[wild_cards];
+    StrategyLine *strategy_w = lines[wild_cards];
 
     while (!iter.done()) {
       if (++timer > 102359 / 40) {
@@ -1532,7 +1532,7 @@ void box_score(const vp_game &game, strategy_line *lines[],
   printf("Report is in %s\n", filename);
 }
 
-void half_life(const vp_game &game, strategy_line *lines[],
+void half_life(const vp_game &game, StrategyLine *lines[],
                const char *filename) {
   int counter = 0;
   int timer = 0;
@@ -1568,7 +1568,7 @@ void half_life(const vp_game &game, strategy_line *lines[],
 
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
 
-    strategy_line *strategy_w = lines[wild_cards];
+    StrategyLine *strategy_w = lines[wild_cards];
 
     while (!iter.done()) {
       if (++timer > 102359 / 40) {
@@ -1719,7 +1719,7 @@ void optimal_box_score(const vp_game &game, const char *filename) {
 }
 
 static void union_evaluate(hand_iter &h, int deuces, C_left &left,
-                           const strategy_line *lines, vector<bool> *used_lines,
+                           const StrategyLine *lines, vector<bool> *used_lines,
                            game_parameters &parms, FILE *output) {
   // Compute the expected value of an initial five-card hand
   // consisting of the cards returned by the iterator plus
@@ -1800,7 +1800,7 @@ static void union_evaluate(hand_iter &h, int deuces, C_left &left,
   _ASSERT(best_value >= 0);
   _ASSERT(!best_plays.empty());
 
-  for (const strategy_line *line = lines;
+  for (const StrategyLine *line = lines;
        !best_plays.empty() && line->pattern != 0; ++line) {
     matcher.find(line->pattern);
 
@@ -1830,13 +1830,13 @@ static void union_evaluate(hand_iter &h, int deuces, C_left &left,
 
 // Returns the number of entries in a strategy, not counting the sentinel
 // at the end.
-static int strategy_length(const strategy_line *lines) {
-  for (const strategy_line *rover = lines;; ++rover) {
+static int strategy_length(const StrategyLine *lines) {
+  for (const StrategyLine *rover = lines;; ++rover) {
     if (rover->pattern == 0) return rover - lines;
   }
 }
 
-void check_union(const vp_game &game, strategy_line *lines[],
+void check_union(const vp_game &game, StrategyLine *lines[],
                  const char *filename) {
   int timer = 0;
   game_parameters parms(game);
@@ -1853,7 +1853,7 @@ void check_union(const vp_game &game, strategy_line *lines[],
        wild_cards++) {
     const int hand_size = 5 - wild_cards;
 
-    const strategy_line *const wild_strategy = lines[wild_cards];
+    const StrategyLine *const wild_strategy = lines[wild_cards];
     vector<bool> used_lines(strategy_length(wild_strategy));
 
     hand_iter iter(hand_size, parms.kind, wild_cards);

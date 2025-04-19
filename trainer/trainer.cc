@@ -167,7 +167,7 @@ int selected_level = 0;
 
 void delete_strategy_file() {
   // Erase the current strategy
-  // It would be cleaner if strategy_line
+  // It would be cleaner if StrategyLine
   // used constructors and destructors.
 
   for (strategy::iterator j = selected_strategy.begin();
@@ -215,7 +215,7 @@ void read_strategy_file() {
         tail = &(selected_strategy[wild_count]);
       } else {
         // Nonempty line
-        strategy_line strline;
+        StrategyLine strline;
         parse_line(line,
                    selected_game->number_wild_cards == 0 ? -1 : wild_count,
                    strline);

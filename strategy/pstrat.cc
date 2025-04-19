@@ -30,14 +30,14 @@ struct move : public move_desc {
 typedef std::set<move> move_set;
 
 struct strategy_move : public move_desc {
-  strategy_line *s;
+  StrategyLine *s;
   char *name() { return s->image; };
 };
 
 struct estate {
   int trace_count;
   FILE *trace_file[2];
-  strategy_line *trace_line[2];
+  StrategyLine *trace_line[2];
 
   move_list strategy;
 
@@ -49,7 +49,7 @@ struct estate {
   // if you have nothing better to do
 
   move *get_move(char *name);
-  strategy_move *get_move(int line, strategy_line *s);
+  strategy_move *get_move(int line, StrategyLine *s);
 
   double multiplier;
 
@@ -75,7 +75,7 @@ move *estate::get_move(char *name) {
   return result;
 };
 
-strategy_move *estate::get_move(int line, strategy_line *s) {
+strategy_move *estate::get_move(int line, StrategyLine *s) {
   strategy_move *result = movies[line];
   if (result == 0) {
     result = new strategy_move;
@@ -88,10 +88,10 @@ strategy_move *estate::get_move(int line, strategy_line *s) {
 }
 
 struct xxx {
-  strategy_line *s;
+  StrategyLine *s;
   double value;
   bool last;
-  xxx(strategy_line *ss, bool ll) : s(ss), last(ll), value(0.0) {}
+  xxx(StrategyLine *ss, bool ll) : s(ss), last(ll), value(0.0) {}
   bool operator<(const xxx &r) const { return value > r.value; }
   // Use > instead of < to get sort in decreasing value
 };
@@ -289,7 +289,7 @@ inline double get_mask_value(unsigned char mask, enum_match &matcher,
 }
 
 static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
-                     strategy_line *lines, game_parameters &parms, FILE *file) {
+                     StrategyLine *lines, game_parameters &parms, FILE *file) {
   // Compute the expected value of an initial five-card hand
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
@@ -307,7 +307,7 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
   // Subtract the hand to be evaluated from the left structure
 
   {
-    strategy_line *rover = lines;
+    StrategyLine *rover = lines;
     for (;;) {
       unsigned char *pat = rover->pattern;
       char *img = rover->image;
@@ -334,7 +334,7 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
 
   eval_cache cache;
 
-  strategy_line *rover = lines;
+  StrategyLine *rover = lines;
   // move_desc *good_move = 0;
 
   bool trace_good[2];
@@ -484,7 +484,7 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
 }
 
 void find_strategy(const vp_game &game, const char *filename,
-                   strategy_line *lines[], bool print_haas, bool print_value) {
+                   StrategyLine *lines[], bool print_haas, bool print_value) {
   int counter = 0;
   int timer = 0;
 
@@ -519,7 +519,7 @@ void find_strategy(const vp_game &game, const char *filename,
 
     // Scan the strategy looking for trace directives */
     {
-      strategy_line *rover = lines[wild_cards];
+      StrategyLine *rover = lines[wild_cards];
       while (rover->pattern) {
         if (rover->options && strncmp(rover->options, " trace ", 7) == 0) {
           if (global.trace_count >= 2) {

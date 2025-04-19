@@ -65,7 +65,7 @@ bool domain::operator==(const domain &y) const {
   return true;
 }
 
-using line_list = std::vector<strategy_line>;
+using line_list = std::vector<StrategyLine>;
 
 void canonicalize(domain &d, domain &best_name) {
   bool first = 1;
@@ -127,10 +127,10 @@ void oej_canonicalize(domain &d, domain &best_name, int wild_cards) {
   }
 }
 
-static strategy_line *get_image(line_list &pat) {
+static StrategyLine *get_image(line_list &pat) {
   int n = pat.size();
-  strategy_line *result = new strategy_line[n];
-  strategy_line *rover = result;
+  StrategyLine *result = new StrategyLine[n];
+  StrategyLine *rover = result;
 
   for (int j = 0; j < n; j++) {
     *rover++ = pat.at(j);
@@ -180,7 +180,7 @@ void parser(const char *name, const char *output_file = 0) {
   // Parameters
   vp_game *the_game = nullptr;
 
-  strategy_line *wild[5];  // At most 4 wild cards
+  StrategyLine *wild[5];  // At most 4 wild cards
   int wild_count[5];       // Number of lines in each strategy
 
   int current_wild = -1;
@@ -346,7 +346,7 @@ void parser(const char *name, const char *output_file = 0) {
                 strcmp(parse_buffer, "1 Deuce") == 0)) {
       // Deuce Divider
       if (pat.size() != 0) {
-        pat.push_back(strategy_line());
+        pat.push_back(StrategyLine());
 
         if (current_wild == -1) {
           printf("Inconsistent deuce headers\n");
@@ -363,7 +363,7 @@ void parser(const char *name, const char *output_file = 0) {
 
       current_wild = parse_buffer[0] - '0';
     } else {
-      strategy_line temp;
+      StrategyLine temp;
       parse_line(parse_buffer, current_wild, temp);
       temp.options = line_options;
       pat.push_back(temp);
@@ -385,7 +385,7 @@ void parser(const char *name, const char *output_file = 0) {
 done_reading_file:
   fclose(input);
 
-  pat.push_back(strategy_line());
+  pat.push_back(StrategyLine());
 
   if (current_wild == -1) {
     wild_count[0] = pat.size();

@@ -1163,7 +1163,7 @@ void parse_main(const char *line) {
   }
 }
 
-void parse_line(const char *line, int wild_cards, strategy_line &result) {
+void parse_line(const char *line, int wild_cards, StrategyLine &result) {
   parse_wild_cards = wild_cards;
   parse_output = new code_list;
   parse_main(line);

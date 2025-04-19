@@ -5,7 +5,7 @@
 
 extern void find_strategy (const vp_game& game,
                            const char *filename,
-                           strategy_line *lines[],
+                           StrategyLine *lines[],
                            bool print_haas,
                            bool print_value);
 

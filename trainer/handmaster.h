@@ -5,7 +5,7 @@
 
 extern game_parameters *selected_game;
 
-typedef std::vector <strategy_line> line_list;
+typedef std::vector <StrategyLine> line_list;
 typedef std::vector <line_list> strategy;
 extern strategy selected_strategy;
 
