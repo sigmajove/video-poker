@@ -1203,11 +1203,11 @@ void LineParser::parse_main(const char *line) {
 }
 
 StrategyLine parse_line(const char *line, int wild_cards) {
-  std::vector<unsigned char> *const output = new std::vector<unsigned char>;
-  LineParser(wild_cards, output).parse_main(line);
-  output->push_back(pc_eof);
+  std::vector<unsigned char> output;
+  LineParser(wild_cards, &output).parse_main(line);
+  output.push_back(pc_eof);
 
-  const std::size_t n = output->size();
+  const std::size_t n = output.size();
   unsigned char *result_pattern = new unsigned char[n];
   const std::size_t result_size = strlen(line) + 1;
   char *result_image = new char[result_size];
@@ -1216,9 +1216,8 @@ StrategyLine parse_line(const char *line, int wild_cards) {
   unsigned char *rover = result_pattern;
 
   for (std::size_t j = 0; j < n; j++) {
-    *rover++ = output->at(j);
+    *rover++ = output[j];
   }
 
-  delete output;
   return StrategyLine(result_pattern, nullptr, result_image);
 }
