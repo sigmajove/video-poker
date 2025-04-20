@@ -132,7 +132,6 @@ typedef class C_move_list {
   move_map move_number;
   int number_moves;
 
-  int scc_algorithm(move_desc *x);
   int new_scc_algorithm(move_desc *x);
 
   void greedy_cycle_killer(const std::set<move_desc *> &component);

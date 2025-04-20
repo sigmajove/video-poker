@@ -424,73 +424,6 @@ void C_move_list::greedy_cycle_killer(const std::set<move_desc *> &component) {
   }
 }
 
-int C_move_list::scc_algorithm(move_desc *x)
-// struct mlist *parent_edge,
-// move_desc *parent_desc)
-{
-  if (x->df_number != 0) {
-    return x->df_number;
-  }
-
-  int min_lowlink = ++df_counter;
-  x->df_number = min_lowlink;
-  // x-> scc_parent_edge = parent_edge;
-  // x-> scc_parent_desc = parent_desc;
-
-  x->pop = stack;
-  stack = x;
-
-  for (MoveDescList::iterator rover = x->ccc.begin(); rover != x->ccc.end();
-       ++rover)
-  // struct mlist *rover = x->conflicts;
-  // while (rover != 0)
-  {
-    move_desc *y = *rover;
-    if (y->scc_id == -1) {
-      int ydf = y->df_number;
-
-      int z = scc_algorithm(y);  //, rover, x);
-      if (z < min_lowlink) {
-        // if (ydf != 0)
-        //{	x->scc_backlink = rover;
-        //}
-        min_lowlink = z;
-      }
-    }
-
-    // rover = rover->tail;
-  }
-
-  if (min_lowlink == x->df_number) {
-    move_desc *const repr = stack;
-    move_desc *pred = NULL;
-    move_index[scc_counter] = stack;
-
-    x->scc_parent_edge = 0;
-    x->scc_parent_desc = 0;
-
-    for (move_desc *rover = stack;; rover = rover->pop) {
-      rover->scc_id = scc_counter;
-      rover->scc_repr = repr;
-      if (pred != NULL) {
-        pred->scc_next = rover;
-      }
-      pred = rover;
-
-      if (rover == x) {
-        break;
-      }
-    }
-
-    stack = x->pop;
-    x->pop = 0;
-
-    scc_counter += 1;
-  }
-
-  return min_lowlink;
-}
-
 FILE *debug_file;
 MoveDescList debug_stack;
 
@@ -648,23 +581,6 @@ void C_move_list::sort_moves(FILE *file) {
       (*iter)->value_id = id_counter++;
     }
   }
-
-#if 0
-  move_iter::iterator rover = moves.begin();
-  while (rover != moves.end()) {
-    move_desc *x = *rover;
-    ++rover; // Advance the iterator before
-    // possibly deleting the element it points to
-
-    if (x->used) {
-      if (x->scc_id == -1) {
-        scc_algorithm (x, 0, 0);
-      }
-    } else {
-      //moves.erase (name);
-    }
-  }
-#endif
 }
 
 void C_move_list::display(FILE *file, bool deuces, bool print_haas,
