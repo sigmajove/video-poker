@@ -279,7 +279,8 @@ int C_move_list::new_scc_algorithm(move_desc *x) {
   x->pop = stack;
   stack = x;
 
-  for (mmm::iterator rover = x->ccc.begin(); rover != x->ccc.end(); ++rover) {
+  for (MoveDescList::iterator rover = x->ccc.begin(); rover != x->ccc.end();
+       ++rover) {
     move_desc *y = *rover;
     if (y->scc_id == -1) {
       const int z = new_scc_algorithm(y);
@@ -330,8 +331,8 @@ bool C_move_list::detect_cycle(move_desc *m) {
   m->visited = true;
   m->stacked = true;
 
-  for (mmm::iterator rover = m->cyclic.begin(); rover != m->cyclic.end();
-       ++rover) {
+  for (MoveDescList::iterator rover = m->cyclic.begin();
+       rover != m->cyclic.end(); ++rover) {
     move_desc *const here = *rover;
 
     if (here->visited) {
@@ -351,8 +352,8 @@ void C_move_list::greedy_cycle_killer(const std::set<move_desc *> &component) {
   for (std::set<move_desc *>::const_iterator iter = component.begin();
        iter != component.end(); ++iter) {
     move_desc *const vertex1 = *iter;
-    mmm &ccc = vertex1->ccc;
-    mmm keep;
+    MoveDescList &ccc = vertex1->ccc;
+    MoveDescList keep;
 
     while (!ccc.empty()) {
       move_desc *const vertex2 = ccc.front();
@@ -439,7 +440,8 @@ int C_move_list::scc_algorithm(move_desc *x)
   x->pop = stack;
   stack = x;
 
-  for (mmm::iterator rover = x->ccc.begin(); rover != x->ccc.end(); ++rover)
+  for (MoveDescList::iterator rover = x->ccc.begin(); rover != x->ccc.end();
+       ++rover)
   // struct mlist *rover = x->conflicts;
   // while (rover != 0)
   {
@@ -490,7 +492,7 @@ int C_move_list::scc_algorithm(move_desc *x)
 }
 
 FILE *debug_file;
-mmm debug_stack;
+MoveDescList debug_stack;
 
 void C_move_list::remove_cycles(move_desc *m) {
   m->visited = true;
@@ -498,8 +500,8 @@ void C_move_list::remove_cycles(move_desc *m) {
   debug_stack.push_front(m);
   int value = 0;
 
-  for (mmm::iterator rover = m->ccc.begin(); rover != m->ccc.end();) {
-    mmm::iterator here = rover++;
+  for (MoveDescList::iterator rover = m->ccc.begin(); rover != m->ccc.end();) {
+    MoveDescList::iterator here = rover++;
     move_desc *h = *here;
 
     // if (h->scc_id == m->scc_id)
@@ -510,7 +512,7 @@ void C_move_list::remove_cycles(move_desc *m) {
           m->ccc.erase(here);
 
           fprintf(debug_file, "Begin cycle\n");
-          mmm::iterator rover = debug_stack.begin();
+          MoveDescList::iterator rover = debug_stack.begin();
           for (;;) {
             fprintf(debug_file, "%s\n", (*rover)->name());
             if ((*rover) == h) {
@@ -888,7 +890,7 @@ void C_move_list::print_the_answer(FILE *file, bool_matrix &haas) {
 
     fprintf(file, "%s", (*rover)->name());
 
-    for (mmm::iterator inner = (*rover)->prefer.begin();
+    for (MoveDescList::iterator inner = (*rover)->prefer.begin();
          inner != (*rover)->prefer.end(); inner++) {
       fprintf(file, " << %s", (*inner)->name());
     }
@@ -926,7 +928,7 @@ void C_move_list::find_closure(FILE *file) {
 
   for (move_vector::iterator rover = print_order.begin();
        rover != print_order.end(); rover++) {
-    for (mmm::iterator inner = (*rover)->ccc.begin();
+    for (MoveDescList::iterator inner = (*rover)->ccc.begin();
          inner != (*rover)->ccc.end(); inner++) {
       adj.at((*rover)->print_id, (*inner)->print_id) = true;
     }

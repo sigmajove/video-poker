@@ -37,15 +37,15 @@ struct mlist {
   unsigned char c_mask;
 };
 
-using mmm = std::list<move_desc *>;
+using MoveDescList = std::list<move_desc *>;
 
 struct move_desc {
   virtual char *name() = 0;
-  mmm ccc;
-  mmm prefer;
+  MoveDescList ccc;
+  MoveDescList prefer;
 
   // During cycle-killing, some of ccc get moved to cyclic.
-  mmm cyclic;
+  MoveDescList cyclic;
 
   struct mlist *conflicts;
   int df_number;
