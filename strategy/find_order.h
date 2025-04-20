@@ -28,7 +28,7 @@ class bool_matrix {
   int order;
 };
 
-struct move_desc;
+class move_desc;
 
 struct mlist {
   move_desc *head;
@@ -39,8 +39,12 @@ struct mlist {
 
 using MoveDescList = std::list<move_desc *>;
 
-struct move_desc {
+// Abstract class overriden by "move" and "strategy_move".
+class move_desc {
+ public:
+  move_desc();
   virtual char *name() = 0;
+
   MoveDescList ccc;
   MoveDescList prefer;
 
@@ -72,9 +76,6 @@ struct move_desc {
   // Layers get assigned so that if there is an edge from x to y, if x and y
   // are in the same SCC, then x->layer == y->layer, else x->layer > y->layer.
   int layer;
-
-  move_desc();
-  //_move_desc(char *n);
 };
 
 using move_iter = std::list<move_desc *>;
