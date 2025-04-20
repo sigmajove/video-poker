@@ -34,7 +34,14 @@ struct strategy_move : public move_desc {
   char *name() { return s->image; };
 };
 
-struct estate {
+class estate {
+ public:
+  estate(int hand_size) : strategy(hand_size), trace_count(0) {};
+  move *get_move(char *name);
+  strategy_move *get_move(int line, StrategyLine *s);
+  void evaluate(hand_iter &h, int deuces, C_left &left, StrategyLine *lines,
+                game_parameters &parms, FILE *file);
+
   int trace_count;
   FILE *trace_file[2];
   StrategyLine *trace_line[2];
@@ -43,17 +50,9 @@ struct estate {
 
   move_set moves;  // for the string version
 
-  std::vector<strategy_move *> movies;  // for the new version
-
-  // Move more of the parameters here
-  // if you have nothing better to do
-
-  move *get_move(char *name);
-  strategy_move *get_move(int line, StrategyLine *s);
+  std::vector<strategy_move *> movies;
 
   double multiplier;
-
-  estate(int hand_size) : strategy(hand_size), trace_count(0) {};
 };
 
 move *estate::get_move(char *name) {
@@ -165,8 +164,8 @@ inline double get_mask_value(unsigned char mask, enum_match &matcher,
   return value * global.multiplier;
 }
 
-static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
-                     StrategyLine *lines, game_parameters &parms, FILE *file) {
+void estate::evaluate(hand_iter &h, int deuces, C_left &left,
+                      StrategyLine *lines, game_parameters &parms, FILE *file) {
   // Compute the expected value of an initial five-card hand
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
@@ -201,7 +200,7 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
       rover += 1;
     }
 
-    global.movies.resize(rover - lines);
+    movies.resize(rover - lines);
   }
 
   // pay_dist strategy_pays;
@@ -238,13 +237,13 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
     matcher.find(rover->pattern);
 
     if (matcher.match_count != 0) {
-      if (global.trace_count == 2) {
+      if (trace_count == 2) {
         if (earlier_match) {
           // Stop the trace
-        } else if (global.trace_line[0] == rover) {
+        } else if (trace_line[0] == rover) {
           trace_match[0] = true;
           trace_mask[0] = matcher.matches[0];
-        } else if (global.trace_line[1] == rover) {
+        } else if (trace_line[1] == rover) {
           trace_match[1] = true;
           trace_mask[1] = matcher.matches[0];
         } else {
@@ -252,22 +251,22 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
         }
       }
 
-      if (global.trace_count == 1 && global.trace_line[0] == rover) {
+      if (trace_count == 1 && trace_line[0] == rover) {
         simple_trace = true;
       }
 
-      move_desc *this_move = global.get_move(rover - lines, rover);
+      move_desc *this_move = get_move(rover - lines, rover);
 
       move_data md;
-      md.move = global.get_move(rover - lines, rover);
+      md.move = get_move(rover - lines, rover);
       md.mask = matcher.matches[0];
       md.best = get_mask_value(matcher.matches[0], matcher, cache, deuces,
-                               parms, global, left);
+                               parms, *this, left);
       md.worst = md.best;
 
       for (int j = 1; j < matcher.match_count; j++) {
         double d = get_mask_value(matcher.matches[j], matcher, cache, deuces,
-                                  parms, global, left);
+                                  parms, *this, left);
 
         if (d > md.best) {
           md.best = d;
@@ -297,11 +296,11 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
         bad_move.push_back(md);
       }
 
-      if (md.worst == best_value && global.trace_count == 2) {
-        if (global.trace_line[0] == rover) {
+      if (md.worst == best_value && trace_count == 2) {
+        if (trace_line[0] == rover) {
           trace_good[0] = true;
         }
-        if (global.trace_line[1] == rover) {
+        if (trace_line[1] == rover) {
           trace_good[1] = true;
         }
       }
@@ -317,7 +316,7 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
     // file.
 
     int me = trace_good[0] ? 0 : 1;
-    FILE *tf = global.trace_file[me];
+    FILE *tf = trace_file[me];
 
     print_move(tf, matcher.hand, matcher.hand_size,
                trace_mask[0] | trace_mask[1]);
@@ -332,15 +331,15 @@ static void evaluate(estate &global, hand_iter &h, int deuces, C_left &left,
   }
 
   if (simple_trace) {
-    print_hand(global.trace_file[0], matcher.hand, matcher.hand_size);
-    fprintf(global.trace_file[0], "%s\n\n", good_move[0].move->name());
+    print_hand(trace_file[0], matcher.hand, matcher.hand_size);
+    fprintf(trace_file[0], "%s\n\n", good_move[0].move->name());
   }
 
   for (move_data_vector::iterator b = bad_move.begin(); b != bad_move.end();
        b++) {
     move_data &g = good_move[0];
-    global.strategy.add_conflict(g.move, (*b).move, g.worst - (*b).worst,
-                                 matcher.hand, g.mask);
+    strategy.add_conflict(g.move, (*b).move, g.worst - (*b).worst, matcher.hand,
+                          g.mask);
   }
 
   if (0) {
@@ -434,10 +433,7 @@ void find_strategy(const vp_game &game, const char *filename,
 
       global.multiplier =
           static_cast<double>(m) / static_cast<double>(total_hands);
-
-      evaluate(global, iter, wild_cards, left, lines[wild_cards], parms,
-               output);
-
+      global.evaluate(iter, wild_cards, left, lines[wild_cards], parms, output);
       iter.next();
     }
 
