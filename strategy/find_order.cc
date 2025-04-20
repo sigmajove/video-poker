@@ -268,7 +268,7 @@ static void print_hand_edge(FILE *file, struct mlist *edge, int hand_size) {
   fprintf(file, ") ");
 }
 
-int C_move_list::new_scc_algorithm(move_desc *x) {
+int C_move_list::scc_algorithm(move_desc *x) {
   if (x->df_number != 0) {
     return x->df_number;
   }
@@ -283,7 +283,7 @@ int C_move_list::new_scc_algorithm(move_desc *x) {
        ++rover) {
     move_desc *y = *rover;
     if (y->scc_id == -1) {
-      const int z = new_scc_algorithm(y);
+      const int z = scc_algorithm(y);
       if (z < min_lowlink) {
         min_lowlink = z;
       }
@@ -556,7 +556,7 @@ void C_move_list::sort_moves(FILE *file) {
   for (move_set::iterator rover = good_moves.begin(); rover != good_moves.end();
        rover++) {
     if ((*rover)->scc_id == -1) {
-      new_scc_algorithm(*rover);
+      scc_algorithm(*rover);
     }
   }
 
