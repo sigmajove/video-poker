@@ -329,10 +329,9 @@ void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
     fprintf(trace_file[0], "%s\n\n", good_move[0].move->name());
   }
 
-  for (move_data_vector::iterator b = bad_move.begin(); b != bad_move.end();
-       b++) {
-    move_data &g = good_move[0];
-    strategy.add_conflict(g.move, (*b).move, g.worst - (*b).worst, matcher.hand,
+  const move_data &g = good_move[0];
+  for (const move_data &b : bad_move) {
+    strategy.add_conflict(g.move, b.move, g.worst - b.worst, matcher.hand,
                           g.mask);
   }
 
