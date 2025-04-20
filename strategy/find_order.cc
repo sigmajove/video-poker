@@ -77,40 +77,6 @@ move_desc* MoveList::get_move (char *s) {
 
 void MoveList::add_move(move_desc *m) { moves.push_back(m); }
 
-#if 0
-void MoveList::print_moves(FILE *file) {
-  string_map::iterator rover = moves.begin();
-  while (rover != moves.end()) {
-    fprintf (file, "%s\n", rover->first);
-    ++rover;
-  }
-}
-#endif
-
-#ifdef NEVER
-move_desc *resolve(char code, int *denom, int msize, int *discard, int dsize)
-
-{
-  char buffer[10];
-  char *p = buffer;
-  *p++ = code;
-
-  for (int j = 0; j < msize; j++) {
-    *p++ = denom_image[denom[j]];
-  }
-
-  *p++ = '/';
-
-  for (j = 0; j < dsize; j++) {
-    *p++ = denom_image[discard[j]];
-  }
-
-  *p++ = 0;
-
-  return find_or_create(buffer);
-}
-#endif
-
 bool_matrix::bool_matrix(int n) : order(n) {
   const int size = order * order;
   data = new bool[size];
@@ -212,13 +178,13 @@ MoveList::move_pair::move_pair(move_desc *i1, move_desc *i2)
 
 bool MoveList::move_pair::operator<(const move_pair &r) const {
   // Lexicographic ordering
-  if (x1.m < r.x1.m) {
+  if (x1.move < r.x1.move) {
     return true;
   }
-  if (x1.m > r.x1.m) {
+  if (x1.move > r.x1.move) {
     return false;
   }
-  return (x2.m < r.x2.m);
+  return (x2.move < r.x2.move);
 };
 
 void MoveList::add_conflict(move_desc *right, move_desc *wrong, double weight,
@@ -226,7 +192,7 @@ void MoveList::add_conflict(move_desc *right, move_desc *wrong, double weight,
   _ASSERT(right != wrong);
 
   const move_pair &s = *(conflicts.insert(move_pair(right, wrong)).first);
-  const move_info &const_i = (s.x1.m == right) ? s.x1 : s.x2;
+  const move_info &const_i = (s.x1.move == right) ? s.x1 : s.x2;
   move_info &i = *const_cast<move_info *>(&const_i);
 
   if (weight < 0.0) {
@@ -403,14 +369,14 @@ void MoveList::greedy_cycle_killer(const std::set<move_desc *> &component) {
       good = &q.x2;
       bad = &q.x1;
     }
-    good->m->cyclic.push_front(bad->m);
+    good->move->cyclic.push_front(bad->move);
     if (has_cycle(component)) {
       // Take it back out.
-      good->m->cyclic.pop_front();
+      good->move->cyclic.pop_front();
       _ASSERT(!has_cycle(component));
 
       fprintf(output_file, "%.8f Exception: %s << %s [%s]\n",
-              rover->significance(), bad->m->name(), good->m->name(),
+              rover->significance(), bad->move->name(), good->move->name(),
               format_hand(good->hand, hand_size).c_str());
     }
   }
@@ -436,7 +402,6 @@ void MoveList::remove_cycles(move_desc *m) {
     MoveDescList::iterator here = rover++;
     move_desc *h = *here;
 
-    // if (h->scc_id == m->scc_id)
     {
       if (h->visited) {
         if (h->stacked) {
@@ -475,8 +440,6 @@ void MoveList::remove_cycles(move_desc *m) {
   debug_stack.pop_front();
 }
 
-;
-
 bool MoveList::move_pair_lt::
 
 operator()(const move_pair *&l, const move_pair *&r) const {
@@ -508,9 +471,9 @@ void MoveList::sort_moves(FILE *file) {
     const move_info &bad =
         (q.x1.total_weight > q.x2.total_weight ? q.x2 : q.x1);
 
-    good.m->ccc.push_front(bad.m);
-    good_moves.insert(good.m);
-    good_moves.insert(bad.m);
+    good.move->ccc.push_front(bad.move);
+    good_moves.insert(good.move);
+    good_moves.insert(bad.move);
 
     if (bad.total_weight > 0.0) {
       bad_boyz.push_back(&q);
@@ -526,10 +489,10 @@ void MoveList::sort_moves(FILE *file) {
          rover != bad_boyz.end(); rover++) {
       const move_pair &q = **rover;
       std::string move1 =
-          std::format("{}\n{}", q.x1.m->name(),
+          std::format("{}\n{}", q.x1.move->name(),
                       move_image(q.x1.hand, hand_size, q.x1.mask));
       std::string move2 =
-          std::format("{}\n{}", q.x2.m->name(),
+          std::format("{}\n{}", q.x2.move->name(),
                       move_image(q.x2.hand, hand_size, q.x2.mask));
 
       // For some reason these don't show up in a consistent order.

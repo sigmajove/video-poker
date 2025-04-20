@@ -84,18 +84,18 @@ using move_map = std::map<move_desc *, int>;
 
 class MoveList {
   struct move_info {
-    move_desc *m;
+    move_info(move_desc *i) : move(i), total_weight(0.0), max_weight(0.0) {};
+
+    move_desc *move;
     double total_weight;
     double max_weight;
     card hand[5];
     unsigned char mask;
-
-    move_info(move_desc *i) : m(i), total_weight(0.0), max_weight(0.0) {};
   };
 
   struct move_pair {
     move_info x1, x2;
-    // By convention x1.m < x2.m;
+    // By convention x1.move < x2.move;
 
     bool operator<(const move_pair &r) const;
     // To allow sets
