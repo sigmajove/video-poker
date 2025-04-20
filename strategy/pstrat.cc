@@ -108,7 +108,6 @@ struct move_data {
   double best, worst;
 };
 
-typedef std::vector<move_data> move_data_vector;
 
 int trace_countdown = 500;
 
@@ -223,8 +222,8 @@ void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
 
   counter += 1;
 
-  move_data_vector good_move;
-  move_data_vector bad_move;
+  std::vector<move_data> good_move;
+  std::vector<move_data> bad_move;
   double best_value = 0.0;
 
   bool simple_trace = false;
