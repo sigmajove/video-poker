@@ -101,15 +101,6 @@ strategy_move *Evaluator::get_move(int line, StrategyLine *s) {
   return result;
 }
 
-struct xxx {
-  StrategyLine *s;
-  double value;
-  bool last;
-  xxx(StrategyLine *ss, bool ll) : s(ss), last(ll), value(0.0) {}
-  bool operator<(const xxx &r) const { return value > r.value; }
-  // Use > instead of < to get sort in decreasing value
-};
-
 struct move_data {
   move_desc *move;
   unsigned char mask;
