@@ -59,7 +59,7 @@ static bool name_move_creates = true;
 
 #if 0
 
-move_desc* C_move_list::get_move (char *s) {
+move_desc* MoveList::get_move (char *s) {
   string_map::iterator x = moves.find(s);
 
   if (x == moves.end()) {
@@ -75,10 +75,10 @@ move_desc* C_move_list::get_move (char *s) {
 }
 #endif
 
-void C_move_list::add_move(move_desc *m) { moves.push_back(m); }
+void MoveList::add_move(move_desc *m) { moves.push_back(m); }
 
 #if 0
-void C_move_list::print_moves(FILE *file) {
+void MoveList::print_moves(FILE *file) {
   string_map::iterator rover = moves.begin();
   while (rover != moves.end()) {
     fprintf (file, "%s\n", rover->first);
@@ -204,13 +204,13 @@ void multiply(bool_matrix &dst, bool_matrix &x, bool_matrix &y) {
     }
 }
 
-C_move_list::move_pair::move_pair(move_desc *i1, move_desc *i2)
+MoveList::move_pair::move_pair(move_desc *i1, move_desc *i2)
     : x1(i1 < i2 ? i1 : i2),
       x2(i1 < i2 ? i2 : i1)
 
 {}
 
-bool C_move_list::move_pair::operator<(const move_pair &r) const {
+bool MoveList::move_pair::operator<(const move_pair &r) const {
   // Lexicographic ordering
   if (x1.m < r.x1.m) {
     return true;
@@ -221,9 +221,8 @@ bool C_move_list::move_pair::operator<(const move_pair &r) const {
   return (x2.m < r.x2.m);
 };
 
-void C_move_list::add_conflict(move_desc *right, move_desc *wrong,
-                               double weight, card *c_hand,
-                               unsigned right_move) {
+void MoveList::add_conflict(move_desc *right, move_desc *wrong, double weight,
+                            card *c_hand, unsigned right_move) {
   _ASSERT(right != wrong);
 
   const move_pair &s = *(conflicts.insert(move_pair(right, wrong)).first);
@@ -268,7 +267,7 @@ static void print_hand_edge(FILE *file, struct mlist *edge, int hand_size) {
   fprintf(file, ") ");
 }
 
-int C_move_list::scc_algorithm(move_desc *x) {
+int MoveList::scc_algorithm(move_desc *x) {
   if (x->df_number != 0) {
     return x->df_number;
   }
@@ -312,7 +311,7 @@ int C_move_list::scc_algorithm(move_desc *x) {
   return min_lowlink;
 }
 
-bool C_move_list::has_cycle(const std::set<move_desc *> &component) {
+bool MoveList::has_cycle(const std::set<move_desc *> &component) {
   bool result = false;
   for (std::set<move_desc *>::const_iterator iter = component.begin();
        iter != component.end(); ++iter) {
@@ -326,7 +325,7 @@ bool C_move_list::has_cycle(const std::set<move_desc *> &component) {
   return result;
 }
 
-bool C_move_list::detect_cycle(move_desc *m) {
+bool MoveList::detect_cycle(move_desc *m) {
   bool has_cycle = false;
   m->visited = true;
   m->stacked = true;
@@ -347,7 +346,7 @@ bool C_move_list::detect_cycle(move_desc *m) {
   return has_cycle;
 }
 
-void C_move_list::greedy_cycle_killer(const std::set<move_desc *> &component) {
+void MoveList::greedy_cycle_killer(const std::set<move_desc *> &component) {
   std::vector<move_pair> edges;
   for (std::set<move_desc *>::const_iterator iter = component.begin();
        iter != component.end(); ++iter) {
@@ -427,7 +426,7 @@ void C_move_list::greedy_cycle_killer(const std::set<move_desc *> &component) {
 FILE *debug_file;
 MoveDescList debug_stack;
 
-void C_move_list::remove_cycles(move_desc *m) {
+void MoveList::remove_cycles(move_desc *m) {
   m->visited = true;
   m->stacked = true;
   debug_stack.push_front(m);
@@ -478,7 +477,7 @@ void C_move_list::remove_cycles(move_desc *m) {
 
 ;
 
-bool C_move_list::move_pair_lt::
+bool MoveList::move_pair_lt::
 
 operator()(const move_pair *&l, const move_pair *&r) const {
   double l_key = l->x1.total_weight < l->x2.total_weight ? l->x1.total_weight
@@ -498,7 +497,7 @@ struct SortByValue {
   }
 };
 
-void C_move_list::sort_moves(FILE *file) {
+void MoveList::sort_moves(FILE *file) {
   move_pair_vector bad_boyz;
 
   for (move_pair_set::iterator zzz = conflicts.begin(); zzz != conflicts.end();
@@ -583,8 +582,8 @@ void C_move_list::sort_moves(FILE *file) {
   }
 }
 
-void C_move_list::display(FILE *file, bool deuces, bool print_haas,
-                          bool print_value) {
+void MoveList::display(FILE *file, bool deuces, bool print_haas,
+                       bool print_value) {
   do_print_haas = print_haas;
   do_print_value = print_value;
   debug_file = file;
@@ -795,7 +794,7 @@ static std::string FormatId(const move_desc *move) {
   }
 }
 
-void C_move_list::print_the_answer(FILE *file, bool_matrix &haas) {
+void MoveList::print_the_answer(FILE *file, bool_matrix &haas) {
   for (move_vector::iterator rover = print_order.begin();
        rover != print_order.end(); rover++) {
     if (do_print_haas) {
@@ -838,7 +837,7 @@ void C_move_list::print_the_answer(FILE *file, bool_matrix &haas) {
   }
 }
 
-void C_move_list::find_closure(FILE *file) {
+void MoveList::find_closure(FILE *file) {
   const int N = print_order.size();
   bool_matrix adj(N);
 
@@ -870,7 +869,7 @@ void C_move_list::find_closure(FILE *file) {
   print_the_answer(file, haas);
 }
 
-C_move_list::C_move_list(int hsize) {
+MoveList::MoveList(int hsize) {
   hand_size = hsize;
   df_counter = 0;
   stack = 0;

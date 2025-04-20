@@ -82,7 +82,7 @@ using int_map = std::map<int, move_desc *>;
 
 using move_map = std::map<move_desc *, int>;
 
-typedef class C_move_list {
+class MoveList {
   struct move_info {
     move_desc *m;
     double total_weight;
@@ -159,7 +159,7 @@ typedef class C_move_list {
   FILE *output_file;
 
  public:
-  C_move_list(int hsize);
+  MoveList(int hsize);
 
   int_map move_index;
 
@@ -173,5 +173,4 @@ typedef class C_move_list {
 
   void display(FILE *file, bool deuces, bool print_haas, bool print_value);
   void sort_moves(FILE *file);
-
-} move_list;
+};

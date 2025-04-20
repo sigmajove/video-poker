@@ -39,7 +39,7 @@ struct estate {
   FILE *trace_file[2];
   StrategyLine *trace_line[2];
 
-  move_list strategy;
+  MoveList strategy;
 
   move_set moves;  // for the string version
 
@@ -512,7 +512,6 @@ void find_strategy(const vp_game &game, const char *filename,
        wild_cards++) {
     const int hand_size = 5 - wild_cards;
     estate global(hand_size);
-    // move_list strategy (hand_size);
     hand_iter iter(hand_size, parms.kind, wild_cards);
 
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
@@ -863,7 +862,6 @@ void create_strategy(const vp_game &game, char *filename,
        wild_cards++) {
     const int hand_size = 5 - wild_cards;
     estate global(hand_size);
-    // move_list strategy (hand_size);
     hand_iter iter(hand_size, parms.kind, wild_cards);
 
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
