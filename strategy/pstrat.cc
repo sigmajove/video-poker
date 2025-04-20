@@ -34,11 +34,24 @@ struct strategy_move : public move_desc {
   char *name() { return s->image; };
 };
 
+struct CacheEntry {
+  CacheEntry() : valid(false) {};
+
+  bool valid;
+  double value;
+  pay_dist pays;
+};
+
+using EvalCache = CacheEntry[1 << 5];
+
 class estate {
  public:
   estate(int hand_size) : strategy(hand_size), trace_count(0) {};
   move *get_move(char *name);
   strategy_move *get_move(int line, StrategyLine *s);
+  double get_mask_value(unsigned char mask, enum_match &matcher,
+                        EvalCache &cache, int keep_deuces,
+                        game_parameters &parms, C_left &left);
   void evaluate(hand_iter &h, int deuces, C_left &left, StrategyLine *lines,
                 game_parameters &parms, FILE *file);
 
@@ -105,17 +118,7 @@ typedef std::vector<move_data> move_data_vector;
 
 int trace_countdown = 500;
 
-struct cache_entry {
-  bool valid;
-  double value;
-  pay_dist pays;
-
-  cache_entry() : valid(false) {};
-};
-
-typedef cache_entry eval_cache[1 << 5];
-
-static void print_entry(FILE *f, cache_entry &e, game_parameters &parms) {
+static void print_entry(FILE *f, CacheEntry &e, game_parameters &parms) {
   fprintf(f, "%.6e: ", e.value);
   int nothing = 0;
   for (int j = first_pay; j <= last_pay; j++) {
@@ -133,12 +136,11 @@ static void print_entry(FILE *f, cache_entry &e, game_parameters &parms) {
   fprintf(f, "\n");
 };
 
-inline double get_mask_value(unsigned char mask, enum_match &matcher,
-                             eval_cache &cache, int keep_deuces,
-                             game_parameters &parms, estate &global,
-                             C_left &left) {
+double estate::get_mask_value(unsigned char mask, enum_match &matcher,
+                              EvalCache &cache, int keep_deuces,
+                              game_parameters &parms, C_left &left) {
   if (cache[mask].valid) {
-    return cache[mask].value * global.multiplier;
+    return cache[mask].value * multiplier;
   }
 
   pay_dist &pays = cache[mask].pays;
@@ -161,7 +163,7 @@ inline double get_mask_value(unsigned char mask, enum_match &matcher,
   cache[mask].value = value;
   cache[mask].valid = true;
 
-  return value * global.multiplier;
+  return value * multiplier;
 }
 
 void estate::evaluate(hand_iter &h, int deuces, C_left &left,
@@ -208,7 +210,7 @@ void estate::evaluate(hand_iter &h, int deuces, C_left &left,
   // Incrementing the binary mask iterates over all
   // 2^hand_size combinations of cards to be kept.
 
-  eval_cache cache;
+  EvalCache cache;
 
   StrategyLine *rover = lines;
   // move_desc *good_move = 0;
@@ -261,12 +263,12 @@ void estate::evaluate(hand_iter &h, int deuces, C_left &left,
       md.move = get_move(rover - lines, rover);
       md.mask = matcher.matches[0];
       md.best = get_mask_value(matcher.matches[0], matcher, cache, deuces,
-                               parms, *this, left);
+                               parms, left);
       md.worst = md.best;
 
       for (int j = 1; j < matcher.match_count; j++) {
         double d = get_mask_value(matcher.matches[j], matcher, cache, deuces,
-                                  parms, *this, left);
+                                  parms, left);
 
         if (d > md.best) {
           md.best = d;
