@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cstddef>
 #include <set>
 #include <string>
 #include <vector>
@@ -61,7 +62,7 @@ class Evaluator {
   double get_mask_value(unsigned char mask, enum_match &matcher,
                         EvalCache &cache, int keep_deuces,
                         game_parameters &parms, C_left &left);
-  strategy_move *get_move(int line, StrategyLine *s);
+  strategy_move *get_move(std::size_t line, StrategyLine *s);
   move *get_move(char *name);
 
   static void print_entry(FILE *f, CacheEntry &e, game_parameters &parms);
@@ -80,7 +81,7 @@ move *Evaluator::get_move(char *name) {
 
   if (x.second) {
     // A new move was created.  Initialize it "for real";
-    const int name_size = strlen(name) + 1;
+    const std::size_t name_size = strlen(name) + 1;
     result->the_name = new char[name_size];
     strcpy_s(result->the_name, name_size, name);
     strategy.add_move(result);
@@ -89,7 +90,7 @@ move *Evaluator::get_move(char *name) {
   return result;
 };
 
-strategy_move *Evaluator::get_move(int line, StrategyLine *s) {
+strategy_move *Evaluator::get_move(std::size_t line, StrategyLine *s) {
   strategy_move *result = movies[line];
   if (result == 0) {
     result = new strategy_move;
@@ -338,11 +339,9 @@ void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
   if (0) {
     print_hand(file, matcher.hand, matcher.hand_size);
 
-    move_data_vector::iterator g = good_move.begin();
-    { fprintf(file, "good: %s\n", (*g).move->name()); }
-    for (move_data_vector::iterator b = bad_move.begin(); b != bad_move.end();
-         b++) {
-      fprintf(file, "bad: %s\n", (*b).move->name());
+    fprintf(file, "good: %s\n", good_move.front().move->name());
+    for (const move_data& b : bad_move) {
+      fprintf(file, "bad: %s\n", b.move->name());
     }
     fprintf(file, "\n");
   }

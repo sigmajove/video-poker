@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdio>
+#include <cstddef>
 #include <list>
 #include <set>
 #include <vector>
@@ -60,7 +61,7 @@ class move_desc {
   int scc_id;
   bool visited;
   bool stacked;
-  int line;
+  std::size_t line;
   int print_id;
   int value;
   int value_id;
@@ -142,7 +143,7 @@ class MoveList {
   typedef std::vector<move_desc *> move_vector;
   move_vector print_order;
   move_vector haas_index;
-  int print_counter;
+  std::size_t print_counter;
 
   void remove_cycles(move_desc *m);
 
