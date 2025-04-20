@@ -34,24 +34,17 @@ struct strategy_move : public move_desc {
   char *name() { return s->image; };
 };
 
-class estate {
+class Evaluator {
  public:
-  estate(int hand_size) : strategy(hand_size), trace_count(0) {};
-  move *get_move(char *name);
-  strategy_move *get_move(int line, StrategyLine *s);
+  Evaluator(int hand_size) : strategy(hand_size), trace_count(0) {};
+
   void evaluate(hand_iter &h, int deuces, C_left &left, StrategyLine *lines,
                 game_parameters &parms, FILE *file);
 
+  MoveList strategy;
+  StrategyLine *trace_line[2];
   int trace_count;
   FILE *trace_file[2];
-  StrategyLine *trace_line[2];
-
-  MoveList strategy;
-
-  move_set moves;  // for the string version
-
-  std::vector<strategy_move *> movies;
-
   double multiplier;
 
  private:
@@ -68,11 +61,16 @@ class estate {
   double get_mask_value(unsigned char mask, enum_match &matcher,
                         EvalCache &cache, int keep_deuces,
                         game_parameters &parms, C_left &left);
+  strategy_move *get_move(int line, StrategyLine *s);
+  move *get_move(char *name);
 
   static void print_entry(FILE *f, CacheEntry &e, game_parameters &parms);
+
+  move_set moves;  // for the string version
+  std::vector<strategy_move *> movies;
 };
 
-move *estate::get_move(char *name) {
+move *Evaluator::get_move(char *name) {
   // Create a template move and attempt to add it to the set.
   std::pair<move_set::iterator, bool> x = moves.insert(move(name));
 
@@ -91,7 +89,7 @@ move *estate::get_move(char *name) {
   return result;
 };
 
-strategy_move *estate::get_move(int line, StrategyLine *s) {
+strategy_move *Evaluator::get_move(int line, StrategyLine *s) {
   strategy_move *result = movies[line];
   if (result == 0) {
     result = new strategy_move;
@@ -122,7 +120,7 @@ typedef std::vector<move_data> move_data_vector;
 
 int trace_countdown = 500;
 
-void estate::print_entry(FILE *f, CacheEntry &e, game_parameters &parms) {
+void Evaluator::print_entry(FILE *f, CacheEntry &e, game_parameters &parms) {
   fprintf(f, "%.6e: ", e.value);
   int nothing = 0;
   for (int j = first_pay; j <= last_pay; j++) {
@@ -140,9 +138,9 @@ void estate::print_entry(FILE *f, CacheEntry &e, game_parameters &parms) {
   fprintf(f, "\n");
 };
 
-double estate::get_mask_value(unsigned char mask, enum_match &matcher,
-                              EvalCache &cache, int keep_deuces,
-                              game_parameters &parms, C_left &left) {
+double Evaluator::get_mask_value(unsigned char mask, enum_match &matcher,
+                                 EvalCache &cache, int keep_deuces,
+                                 game_parameters &parms, C_left &left) {
   if (cache[mask].valid) {
     return cache[mask].value * multiplier;
   }
@@ -170,8 +168,9 @@ double estate::get_mask_value(unsigned char mask, enum_match &matcher,
   return value * multiplier;
 }
 
-void estate::evaluate(hand_iter &h, int deuces, C_left &left,
-                      StrategyLine *lines, game_parameters &parms, FILE *file) {
+void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
+                         StrategyLine *lines, game_parameters &parms,
+                         FILE *file) {
   // Compute the expected value of an initial five-card hand
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
@@ -391,7 +390,7 @@ void find_strategy(const vp_game &game, const char *filename,
   for (int wild_cards = 0; wild_cards <= parms.number_wild_cards;
        wild_cards++) {
     const int hand_size = 5 - wild_cards;
-    estate global(hand_size);
+    Evaluator global(hand_size);
     hand_iter iter(hand_size, parms.kind, wild_cards);
 
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
@@ -530,7 +529,7 @@ void draft(const vp_game &game, const char *filename) {
   for (int wild_cards = 0; wild_cards <= parms.number_wild_cards;
        wild_cards++) {
     const int hand_size = 5 - wild_cards;
-    estate global(hand_size);
+    Evaluator global(hand_size);
     hand_iter iter(hand_size, parms.kind, wild_cards);
 
     while (!iter.done()) {
