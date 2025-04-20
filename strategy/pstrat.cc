@@ -386,34 +386,29 @@ void find_strategy(const vp_game &game, const char *filename,
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
 
     // Scan the strategy looking for trace directives */
-    {
-      StrategyLine *rover = lines[wild_cards];
-      while (rover->pattern) {
-        if (rover->options && strncmp(rover->options, " trace ", 7) == 0) {
-          if (global.trace_count >= 2) {
-            printf("Too many trace directives\n");
-            throw 0;
-          }
-
-          global.trace_line[global.trace_count] = rover;
-
-          char *filename = rover->options + 7;
-
-          FILE **global_trace_file = &(global.trace_file[global.trace_count]);
-          *global_trace_file = NULL;
-          fopen_s(global_trace_file, filename, "w");
-
-          if (*global_trace_file == NULL) {
-            printf("Cannot create %s\n", filename);
-            throw 0;
-          }
-
-          fprintf(*global_trace_file, "%s is correct\n", rover->image);
-
-          global.trace_count += 1;
+    for (StrategyLine *rover = lines[wild_cards]; rover->pattern; ++rover) {
+      if (rover->options && strncmp(rover->options, " trace ", 7) == 0) {
+        if (global.trace_count >= 2) {
+          printf("Too many trace directives\n");
+          throw 0;
         }
 
-        rover += 1;
+        global.trace_line[global.trace_count] = rover;
+
+        char *filename = rover->options + 7;
+
+        FILE **global_trace_file = &(global.trace_file[global.trace_count]);
+        *global_trace_file = NULL;
+        fopen_s(global_trace_file, filename, "w");
+
+        if (*global_trace_file == NULL) {
+          printf("Cannot create %s\n", filename);
+          throw 0;
+        }
+
+        fprintf(*global_trace_file, "%s is correct\n", rover->image);
+
+        global.trace_count += 1;
       }
     }
 
