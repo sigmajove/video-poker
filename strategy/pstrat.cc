@@ -277,9 +277,8 @@ void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
       } else if (md.worst > best_value) {
         best_value = md.worst;
 
-        for (move_data_vector::iterator rover = good_move.begin();
-             rover != good_move.end(); rover++) {
-          bad_move.push_back(*rover);
+        for (const move_data &m : good_move) {
+          bad_move.push_back(m);
         }
 
         good_move.resize(0);
