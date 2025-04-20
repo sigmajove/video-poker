@@ -34,22 +34,22 @@ void print_hand(FILE *file, const card *hand, int size) {
 }
 
 move_desc::move_desc()
-    : conflicts(0),
+    : conflicts(nullptr),
       df_number(0),
-      pop(0),
-      scc_parent_desc(0),
-      scc_parent_edge(0),
-      scc_backlink(0),
+      pop(nullptr),
+      scc_parent_desc(nullptr),
+      scc_parent_edge(nullptr),
+      scc_backlink(nullptr),
       scc_id(-1),
-      used(false),
       visited(false),
       stacked(false),
       line(-1),
       print_id(-1),
       value(-1),
       value_id(-1),
-      scc_repr(NULL),
-      scc_next(NULL),
+      used(false),
+      scc_repr(nullptr),
+      scc_next(nullptr),
       layer(-1) {}
 
 typedef std::vector<int> int_vector;
