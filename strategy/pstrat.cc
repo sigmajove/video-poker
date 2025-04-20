@@ -34,24 +34,11 @@ struct strategy_move : public move_desc {
   char *name() { return s->image; };
 };
 
-struct CacheEntry {
-  CacheEntry() : valid(false) {};
-
-  bool valid;
-  double value;
-  pay_dist pays;
-};
-
-using EvalCache = CacheEntry[1 << 5];
-
 class estate {
  public:
   estate(int hand_size) : strategy(hand_size), trace_count(0) {};
   move *get_move(char *name);
   strategy_move *get_move(int line, StrategyLine *s);
-  double get_mask_value(unsigned char mask, enum_match &matcher,
-                        EvalCache &cache, int keep_deuces,
-                        game_parameters &parms, C_left &left);
   void evaluate(hand_iter &h, int deuces, C_left &left, StrategyLine *lines,
                 game_parameters &parms, FILE *file);
 
@@ -66,6 +53,23 @@ class estate {
   std::vector<strategy_move *> movies;
 
   double multiplier;
+
+ private:
+  struct CacheEntry {
+    CacheEntry() : valid(false) {};
+
+    bool valid;
+    double value;
+    pay_dist pays;
+  };
+
+  using EvalCache = CacheEntry[1 << 5];
+
+  double get_mask_value(unsigned char mask, enum_match &matcher,
+                        EvalCache &cache, int keep_deuces,
+                        game_parameters &parms, C_left &left);
+
+  static void print_entry(FILE *f, CacheEntry &e, game_parameters &parms);
 };
 
 move *estate::get_move(char *name) {
@@ -118,7 +122,7 @@ typedef std::vector<move_data> move_data_vector;
 
 int trace_countdown = 500;
 
-static void print_entry(FILE *f, CacheEntry &e, game_parameters &parms) {
+void estate::print_entry(FILE *f, CacheEntry &e, game_parameters &parms) {
   fprintf(f, "%.6e: ", e.value);
   int nothing = 0;
   for (int j = first_pay; j <= last_pay; j++) {
