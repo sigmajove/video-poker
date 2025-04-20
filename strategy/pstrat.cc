@@ -178,6 +178,8 @@ void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
   left.remove(matcher.hand, matcher.hand_size, deuces);
   // Subtract the hand to be evaluated from the left structure
 
+  // Count the number of valid strategy lines so we can set
+  // the size of movies to that.
   {
     StrategyLine *rover = lines;
     for (;;) {
@@ -199,15 +201,12 @@ void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
     movies.resize(rover - lines);
   }
 
-  // pay_dist strategy_pays;
-
   // Incrementing the binary mask iterates over all
   // 2^hand_size combinations of cards to be kept.
 
   EvalCache cache;
 
   StrategyLine *rover = lines;
-  // move_desc *good_move = 0;
 
   bool trace_good[2];
   trace_good[0] = false;
