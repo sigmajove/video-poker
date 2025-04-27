@@ -2,7 +2,11 @@
 #include <stdio.h>
 
 #include <algorithm>
+#include <cstddef>
+#include <format>
 #include <map>
+#include <numeric>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -11,6 +15,7 @@
 #include "game.h"
 #include "kept.h"
 #include "new_hand_iter.h"
+#include "pay_dist.h"
 #include "vpoker.h"
 
 using std::vector;
@@ -280,7 +285,6 @@ void eval_strategy(const vp_game &game, StrategyLine *lines[],
   for (int wild_cards = 0; wild_cards <= parms.number_wild_cards;
        wild_cards++) {
     const int hand_size = 5 - wild_cards;
-    hand_iter iter(hand_size, parms.kind, wild_cards);
 
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
 
@@ -324,10 +328,11 @@ void eval_strategy(const vp_game &game, StrategyLine *lines[],
       while (rover->pattern) {
         rover += 1;
       }
-      int n = rover - lines[wild_cards];
+      std::size_t n = rover - lines[wild_cards];
       e.strategy_info = new line_info[n];
     }
 
+    hand_iter iter(hand_size, parms.kind, wild_cards);
     while (!iter.done()) {
       if (++timer > 102359 / 40) {
         printf(".");
@@ -469,6 +474,134 @@ static double evaluate_play(card *hand, int hand_size, bool *result_vector,
     }
   }
   return strategy_value;
+}
+
+// mult is the number of different ways the starting hand can be dealt.
+static PayDistribution evaluate_multi(const hand_iter &h, int deuces,
+                                      C_left &left, StrategyLine *lines,
+                                      game_parameters &parms) {
+  // Compute the expected value of an initial five-card hand
+  // consisting of the cards returned by the iterator plus
+  // the indicated number of deuces.
+
+  enum_match matcher;
+  matcher.wild_cards = deuces;
+  matcher.parms = &parms;
+
+  matcher.hand_size = h.size();
+  h.current(matcher.hand[0]);
+
+  // Subtract the hand to be evaluated from the left structure
+  left.remove(matcher.hand, matcher.hand_size, deuces);
+
+  // Find the first matching strategy line.
+  // Since all strategies end with "nothing", there will be one.
+  for (StrategyLine *matching = lines;; ++matching) {
+    matcher.find(matching->pattern);
+    if (matcher.match_count != 0) {
+      break;
+    }
+  }
+
+  // There will typically be only one set of matching cards.
+  // In a few cases (one pair in Full Pay Deuces) there may be
+  // more then one. In good strategies, it won't matter which
+  // combination we pick.
+  kept_description kept(matcher.hand, matcher.hand_size, matcher.matches[0],
+                        parms);
+  pay_dist pays;
+  kept.all_draws(deuces, left, pays);
+  // pays is now the number of ways of making each of the possible
+  // paying combinations (including "nothing", which pays zero).
+
+  // Compute the total number of pays, which we can use to convert
+  // counts to probabilities.
+  const double num_pays = static_cast<double>(
+      std::accumulate(pays + first_pay, pays + last_pay + 1, 0));
+
+  // Convert a pay_dist to a PayDistribution (unfortunate naming!)
+  PayDistribution pd;
+  for (std::size_t j = first_pay; j <= last_pay; j++) {
+    const int frequency = pays[j];
+    if (frequency > 0) {
+      const double probability = frequency / num_pays;
+      pd.emplace_back(probability, parms.pay_table[j]);
+    }
+  }
+  normalize(pd);
+
+  left.replace(matcher.hand, matcher.hand_size, deuces);
+
+  return pd;
+}
+
+void multi_strategy(const vp_game &game, StrategyLine *lines[],
+                    unsigned int mult, const char *filename) {
+  game_parameters parms(game);
+  C_left left(parms);
+
+  const double total_hands = combin.choose(parms.deck_size, 5);
+
+  FILE *output = NULL;
+  fopen_s(&output, filename, "w");
+  if (output == 0) {
+    throw std::runtime_error(std::format("Could not open {}", filename));
+  }
+
+  fprintf(output, "Multi hand for %s %u\n", game.name, mult);
+
+  printf("Computing");
+
+  int counter = 0;
+  int timer = 0;
+
+  PayDistribution total_pays;
+
+  for (int wild_cards = 0; wild_cards <= parms.number_wild_cards;
+       wild_cards++) {
+    const int hand_size = 5 - wild_cards;
+
+    // wide_mult is the number of different ways of being dealt "wild_cards"
+    // wild cards.
+    const int wide_mult = combin.choose(parms.number_wild_cards, wild_cards);
+
+    for (hand_iter iter(hand_size, parms.kind, wild_cards); !iter.done();
+         iter.next()) {
+      if (++timer > 2558) {
+        printf(".");
+        timer = 0;
+      }
+      PayDistribution dist = repeat(
+          evaluate_multi(iter, wild_cards, left, lines[wild_cards], parms),
+          mult);
+
+      // Compute the probability of the starting hand.
+      const int mult = wide_mult * iter.multiplier();
+      const double start_prob = mult / total_hands;
+
+      // Adjust the pay distribution by this probability.
+      for (ProbPay &pp : dist) {
+        pp.probability *= start_prob;
+      }
+      total_pays = merge(total_pays, dist);
+
+      counter += mult;
+    }
+    printf("\n");
+  }
+  if (counter != total_hands) {
+    throw std::runtime_error("Iteration counter wrong\n");
+  }
+
+  double payback = 0.0;
+  for (const auto &[prob, pay] : total_pays) {
+    fprintf(output, "%.8e%5d\n", prob, pay);
+    payback += prob * pay;
+  }
+  fprintf(output, "\n");
+  fprintf(output, "Payback %.6f\n", 100 * payback / mult);
+  fclose(output);
+  printf("Output is in %s\n", filename);
 }
 
 typedef std::map<std::pair<int, int>, double> prune_data;
@@ -1830,9 +1963,11 @@ static void union_evaluate(hand_iter &h, int deuces, C_left &left,
 
 // Returns the number of entries in a strategy, not counting the sentinel
 // at the end.
-static int strategy_length(const StrategyLine *lines) {
+static std::size_t strategy_length(const StrategyLine *lines) {
   for (const StrategyLine *rover = lines;; ++rover) {
-    if (rover->pattern == 0) return rover - lines;
+    if (rover->pattern == 0) {
+      return rover - lines;
+    }
   }
 }
 

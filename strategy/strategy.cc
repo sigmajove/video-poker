@@ -161,12 +161,14 @@ void parser(const char *name, const char *output_file = 0) {
     cm_order,
     cm_value,
     cm_eval,
+    cm_multi,
     cm_union,
     cm_box_score,
     cm_half_life,
     cm_prune,
     cm_draft,
   } command_name;
+  int command_arg = 0;
 
   parse_line_number = 0;
   bool read_eof = false;
@@ -179,7 +181,7 @@ void parser(const char *name, const char *output_file = 0) {
   vp_game *the_game = nullptr;
 
   StrategyLine *wild[5];  // At most 4 wild cards
-  int wild_count[5];       // Number of lines in each strategy
+  int wild_count[5];      // Number of lines in each strategy
 
   int current_wild = -1;
 
@@ -287,6 +289,9 @@ void parser(const char *name, const char *output_file = 0) {
           command_name = cm_value;
         } else if (strcmp(parse_buffer, "eval") == 0) {
           command_name = cm_eval;
+        } else if (strncmp(parse_buffer, "multi ", 6) == 0 &&
+                   (command_arg = atoi(parse_buffer + 6)) > 0) {
+          command_name = cm_multi;
         } else if (strcmp(parse_buffer, "union") == 0) {
           command_name = cm_union;
         } else if (strcmp(parse_buffer, "box score") == 0) {
@@ -421,6 +426,11 @@ done_reading_file:
 
     case cm_eval:
       eval_strategy(*the_game, wild, choose_file(output_file, "report.txt"));
+      break;
+
+    case cm_multi:
+      multi_strategy(*the_game, wild, static_cast<unsigned int>(command_arg),
+                     choose_file(output_file, "multi.txt"));
       break;
 
     case cm_prune:

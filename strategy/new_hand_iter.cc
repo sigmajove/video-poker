@@ -57,84 +57,81 @@
 // The algorithm is quite different for one-eyed-jacks games and
 // regular ones.
 
-C_hand_iter& C_hand_iter::operator= (const C_hand_iter& val) {
-  hand_size     = val.hand_size;
-  is_done       = val.is_done;
+hand_iter &hand_iter::operator=(const hand_iter &val) {
+  hand_size = val.hand_size;
+  is_done = val.is_done;
   missing_denom = val.missing_denom;
-  short_denom   = val.short_denom;
+  short_denom = val.short_denom;
 
-  for (int j=0; j<6; j++) {
-    stack[j].count          = val.stack[j].count;
-    stack[j].denom          = val.stack[j].denom;
-    stack[j].suit_classes   = val.stack[j].suit_classes;
-    stack[j].suit_1         = val.stack[j].suit_classes;
-    stack[j].suit_2         = val.stack[j].suit_classes;
+  for (int j = 0; j < 6; j++) {
+    stack[j].count = val.stack[j].count;
+    stack[j].denom = val.stack[j].denom;
+    stack[j].suit_classes = val.stack[j].suit_classes;
+    stack[j].suit_1 = val.stack[j].suit_classes;
+    stack[j].suit_2 = val.stack[j].suit_classes;
   }
 
-  top = &(stack[val.top-val.stack]);
+  top = &(stack[val.top - val.stack]);
 
   return *this;
 }
 
-void hand_iter::current (card &hand) {
+void hand_iter::current(card &hand) const {
   int x = 0;
   card *h = &hand;
 
-  for (struct stack_element *p = stack+1; p <= top; p++) {
+  for (const stack_element *p = stack + 1; p <= top; p++) {
     const int d = p->denom;
     switch (p->count) {
-    case 1:
-      *h++ = make_card (d, p->suit_1);
-      break;
+      case 1:
+        *h++ = make_card(d, p->suit_1);
+        break;
 
-    case 2:
-      *h++ = make_card (d, p->suit_1);
-      *h++ = make_card (d, p->suit_2);
-      break;
+      case 2:
+        *h++ = make_card(d, p->suit_1);
+        *h++ = make_card(d, p->suit_2);
+        break;
 
-    case 3: {
+      case 3: {
         const int omit = p->suit_1;
 
-        for (int j = 0; j<4; j++) {
+        for (int j = 0; j < 4; j++) {
           if (j != omit) {
-            *h++ = make_card (d, j);
+            *h++ = make_card(d, j);
           }
         }
-      }
-      break;
+      } break;
 
-    case 4:
-      *h++ = make_card (d, 0);
-      *h++ = make_card (d, 1);
-      *h++ = make_card (d, 2);
-      *h++ = make_card (d, 3);
-      break;
+      case 4:
+        *h++ = make_card(d, 0);
+        *h++ = make_card(d, 1);
+        *h++ = make_card(d, 2);
+        *h++ = make_card(d, 3);
+        break;
 
-    default:
-      _ASSERT (0);
+      default:
+        _ASSERT(0);
     }
   }
 }
 
-
-unsigned C_hand_iter::multiplier() {
+unsigned hand_iter::multiplier() const {
   unsigned char start = stack[0].suit_classes;
   unsigned char c = top->suit_classes;
 
-  if ((start & (1<<2)) != 0) {
+  if ((start & (1 << 2)) != 0) {
     // This is a one-eyed jacks game where the suits
     // started out differentiated.
     int result = 1;
 
     // Test if the nonwild suits had their symmetry broken
-    if ((c & (1<<3)) != 0) {
+    if ((c & (1 << 3)) != 0) {
       result = 2;
     }
 
-
     // Test if the wild suits had their symmetry broken,
     // but were not broken initially
-    if ((start & (1<<1)) == 0 && (c & (1<<1)) != 0) {
+    if ((start & (1 << 1)) == 0 && (c & (1 << 1)) != 0) {
       result *= 2;
     }
 
@@ -144,14 +141,14 @@ unsigned C_hand_iter::multiplier() {
   int class_size = 1;
 
   int sizes[5];
-  for (int k=0; k<5; k++) {
+  for (int k = 0; k < 5; k++) {
     sizes[k] = 0;
   }
 
-  _ASSERT ((1<<0 & c) != 0);
-  _ASSERT ((1<<4 & c) != 0);
+  _ASSERT((1 << 0 & c) != 0);
+  _ASSERT((1 << 4 & c) != 0);
 
-  for (int j = 1; j<5; j++) {
+  for (int j = 1; j < 5; j++) {
     if ((1 << j & c) != 0) {
       sizes[class_size] += 1;
       class_size = 1;
@@ -161,10 +158,10 @@ unsigned C_hand_iter::multiplier() {
   }
 
   int sum = 0;
-  for (int m=0; m<5; m++) {
-    sum += m*sizes[m];
+  for (int m = 0; m < 5; m++) {
+    sum += m * sizes[m];
   }
-  _ASSERT (sum == 4);
+  _ASSERT(sum == 4);
 
   // Enumerate the different ways for integers int
   // the range 1..4 can add up to 4.
@@ -172,79 +169,76 @@ unsigned C_hand_iter::multiplier() {
   if (sizes[4] == 1) {
     return 1;  // 4
   } else if (sizes[3] == 1) {
-    return 4; // 3+1
+    return 4;  // 3+1
   } else if (sizes[2] == 2) {
-    return 6; // 2+2
+    return 6;  // 2+2
   } else if (sizes[2] == 1) {
     return 12;  // 2+1+1
   } else if (sizes[1] == 4) {
-    return 24; // 1+1+1+1
+    return 24;  // 1+1+1+1
   }
 
-  _ASSERT (0);
+  _ASSERT(0);
   return 0;
-
 }
 
-
-void C_hand_iter::start_state () {
+void hand_iter::start_state() {
   top->suit_1 = top->denom == short_denom ? 1 : -1;
   top->suit_2 = 3;
   const bool b = next_suits();
-  _ASSERT (b);
+  _ASSERT(b);
 }
 
 bool hand_iter::next_suits() {
-  switch(top->count) {
-  case 2:
-    do {
-      top->suit_2 += 1;
-    } while (((1 << top->suit_2) & top[-1].suit_classes) == 0);
+  switch (top->count) {
+    case 2:
+      do {
+        top->suit_2 += 1;
+      } while (((1 << top->suit_2) & top[-1].suit_classes) == 0);
 
-    if (top->suit_2 < 4) {
-      top->suit_classes = top[-1].suit_classes |
-                          (1 << (top->suit_1+1)) |
-                          (1 << (top->suit_2+1));
+      if (top->suit_2 < 4) {
+        top->suit_classes = top[-1].suit_classes | (1 << (top->suit_1 + 1)) |
+                            (1 << (top->suit_2 + 1));
 
+        return true;
+      }
+
+      do {
+        top->suit_1 += 1;
+      } while (((1 << top->suit_1) & top[-1].suit_classes) == 0);
+
+      if (top->suit_1 >= 3) {
+        return false;
+      }
+
+      top->suit_2 = top->suit_1 + 1;
+      top->suit_classes = top[-1].suit_classes | 1 << (top->suit_2 + 1);
       return true;
-    }
 
-    do {
+    case 1:
+    case 3:
+      do {
+        top->suit_1 += 1;
+      } while (((1 << top->suit_1) & top[-1].suit_classes) == 0);
+
+      top->suit_classes = top[-1].suit_classes | (1 << (top->suit_1 + 1));
+      return top->suit_1 < 4;
+
+    case 4:
+      top->suit_classes = top[-1].suit_classes;
       top->suit_1 += 1;
-    } while (((1 << top->suit_1) & top[-1].suit_classes) == 0);
+      return top->suit_1 == 0;
 
-    if (top->suit_1 >= 3) {
+    default:
+      _ASSERT(0);
       return false;
-    }
-
-    top->suit_2 = top->suit_1 + 1;
-    top->suit_classes = top[-1].suit_classes | 1<<(top->suit_2+1);
-    return true;
-
-  case 1:
-  case 3:
-    do {
-      top->suit_1 += 1;
-    } while (((1 << top->suit_1) & top[-1].suit_classes) == 0);
-
-    top->suit_classes = top[-1].suit_classes | (1 << (top->suit_1+1));
-    return top->suit_1 < 4;
-
-  case 4:
-    top->suit_classes = top[-1].suit_classes;
-    top->suit_1 += 1;
-    return top->suit_1== 0;
-
-  default:
-    _ASSERT (0);
-    return false;
   }
 }
 
 void hand_iter::next() {
   int need_cards = 0;
 
-  for(;;) {
+  for (;;) {
     if (next_suits()) {
       // Work done in next_suits
     } else if (need_cards > 0 &&
@@ -265,7 +259,7 @@ void hand_iter::next() {
       this->start_state();
       need_cards = 0;
     } else if (top->denom < king) {
-      need_cards += top->count-1;
+      need_cards += top->count - 1;
       top->denom += 1;
       if (top->denom == missing_denom) {
         top->denom += 1;
@@ -273,7 +267,7 @@ void hand_iter::next() {
       top->count = 1;
       this->start_state();
     } else {
-      if (top == stack+1) {
+      if (top == stack + 1) {
         is_done = true;
         return;
       }
@@ -290,10 +284,10 @@ void hand_iter::next() {
         top += 1;
         top->denom = king;
         top->count = need_cards;
-        this->start_state ();
+        this->start_state();
         break;
       } else {
-        top[1].denom = top->denom+1;
+        top[1].denom = top->denom + 1;
         if (top[1].denom == missing_denom) {
           top[1].denom += 1;
         }
@@ -309,16 +303,15 @@ void hand_iter::next() {
   }
 }
 
-
-C_hand_iter::C_hand_iter(int size, game_kind kind, int wild_cards) :
-  hand_size (size),
-  missing_denom (kind == GK_deuces_wild ? deuce : 0xff),
-  short_denom (kind == GK_one_eyed_jacks_wild ? jack : 0xff),
-  is_done (false) {
-
-  stack[0].suit_classes = (1<<0) + (1<<4) +
-                          (kind == GK_one_eyed_jacks_wild ? (1<<2) +
-                           (wild_cards == 1 ? (1<<1) : 0) : 0);
+hand_iter::hand_iter(int size, game_kind kind, int wild_cards)
+    : is_done(false),
+      hand_size(size),
+      missing_denom(kind == GK_deuces_wild ? deuce : 0xff),
+      short_denom(kind == GK_one_eyed_jacks_wild ? jack : 0xff) {
+  stack[0].suit_classes = (1 << 0) + (1 << 4) +
+                          (kind == GK_one_eyed_jacks_wild
+                               ? (1 << 2) + (wild_cards == 1 ? (1 << 1) : 0)
+                               : 0);
 
   // Create a dummy bottom entry for the stack
   // that contains the intial value for the
@@ -335,7 +328,7 @@ C_hand_iter::C_hand_iter(int size, game_kind kind, int wild_cards) :
   // suit, completed by that card, will be payed off as a natural
   // royal.
 
-  top = stack+1;
+  top = stack + 1;
   int d = ace;
 
   for (int j = 0;; j++) {
@@ -345,12 +338,9 @@ C_hand_iter::C_hand_iter(int size, game_kind kind, int wild_cards) :
     }
     top->count = 1;
     this->start_state();
-    if (j == size-1) {
+    if (j == size - 1) {
       break;
     }
     top += 1;
   }
 }
-
-
-

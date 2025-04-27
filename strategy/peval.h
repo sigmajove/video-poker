@@ -5,6 +5,9 @@
 void eval_strategy(const vp_game &game, StrategyLine *lines[],
                    const char *filename);
 
+void multi_strategy(const vp_game &game, StrategyLine *lines[],
+                    unsigned int mult, const char *filename);
+
 void prune_strategy(const vp_game &game, StrategyLine *lines[],
                     int *strategy_length, const char *filename);
 

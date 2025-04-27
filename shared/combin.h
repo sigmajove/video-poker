@@ -1,25 +1,28 @@
 #pragma once
-#include<cassert>
+#include <cstddef>
+#include <stdexcept>
 
-class C_Chooser
-{
-	enum {x_size = 16};
-	enum {y_size = 16};
-	int table[x_size][y_size];
+class Chooser {
+ public:
+  Chooser();
 
-	int do_choose(int x, int y);
+  int choose(int x, int y) {
+    if (x < 0 || y < 0) {
+      throw std::runtime_error("choose not defined for negatives");
+    }
 
-public:
+    return (x < x_size && y < y_size) ? table[x][y] : do_choose(x, y);
+  }
 
-	C_Chooser();
+ private:
+  static constexpr std::size_t x_size = 16;
+  static constexpr std::size_t y_size = 16;
 
-	int choose (int x, int y)
-	{
-		assert (x >= 0);
-		assert (y >= 0);
+  // For all the values we expect to see, cache them in a table.
+  // This optimization probably isn't necessary in 2025.
+  int table[x_size][y_size];
 
-		return (x < x_size && y < y_size) ? table[x][y] : do_choose(x, y);
-	}
+  int do_choose(int x, int y);
 };
 
-extern C_Chooser combin;
+extern Chooser combin;

@@ -33,6 +33,9 @@
     <ClCompile Include="parse_line.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pay_dist.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parse_line.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pay_dist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
