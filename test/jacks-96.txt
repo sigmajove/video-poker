@@ -1,5 +1,5 @@
 9/6 Jacks or Better
-multi 3
+haas
 
 Full House, Quads, Straight Flush, or Royal Flush
 Two Pair or Trips

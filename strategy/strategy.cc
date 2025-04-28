@@ -143,6 +143,63 @@ static StrategyLine *get_image(std::vector<StrategyLine> &pat) {
   return result;
 }
 
+// It seemed like a good idea to pull this out as a helper function.
+// But it has a lot of parameters. Maybe introduce a class?
+void parse_strategy_line(char *parse_buffer, std::vector<StrategyLine> &pat,
+                         int &current_wild, StrategyLine *(&wild)[5],
+                         int (&wild_count)[5]) {
+  // Look for a % at the end of the line that
+  // signals an option string to pass along to
+  // the algorithms.
+
+  char *line_options = 0;
+
+  {
+    char *options = strchr(parse_buffer, '%');
+    if (options) {
+      const int options_size = strlen(options + 1) + 1;
+
+      // TODO: fix this storage leak.
+      line_options = new char[options_size];
+
+      strcpy_s(line_options, options_size, options + 1);
+
+      do {
+        *options-- = 0;
+      } while (options >= parse_buffer && *options == ' ');
+    }
+  }
+
+  if (parse_buffer[0] == 0) {
+    // ignore it, it's a blank line
+  } else if ('0' <= parse_buffer[0] && parse_buffer[0] <= '4' &&
+             (strcmp(parse_buffer + 1, " Deuces") == 0 ||
+              strcmp(parse_buffer, "1 Deuce") == 0)) {
+    // Deuce Divider
+    if (pat.size() != 0) {
+      pat.push_back(StrategyLine());
+
+      if (current_wild == -1) {
+        printf("Inconsistent deuce headers\n");
+        pat.clear();
+      }
+      if (wild[current_wild]) {
+        printf("Duplicate deuce header for %d\n", current_wild);
+        pat.clear();
+      } else {
+        wild_count[current_wild] = pat.size();
+        wild[current_wild] = get_image(pat);
+      }
+    }
+
+    current_wild = parse_buffer[0] - '0';
+  } else {
+    StrategyLine temp = parse_line(parse_buffer, current_wild);
+    temp.options = line_options;
+    pat.push_back(temp);
+  }
+}
+
 const char *choose_file(const char *f1, const char *f2) { return f1 ? f1 : f2; }
 
 void parser(const char *name, const char *output_file = 0) {
@@ -186,149 +243,104 @@ void parser(const char *name, const char *output_file = 0) {
     }
   }
 
-  std::string line;
   try {
-  read_next_line: {}
-    if (!std::getline(infile, line)) {
-      goto done_reading_file;
-    }
-    ++parse_line_number;
-
-    // Set pos to the length of the line, ignoring any comment.
-    std::size_t pos = line.find('#');
-    if (pos == std::string::npos) {
-      // There is no comment.
-      pos = line.size();
-    } else {
-      line[pos] = '\0';
-    }
-
-    // Replace trailing spaces with nulls.
     for (;;) {
+      std::string line;
+      if (!std::getline(infile, line)) {
+        if (state != ps_parsing) {
+          throw std::runtime_error("Incomplete strategy file");
+        }
+        break;
+      }
+      ++parse_line_number;
+
+      // Set pos to the length of the line, ignoring any comment.
+      std::size_t pos = line.find('#');
+      if (pos == std::string::npos) {
+        // There is no comment.
+        pos = line.size();
+      } else {
+        line[pos] = '\0';
+      }
+
+      // Replace trailing spaces with nulls.
+      for (;;) {
+        if (pos == 0) {
+          // Empty line
+          break;
+        }
+        --pos;
+        if (line[pos] != ' ') {
+          break;
+        }
+        line[pos] = '\0';
+      }
       if (pos == 0) {
-        // Empty line
-        goto read_next_line;
-      }
-      --pos;
-      if (line[pos] != ' ') {
-        break;
-      }
-      line[pos] = '\0';
-    }
-
-    // Now line has any comment and trailing blanks stripped.
-    // We treat parse_buffer as a C-style string, stopping at
-    // the first null character, which we might have inserted.
-    char *const parse_buffer = line.data();
-
-    switch (state) {
-      case ps_game_name:
-
-        the_game = vp_game::find(parse_buffer);
-        if (!the_game) {
-          throw std::runtime_error(
-              std::format("Unknown game name {}", parse_buffer));
-        }
-
-        state = ps_command_line;
-        goto read_next_line;
-
-      case ps_command_line:
-        // Process game command
-        // Okay this is admittedly pretty klunky!
-
-        if (strcmp(parse_buffer, "haas") == 0) {
-          command_name = cm_haas;
-        } else if (strcmp(parse_buffer, "order") == 0) {
-          command_name = cm_order;
-        } else if (strcmp(parse_buffer, "value") == 0) {
-          command_name = cm_value;
-        } else if (strcmp(parse_buffer, "eval") == 0) {
-          command_name = cm_eval;
-        } else if (strncmp(parse_buffer, "multi ", 6) == 0 &&
-                   (command_arg = atoi(parse_buffer + 6)) > 0) {
-          command_name = cm_multi;
-        } else if (strcmp(parse_buffer, "union") == 0) {
-          command_name = cm_union;
-        } else if (strcmp(parse_buffer, "box score") == 0) {
-          command_name = cm_box_score;
-        } else if (strcmp(parse_buffer, "half life") == 0) {
-          command_name = cm_half_life;
-        } else if (strcmp(parse_buffer, "prune") == 0) {
-          command_name = cm_prune;
-        } else if (strcmp(parse_buffer, "game box") == 0) {
-          optimal_box_score(*the_game,
-                            choose_file(output_file, "game_box.txt"));
-          return;
-        } else if (strcmp(parse_buffer, "draft") == 0) {
-          command_name = cm_draft;
-        } else {
-          throw std::runtime_error(std::format("Bad command {}", parse_buffer));
-        }
-        state = ps_parsing;
-        goto read_next_line;
-
-      case ps_parsing:
-        break;
-
-      default:
-        throw std::runtime_error("Enum not handled");
-    }
-
-    // This is the main loop.  Here is where we parse a line.
-
-    // Look for a % at the end of the line that
-    // signals an option string to pass along to
-    // the algorithms.
-
-    char *line_options = 0;
-
-    {
-      char *options = strchr(parse_buffer, '%');
-      if (options) {
-        const int options_size = strlen(options + 1) + 1;
-
-        // TODO: fix this storage leak.
-        line_options = new char[options_size];
-
-        strcpy_s(line_options, options_size, options + 1);
-
-        do {
-          *options-- = 0;
-        } while (options >= parse_buffer && *options == ' ');
-      }
-    }
-
-    if (parse_buffer[0] == 0) {
-      // ignore it, it's a blank line
-    } else if ('0' <= parse_buffer[0] && parse_buffer[0] <= '4' &&
-               (strcmp(parse_buffer + 1, " Deuces") == 0 ||
-                strcmp(parse_buffer, "1 Deuce") == 0)) {
-      // Deuce Divider
-      if (pat.size() != 0) {
-        pat.push_back(StrategyLine());
-
-        if (current_wild == -1) {
-          printf("Inconsistent deuce headers\n");
-          pat.clear();
-        }
-        if (wild[current_wild]) {
-          printf("Duplicate deuce header for %d\n", current_wild);
-          pat.clear();
-        } else {
-          wild_count[current_wild] = pat.size();
-          wild[current_wild] = get_image(pat);
-        }
+        // Read the next line.
+        continue;
       }
 
-      current_wild = parse_buffer[0] - '0';
-    } else {
-      StrategyLine temp = parse_line(parse_buffer, current_wild);
-      temp.options = line_options;
-      pat.push_back(temp);
-    }
+      // Now line has any comment and trailing blanks stripped.
+      // We treat parse_buffer as a C-style string, stopping at
+      // the first null character, which we might have inserted.
+      char *const parse_buffer = line.data();
 
-    goto read_next_line;
+      switch (state) {
+        case ps_game_name:
+          the_game = vp_game::find(parse_buffer);
+          if (!the_game) {
+            throw std::runtime_error(
+                std::format("Unknown game name {}", parse_buffer));
+          }
+
+          state = ps_command_line;
+          break;
+
+        case ps_command_line:
+          // Process game command
+          // Okay this is admittedly pretty klunky!
+
+          if (strcmp(parse_buffer, "haas") == 0) {
+            command_name = cm_haas;
+          } else if (strcmp(parse_buffer, "order") == 0) {
+            command_name = cm_order;
+          } else if (strcmp(parse_buffer, "value") == 0) {
+            command_name = cm_value;
+          } else if (strcmp(parse_buffer, "eval") == 0) {
+            command_name = cm_eval;
+          } else if (strncmp(parse_buffer, "multi ", 6) == 0 &&
+                     (command_arg = atoi(parse_buffer + 6)) > 0) {
+            command_name = cm_multi;
+          } else if (strcmp(parse_buffer, "union") == 0) {
+            command_name = cm_union;
+          } else if (strcmp(parse_buffer, "box score") == 0) {
+            command_name = cm_box_score;
+          } else if (strcmp(parse_buffer, "half life") == 0) {
+            command_name = cm_half_life;
+          } else if (strcmp(parse_buffer, "prune") == 0) {
+            command_name = cm_prune;
+          } else if (strcmp(parse_buffer, "game box") == 0) {
+            optimal_box_score(*the_game,
+                              choose_file(output_file, "game_box.txt"));
+            return;
+          } else if (strcmp(parse_buffer, "draft") == 0) {
+            command_name = cm_draft;
+          } else {
+            throw std::runtime_error(
+                std::format("Bad command {}", parse_buffer));
+          }
+          state = ps_parsing;
+          break;
+
+        case ps_parsing:
+          parse_strategy_line(parse_buffer, pat, current_wild, wild,
+                              wild_count);
+          break;
+
+        default:
+          throw std::runtime_error("Enum not handled");
+      }
+    }
   } catch (std::string msg) {
     printf("Error on line %d:\n", parse_line_number);
     puts(msg.c_str());
@@ -341,11 +353,14 @@ void parser(const char *name, const char *output_file = 0) {
     return;
   }
 
-done_reading_file:
   infile.close();
 
   pat.push_back(StrategyLine());
 
+  // The strategy file is divided into sections separated by
+  // "n Deuces" lines. These are read and handled by parse_strategy_line
+  // But the last section does not have a delimiter. So we finalize
+  // everything here.
   if (current_wild == -1) {
     wild_count[0] = pat.size();
     wild[0] = get_image(pat);
