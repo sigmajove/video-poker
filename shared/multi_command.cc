@@ -36,12 +36,12 @@ std::optional<std::pair<int, int>> multi_command(const std::string &line) {
   }
   if (!iss.eof()) {
     iss >> arg1;
-    if (arg1 < 0) {
+    if (arg1 <= 0) {
       return std::nullopt;
     }
     if (!iss.eof()) {
       iss >> arg2;
-      if (arg2 < 0) {
+      if (arg2 <= 0) {
         return std::nullopt;
       }
     }

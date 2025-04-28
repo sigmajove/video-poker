@@ -172,4 +172,7 @@ TEST(MultiCommand, Only) {
   bad_multi("multi 5 6 bar");
   bad_multi("multi -1");
   bad_multi("multi 5 -1");
+  bad_multi("multi 0");
+  bad_multi("multi 5 0");
+  bad_multi("multi 5555555555555555555555555555");
 }
