@@ -243,114 +243,100 @@ void parser(const char *name, const char *output_file = 0) {
     }
   }
 
-  try {
+  for (;;) {
+    std::string line;
+    if (!std::getline(infile, line)) {
+      if (state != ps_parsing) {
+        throw std::runtime_error("Incomplete strategy file");
+      }
+      break;
+    }
+    ++parse_line_number;
+
+    // Set pos to the length of the line, ignoring any comment.
+    std::size_t pos = line.find('#');
+    if (pos == std::string::npos) {
+      // There is no comment.
+      pos = line.size();
+    } else {
+      line[pos] = '\0';
+    }
+
+    // Replace trailing spaces with nulls.
     for (;;) {
-      std::string line;
-      if (!std::getline(infile, line)) {
-        if (state != ps_parsing) {
-          throw std::runtime_error("Incomplete strategy file");
-        }
+      if (pos == 0) {
+        // Empty line
         break;
       }
-      ++parse_line_number;
-
-      // Set pos to the length of the line, ignoring any comment.
-      std::size_t pos = line.find('#');
-      if (pos == std::string::npos) {
-        // There is no comment.
-        pos = line.size();
-      } else {
-        line[pos] = '\0';
+      --pos;
+      if (line[pos] != ' ') {
+        break;
       }
-
-      // Replace trailing spaces with nulls.
-      for (;;) {
-        if (pos == 0) {
-          // Empty line
-          break;
-        }
-        --pos;
-        if (line[pos] != ' ') {
-          break;
-        }
-        line[pos] = '\0';
-      }
-      if (pos == 0) {
-        // Read the next line.
-        continue;
-      }
-
-      // Now line has any comment and trailing blanks stripped.
-      // We treat parse_buffer as a C-style string, stopping at
-      // the first null character, which we might have inserted.
-      char *const parse_buffer = line.data();
-
-      switch (state) {
-        case ps_game_name:
-          the_game = vp_game::find(parse_buffer);
-          if (!the_game) {
-            throw std::runtime_error(
-                std::format("Unknown game name {}", parse_buffer));
-          }
-
-          state = ps_command_line;
-          break;
-
-        case ps_command_line:
-          // Process game command
-          // Okay this is admittedly pretty klunky!
-
-          if (strcmp(parse_buffer, "haas") == 0) {
-            command_name = cm_haas;
-          } else if (strcmp(parse_buffer, "order") == 0) {
-            command_name = cm_order;
-          } else if (strcmp(parse_buffer, "value") == 0) {
-            command_name = cm_value;
-          } else if (strcmp(parse_buffer, "eval") == 0) {
-            command_name = cm_eval;
-          } else if (strncmp(parse_buffer, "multi ", 6) == 0 &&
-                     (command_arg = atoi(parse_buffer + 6)) > 0) {
-            command_name = cm_multi;
-          } else if (strcmp(parse_buffer, "union") == 0) {
-            command_name = cm_union;
-          } else if (strcmp(parse_buffer, "box score") == 0) {
-            command_name = cm_box_score;
-          } else if (strcmp(parse_buffer, "half life") == 0) {
-            command_name = cm_half_life;
-          } else if (strcmp(parse_buffer, "prune") == 0) {
-            command_name = cm_prune;
-          } else if (strcmp(parse_buffer, "game box") == 0) {
-            optimal_box_score(*the_game,
-                              choose_file(output_file, "game_box.txt"));
-            return;
-          } else if (strcmp(parse_buffer, "draft") == 0) {
-            command_name = cm_draft;
-          } else {
-            throw std::runtime_error(
-                std::format("Bad command {}", parse_buffer));
-          }
-          state = ps_parsing;
-          break;
-
-        case ps_parsing:
-          parse_strategy_line(parse_buffer, pat, current_wild, wild,
-                              wild_count);
-          break;
-
-        default:
-          throw std::runtime_error("Enum not handled");
-      }
+      line[pos] = '\0';
     }
-  } catch (std::string msg) {
-    printf("Error on line %d:\n", parse_line_number);
-    puts(msg.c_str());
-    putchar('\n');
-    infile.close();
-    return;
-  } catch (...) {
-    printf("Processing terminated due to error\n");
-    infile.close();
-    return;
+    if (pos == 0) {
+      // Read the next line.
+      continue;
+    }
+
+    // Now line has any comment and trailing blanks stripped.
+    // We treat parse_buffer as a C-style string, stopping at
+    // the first null character, which we might have inserted.
+    char *const parse_buffer = line.data();
+
+    switch (state) {
+      case ps_game_name:
+        the_game = vp_game::find(parse_buffer);
+        if (!the_game) {
+          throw std::runtime_error(
+              std::format("Unknown game name {}", parse_buffer));
+        }
+
+        state = ps_command_line;
+        break;
+
+      case ps_command_line:
+        // Process game command
+        // Okay this is admittedly pretty klunky!
+
+        if (strcmp(parse_buffer, "haas") == 0) {
+          command_name = cm_haas;
+        } else if (strcmp(parse_buffer, "order") == 0) {
+          command_name = cm_order;
+        } else if (strcmp(parse_buffer, "value") == 0) {
+          command_name = cm_value;
+        } else if (strcmp(parse_buffer, "eval") == 0) {
+          command_name = cm_eval;
+        } else if (strncmp(parse_buffer, "multi ", 6) == 0 &&
+                   (command_arg = atoi(parse_buffer + 6)) > 0) {
+          command_name = cm_multi;
+        } else if (strcmp(parse_buffer, "union") == 0) {
+          command_name = cm_union;
+        } else if (strcmp(parse_buffer, "box score") == 0) {
+          command_name = cm_box_score;
+        } else if (strcmp(parse_buffer, "half life") == 0) {
+          command_name = cm_half_life;
+        } else if (strcmp(parse_buffer, "prune") == 0) {
+          command_name = cm_prune;
+        } else if (strcmp(parse_buffer, "game box") == 0) {
+          optimal_box_score(*the_game,
+                            choose_file(output_file, "game_box.txt"));
+          return;
+        } else if (strcmp(parse_buffer, "draft") == 0) {
+          command_name = cm_draft;
+        } else {
+          throw std::runtime_error(std::format("Bad command {}", parse_buffer));
+        }
+        state = ps_parsing;
+        break;
+
+      case ps_parsing:
+        parse_strategy_line(parse_buffer, pat, current_wild, wild, wild_count);
+        break;
+
+      default:
+        throw std::runtime_error("Enum not handled");
+    }
   }
 
   infile.close();
