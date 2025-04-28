@@ -145,8 +145,6 @@ static StrategyLine *get_image(std::vector<StrategyLine> &pat) {
 
 const char *choose_file(const char *f1, const char *f2) { return f1 ? f1 : f2; }
 
-static int parse_line_number;
-
 void parser(const char *name, const char *output_file = 0) {
   std::ifstream infile(name);
   if (!infile.is_open()) {
@@ -169,7 +167,7 @@ void parser(const char *name, const char *output_file = 0) {
   } command_name;
   int command_arg = 0;
 
-  parse_line_number = 0;
+  int parse_line_number = 0;
 
   std::vector<StrategyLine> pat;
 
@@ -194,6 +192,7 @@ void parser(const char *name, const char *output_file = 0) {
     if (!std::getline(infile, line)) {
       goto done_reading_file;
     }
+    ++parse_line_number;
 
     // Set pos to the length of the line, ignoring any comment.
     std::size_t pos = line.find('#');
