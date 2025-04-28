@@ -85,7 +85,7 @@ struct vp_game {
   denom_value min_high_pair;
   const int (*pay_table)[last_pay + 1];
 
-  static vp_game *find(char *named);
+  static vp_game *find(const char *named);
 
   vp_game(const char *n, game_kind k, denom_value mhp,
           const int (*pt)[last_pay + 1]);

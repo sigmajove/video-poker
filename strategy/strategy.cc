@@ -1,5 +1,10 @@
 #include <algorithm>
+#include <format>
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 #include "combin.h"
@@ -143,15 +148,9 @@ const char *choose_file(const char *f1, const char *f2) { return f1 ? f1 : f2; }
 static int parse_line_number;
 
 void parser(const char *name, const char *output_file = 0) {
-  FILE *input = NULL;
-  const errno_t input_err = fopen_s(&input, name, "rt");
-
-  if (input == NULL) {
-    char buffer[81];
-    strerror_s(buffer, input_err);
-    printf("%s\n", buffer);
+  std::ifstream infile(name);
+  if (!infile.is_open()) {
     printf("Could not open %s\n", name);
-    return;
   }
 
   enum { ps_game_name, ps_command_line, ps_parsing } state = ps_game_name;
@@ -171,10 +170,7 @@ void parser(const char *name, const char *output_file = 0) {
   int command_arg = 0;
 
   parse_line_number = 0;
-  bool read_eof = false;
 
-  int parse_buffer_size = 10;
-  char *parse_buffer = new char[parse_buffer_size];
   std::vector<StrategyLine> pat;
 
   // Parameters
@@ -192,86 +188,47 @@ void parser(const char *name, const char *output_file = 0) {
     }
   }
 
+  std::string line;
   try {
-  read_next_line: {
-    int line_size = 0;
+  read_next_line: {}
+    if (!std::getline(infile, line)) {
+      goto done_reading_file;
+    }
 
+    // Set pos to the length of the line, ignoring any comment.
+    std::size_t pos = line.find('#');
+    if (pos == std::string::npos) {
+      // There is no comment.
+      pos = line.size();
+    } else {
+      line[pos] = '\0';
+    }
+
+    // Replace trailing spaces with nulls.
     for (;;) {
-      char *buffer_tail = parse_buffer + line_size;
-
-      if (read_eof) {
-        goto done_reading_file;
+      if (pos == 0) {
+        // Empty line
+        goto read_next_line;
       }
-
-      if (fgets(buffer_tail, parse_buffer_size - line_size, input) == NULL) {
-        read_eof = true;
-        if (line_size == 0) {
-          goto done_reading_file;
-        }
-        goto done_reading_line;
+      --pos;
+      if (line[pos] != ' ') {
+        break;
       }
-
-      line_size += strlen(buffer_tail);
-
-      if (parse_buffer[line_size - 1] == '\n') {
-        parse_line_number += 1;
-        parse_buffer[line_size - 1] = 0;
-        goto done_reading_line;
-      } else {
-        int new_size = 2 * parse_buffer_size;
-        char *new_buffer = new char[new_size];
-        memcpy(new_buffer, parse_buffer, parse_buffer_size);
-        delete parse_buffer;
-        parse_buffer = new_buffer;
-        parse_buffer_size = new_size;
-        continue;
-      }
-
-    done_reading_line:
-      // I've assembled one complete line
-      char *comment = strchr(parse_buffer, '#');
-      if (comment) {
-        *comment = 0;
-
-        if (comment > parse_buffer && comment[-1] == ';') {
-          // This is a continuation line.
-          // Keep reading
-
-          line_size = (comment - 1) - parse_buffer;
-
-          if (!read_eof) {
-            continue;
-          }
-        }
-      }
-      break;
-    }
-  }
-
-    {
-      // Strip trailing blanks
-      int n = strlen(parse_buffer);
-      while (n > 0 && parse_buffer[n - 1] == ' ') {
-        parse_buffer[n-- - 1] = 0;
-      }
+      line[pos] = '\0';
     }
 
-    if (parse_buffer[0] == 0) {
-      goto read_next_line;
-    }
-
-    // Now parse_buffer is a complete line, assembled from
-    // multi-lines if needed, with any comment and trailing
-    // blanks stripped.  Figure out what to do with the
-    // shiny new line.
+    // Now line has any comment and trailing blanks stripped.
+    // We treat parse_buffer as a C-style string, stopping at
+    // the first null character, which we might have inserted.
+    char *const parse_buffer = line.data();
 
     switch (state) {
       case ps_game_name:
 
         the_game = vp_game::find(parse_buffer);
         if (!the_game) {
-          printf("Unknown game name %s\n", parse_buffer);
-          throw 0;
+          throw std::runtime_error(
+              std::format("Unknown game name {}", parse_buffer));
         }
 
         state = ps_command_line;
@@ -307,8 +264,7 @@ void parser(const char *name, const char *output_file = 0) {
         } else if (strcmp(parse_buffer, "draft") == 0) {
           command_name = cm_draft;
         } else {
-          printf("Unknown command name: %s\n", parse_buffer);
-          throw 0;
+          throw std::runtime_error(std::format("Bad command {}", parse_buffer));
         }
         state = ps_parsing;
         goto read_next_line;
@@ -317,11 +273,10 @@ void parser(const char *name, const char *output_file = 0) {
         break;
 
       default:
-        _ASSERT(0);
+        throw std::runtime_error("Enum not handled");
     }
 
-    // This is the main loop.  Here is where I
-    // parse a line.
+    // This is the main loop.  Here is where we parse a line.
 
     // Look for a % at the end of the line that
     // signals an option string to pass along to
@@ -333,7 +288,10 @@ void parser(const char *name, const char *output_file = 0) {
       char *options = strchr(parse_buffer, '%');
       if (options) {
         const int options_size = strlen(options + 1) + 1;
+
+        // TODO: fix this storage leak.
         line_options = new char[options_size];
+
         strcpy_s(line_options, options_size, options + 1);
 
         do {
@@ -376,16 +334,16 @@ void parser(const char *name, const char *output_file = 0) {
     printf("Error on line %d:\n", parse_line_number);
     puts(msg.c_str());
     putchar('\n');
-    fclose(input);
+    infile.close();
     return;
   } catch (...) {
     printf("Processing terminated due to error\n");
-    fclose(input);
+    infile.close();
     return;
   }
 
 done_reading_file:
-  fclose(input);
+  infile.close();
 
   pat.push_back(StrategyLine());
 

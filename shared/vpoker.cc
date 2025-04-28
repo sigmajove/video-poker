@@ -88,7 +88,7 @@ vp_game::vp_game(const char *n, enum game_kind k, denom_value mhp,
   name_map[n] = this;
 }
 
-vp_game *vp_game::find(char *named) { return name_map[named]; }
+vp_game *vp_game::find(const char *named) { return name_map[named]; }
 
 namespace games {
 static const int kb_table[] = {
