@@ -36,6 +36,9 @@
     <ClCompile Include="pay_dist.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="multi_command.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pay_dist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="multi_command.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

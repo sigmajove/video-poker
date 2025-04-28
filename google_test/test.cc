@@ -6,6 +6,7 @@
 
 #include "combin.h"
 #include "gtest/gtest.h"
+#include "multi_command.h"
 #include "pay_dist.h"
 
 // Returns the expected value of a distribution.
@@ -143,4 +144,32 @@ TEST(Distribution, Merge) {
 
     EXPECT_EQ(sum, result);
   }
+}
+
+void test_multi(const std::string& line, int arg1, int arg2) {
+  const auto parsed = multi_command(line);
+  ASSERT_TRUE(parsed);
+  const int f = parsed->first;
+  const int s = parsed->second;
+  EXPECT_EQ(f, arg1);
+  EXPECT_EQ(s, arg2);
+}
+
+void bad_multi(const std::string& line) {
+  const auto parsed = multi_command(line);
+  EXPECT_FALSE(parsed);
+}
+
+TEST(MultiCommand, Only) {
+  test_multi("multi 5 6", 5, 6);
+  test_multi("multi    5    6    ", 5, 6);
+  test_multi("multi    5   ", 5, 1);
+  test_multi("multi     ", 1, 1);
+  test_multi("multi", 1, 1);
+  bad_multi("foo");
+  bad_multi("multi bar");
+  bad_multi("multi 5 bar");
+  bad_multi("multi 5 6 bar");
+  bad_multi("multi -1");
+  bad_multi("multi 5 -1");
 }

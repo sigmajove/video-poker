@@ -133,6 +133,7 @@
     <ClCompile Include="enum_match.cc" />
     <ClCompile Include="game.cc" />
     <ClCompile Include="kept.cc" />
+    <ClCompile Include="multi_command.cc" />
     <ClCompile Include="parse_line.cc" />
     <ClCompile Include="pay_dist.cc" />
     <ClCompile Include="vpoker.cc" />
@@ -142,6 +143,7 @@
     <ClInclude Include="enum_match.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="kept.h" />
+    <ClInclude Include="multi_command.h" />
     <ClInclude Include="parse_line.h" />
     <ClInclude Include="pay_dist.h" />
     <ClInclude Include="vpoker.h" />

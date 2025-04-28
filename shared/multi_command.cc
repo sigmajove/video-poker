@@ -6,7 +6,18 @@
 #include <string>
 #include <utility>
 
-// This function parses a
+// This function parses a command line of the form
+//
+//   multi [nnn [mmm]]
+//
+// where nnn and mmm are positive integer defaulting to 1.
+//
+// I wanted to do this without dragging complicated mechanisms like
+// the Unix Lex or Google regular expressions. Perplexity suggested
+// using std::istringstream, but I had to do a lot of fiddling to
+// get all the edge cases correct.
+//
+// I probably should have used C++'s std::regex_search instead.
 
 std::optional<std::pair<int, int>> multi_command(const std::string &line) {
   int arg1 = 1;  // default value
