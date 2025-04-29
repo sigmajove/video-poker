@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstddef>
 #include <format>
 #include <fstream>
 #include <iostream>
@@ -10,6 +11,7 @@
 #include "combin.h"
 #include "enum_match.h"
 #include "kept.h"
+#include "multi_command.h"
 #include "new_hand_iter.h"
 #include "parse_line.h"
 #include "peval.h"
@@ -131,11 +133,11 @@ void oej_canonicalize(domain &d, domain &best_name, int wild_cards) {
 }
 
 static StrategyLine *get_image(std::vector<StrategyLine> &pat) {
-  int n = pat.size();
+  std::size_t n = pat.size();
   StrategyLine *result = new StrategyLine[n];
   StrategyLine *rover = result;
 
-  for (int j = 0; j < n; j++) {
+  for (std::size_t j = 0; j < n; j++) {
     *rover++ = pat.at(j);
   }
 
@@ -147,7 +149,7 @@ static StrategyLine *get_image(std::vector<StrategyLine> &pat) {
 // But it has a lot of parameters. Maybe introduce a class?
 void parse_strategy_line(char *parse_buffer, std::vector<StrategyLine> &pat,
                          int &current_wild, StrategyLine *(&wild)[5],
-                         int (&wild_count)[5]) {
+                         std::size_t (&wild_count)[5]) {
   // Look for a % at the end of the line that
   // signals an option string to pass along to
   // the algorithms.
@@ -157,7 +159,7 @@ void parse_strategy_line(char *parse_buffer, std::vector<StrategyLine> &pat,
   {
     char *options = strchr(parse_buffer, '%');
     if (options) {
-      const int options_size = strlen(options + 1) + 1;
+      const std::size_t options_size = strlen(options + 1) + 1;
 
       // TODO: fix this storage leak.
       line_options = new char[options_size];
@@ -222,7 +224,10 @@ void parser(const char *name, const char *output_file = 0) {
     cm_prune,
     cm_draft,
   } command_name;
-  int command_arg = 0;
+
+  // Arguments for the multi command.
+  int command_arg1 = 1;
+  int command_arg2 = 1;
 
   int parse_line_number = 0;
 
@@ -231,8 +236,8 @@ void parser(const char *name, const char *output_file = 0) {
   // Parameters
   vp_game *the_game = nullptr;
 
-  StrategyLine *wild[5];  // At most 4 wild cards
-  int wild_count[5];      // Number of lines in each strategy
+  StrategyLine *wild[5];      // At most 4 wild cards
+  std::size_t wild_count[5];  // Number of lines in each strategy
 
   int current_wild = -1;
 
@@ -307,9 +312,11 @@ void parser(const char *name, const char *output_file = 0) {
           command_name = cm_value;
         } else if (strcmp(parse_buffer, "eval") == 0) {
           command_name = cm_eval;
-        } else if (strncmp(parse_buffer, "multi ", 6) == 0 &&
-                   (command_arg = atoi(parse_buffer + 6)) > 0) {
+        } else if (const auto args = multi_command(std::string(parse_buffer));
+                   args.has_value()) {
           command_name = cm_multi;
+          command_arg1 = args->first;
+          command_arg2 = args->second;
         } else if (strcmp(parse_buffer, "union") == 0) {
           command_name = cm_union;
         } else if (strcmp(parse_buffer, "box score") == 0) {
@@ -387,8 +394,10 @@ void parser(const char *name, const char *output_file = 0) {
       break;
 
     case cm_multi:
-      multi_strategy(*the_game, wild, static_cast<unsigned int>(command_arg),
-                     choose_file(output_file, "multi.txt"));
+      multi_distribution(*the_game, wild,
+                         static_cast<unsigned int>(command_arg1),  // num_lines
+                         static_cast<unsigned int>(command_arg2),  // num_games
+                         choose_file(output_file, "multi.txt"));
       break;
 
     case cm_prune:

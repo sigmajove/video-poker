@@ -535,8 +535,9 @@ static PayDistribution evaluate_multi(const hand_iter &h, int deuces,
   return pd;
 }
 
-void multi_strategy(const vp_game &game, StrategyLine *lines[],
-                    unsigned int mult, const char *filename) {
+void multi_distribution(const vp_game &game, StrategyLine *lines[],
+                        unsigned int num_lines, unsigned int num_games,
+                        const char *filename) {
   game_parameters parms(game);
   C_left left(parms);
 
@@ -548,7 +549,8 @@ void multi_strategy(const vp_game &game, StrategyLine *lines[],
     throw std::runtime_error(std::format("Could not open {}", filename));
   }
 
-  fprintf(output, "Multi hand for %s %u\n", game.name, mult);
+  fprintf(output, "Multi %s with %u lines and %u games\n", game.name, num_lines,
+          num_games);
 
   printf("Computing");
 
@@ -573,7 +575,7 @@ void multi_strategy(const vp_game &game, StrategyLine *lines[],
       }
       PayDistribution dist = repeat(
           evaluate_multi(iter, wild_cards, left, lines[wild_cards], parms),
-          mult);
+          num_lines);
 
       // Compute the probability of the starting hand.
       const int mult = wide_mult * iter.multiplier();
@@ -595,11 +597,25 @@ void multi_strategy(const vp_game &game, StrategyLine *lines[],
 
   double payback = 0.0;
   for (const auto &[prob, pay] : total_pays) {
-    fprintf(output, "%.8e%5d\n", prob, pay);
     payback += prob * pay;
   }
-  fprintf(output, "\n");
-  fprintf(output, "Payback %.6f\n", 100 * payback / mult);
+  const double percent = 100 * payback / num_lines;
+  fprintf(output, "Payback %.6f%%\n", percent);
+  printf("Payback %.6f%%\n", percent);
+
+  double variance = 0.0;
+  for (const auto &[prob, pay] : total_pays) {
+    const double delta = payback - pay;
+    variance += prob * delta * delta;
+  }
+  fprintf(output, "Variance = %.4f\n", variance);
+  printf("Variance = %.4f\n", variance);
+
+  total_pays = repeat(total_pays, num_games);
+  for (const auto &[prob, pay] : total_pays) {
+    fprintf(output, "%.8e%5d\n", prob, pay);
+  }
+
   fclose(output);
   printf("Output is in %s\n", filename);
 }
@@ -607,7 +623,7 @@ void multi_strategy(const vp_game &game, StrategyLine *lines[],
 typedef std::map<std::pair<int, int>, double> prune_data;
 
 static void evaluate_for_prune(hand_iter &h, int deuces, C_left &left,
-                               StrategyLine *lines, int strategy_length,
+                               StrategyLine *lines, std::size_t strategy_length,
                                game_parameters &parms, double multiplier,
                                prune_data &accum) {
   // Compute the expected value of an initial five-card hand
@@ -673,7 +689,7 @@ struct sort_compare {
 };
 
 void prune_strategy(const vp_game &game, StrategyLine *lines[],
-                    int *strategy_length, const char *filename) {
+                    std::size_t *strategy_length, const char *filename) {
   int counter = 0;
   int timer = 0;
 
@@ -703,7 +719,7 @@ void prune_strategy(const vp_game &game, StrategyLine *lines[],
     const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
 
     StrategyLine *strategy_w = lines[wild_cards];
-    int strategy_l = strategy_length[wild_cards];
+    std::size_t strategy_l = strategy_length[wild_cards];
 
     prune_data accum;
 
