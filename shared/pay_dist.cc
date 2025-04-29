@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <stdexcept>
 
 // This is a little weird.
@@ -26,28 +27,32 @@ ProbPay::ProbPay(double prob, double pay) : probability(prob) {
 }
 
 void normalize(PayDistribution &dist) {
-  // Sort the results by increasing payoff.
   if (dist.empty()) {
     return;
   }
 
-  std::sort(dist.begin(), dist.end(), [](const ProbPay &a, const ProbPay &b) {
-    return a.payoff < b.payoff;
-  });
-
-  // Add the probabilities of adjacent payoffs.
-  PayDistribution::iterator out = dist.begin();
-  bool first = true;
-  for (const ProbPay &pp : dist) {
-    if (first) {
-      first = false;
-    } else if (out->payoff == pp.payoff) {
-      out->probability += pp.probability;
-    } else {
-      *++out = pp;
+  int min_pay = dist[0].payoff;
+  int max_pay = min_pay;
+  for (const auto [prob, pay] : dist) {
+    if (pay < min_pay) {
+      min_pay = pay;
+    }
+    if (pay > max_pay) {
+      max_pay = pay;
     }
   }
-  dist.erase(out + 1, dist.end());
+  const int table_size = max_pay - min_pay + 1;
+  std::unique_ptr<double[]> table(new double[table_size]());
+  for (const auto [prob, pay] : dist) {
+    table[pay - min_pay] += prob;
+  }
+
+  dist.clear();
+  for (int i = 0; i < table_size; ++i) {
+    if (table[i] > 0.0) {
+      dist.emplace_back(table[i], min_pay + i);
+    }
+  }
 }
 
 PayDistribution succession(const PayDistribution &first,
