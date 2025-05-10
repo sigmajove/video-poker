@@ -19,7 +19,7 @@ class PayDistribution {
   PayDistribution()
       : cutoff_(std::numeric_limits<int>::max()), cutoff_prob_(0) {}
 
-  PayDistribution(int cutoff, bool cutoff_prob,
+  PayDistribution(int cutoff, double cutoff_prob,
                   const std::vector<ProbPay> &dist)
       : cutoff_(cutoff), cutoff_prob_(cutoff_prob), dist_(dist) {}
 
@@ -36,8 +36,8 @@ class PayDistribution {
 
   // A constant view of the distribution.
   const std::vector<ProbPay> &distribution() const { return dist_; }
-  int cutoff() { return cutoff_; }
-  double cutoff_prob() { return cutoff_prob_; }
+  int cutoff() const { return cutoff_; }
+  double cutoff_prob() const { return cutoff_prob_; }
 
   // Returns the expected value of the distribution.
   // If there are cutoff values, the result is only an approximation.

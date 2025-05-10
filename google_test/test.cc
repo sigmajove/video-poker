@@ -52,6 +52,33 @@ TEST(Distribution, Normalize3) {
   EXPECT_EQ(test, expected);
 }
 
+TEST(Distribution, Cutoff) {
+  const PayDistribution dist1(100, .0625,
+                              {{0.5, 0}, {0.25, 1}, {0.125, 7}, {0.0625, 11}});
+  EXPECT_EQ(dist1.total_prob(), 1.0);
+  const PayDistribution dist2(
+      50, .0625, {{0.5, 0}, {0.25, 20}, {0.125, 30}, {0.0625, 40}});
+  EXPECT_EQ(dist2.total_prob(), 1.0);
+  const PayDistribution sum = succession(dist1, dist2);
+  EXPECT_EQ(sum.total_prob(), 1.0);
+  const PayDistribution expected(
+      50, .0625 + .0625 * (.0625 + .0625) + (.5 + .25 + .125) * .0625,
+      {{0.5 * 0.5, 0},
+       {0.5 * 0.25, 1},
+       {0.5 * 0.125, 7},
+       {0.5 * 0.0625, 11},
+       {0.25 * 0.5, 20},
+       {0.25 * 0.25, 21},
+       {0.25 * 0.125, 27},
+       {0.125 * 0.5, 30},
+       {0.125 * 0.25 + 0.25 * 0.0625, 31},
+       {0.125 * 0.125, 37},
+       {0.0625 * 0.5, 40},
+       {0.0625 * 0.25 + 0.125 * 0.0625, 41},
+       {0.0625 * 0.125, 47}});
+  EXPECT_EQ(sum, expected);
+}
+
 TEST(Distribution, Times10) {
   // All the probabilities have short binary mantissas to minimize floating
   // point roundoff error.
