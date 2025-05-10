@@ -1,6 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS  // For Microsoft Visual Studio
 #include <stdio.h>
 
+#define NOMINMAX  // avoid blocking things like std::min
+                  // and numeric_limits<int>::max()
+#include <windows.h>
+
 #include <algorithm>
 #include <cstddef>
 #include <format>
@@ -520,7 +524,7 @@ static PayDistribution evaluate_multi(const hand_iter &h, int deuces,
       std::accumulate(pays + first_pay, pays + last_pay + 1, 0));
 
   // Convert a pay_dist to a PayDistribution (unfortunate naming!)
-  PayDistribution pd;
+  std::vector<ProbPay> pd;
   for (std::size_t j = first_pay; j <= last_pay; j++) {
     const int frequency = pays[j];
     if (frequency > 0) {
@@ -528,16 +532,20 @@ static PayDistribution evaluate_multi(const hand_iter &h, int deuces,
       pd.emplace_back(probability, parms.pay_table[j]);
     }
   }
-  normalize(pd);
-
   left.replace(matcher.hand, matcher.hand_size, deuces);
 
-  return pd;
+  PayDistribution dist(pd);
+  dist.normalize();
+  return dist;
 }
 
 void multi_distribution(const vp_game &game, StrategyLine *lines[],
                         unsigned int num_lines, unsigned int num_games,
                         const char *filename) {
+  char buffer[256];
+  GetCurrentDirectory(256, buffer);
+  printf("Current dir %s\n", buffer);
+
   game_parameters parms(game);
   C_left left(parms);
 
@@ -582,9 +590,7 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
       const double start_prob = mult / total_hands;
 
       // Adjust the pay distribution by this probability.
-      for (ProbPay &pp : dist) {
-        pp.probability *= start_prob;
-      }
+      dist.scale(start_prob);
       total_pays = merge(total_pays, dist);
 
       counter += mult;
@@ -595,26 +601,57 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
     throw std::runtime_error("Iteration counter wrong\n");
   }
 
-  double payback = 0.0;
-  for (const auto &[prob, pay] : total_pays) {
-    payback += prob * pay;
-  }
+  const double payback = total_pays.expected();
   const double percent = 100 * payback / num_lines;
   fprintf(output, "Payback %.6f%%\n", percent);
   printf("Payback %.6f%%\n", percent);
 
   double variance = 0.0;
-  for (const auto &[prob, pay] : total_pays) {
+  for (const auto &[prob, pay] : total_pays.distribution()) {
     const double delta = payback - pay;
     variance += prob * delta * delta;
   }
+  const double delta = payback - total_pays.cutoff();
+  variance += total_pays.cutoff_prob() * delta * delta;
+
   fprintf(output, "Variance = %.4f\n", variance);
   printf("Variance = %.4f\n", variance);
 
   total_pays = repeat(total_pays, num_games);
-  for (const auto &[prob, pay] : total_pays) {
-    fprintf(output, "%.8e%5d\n", prob, pay);
+
+  printf("Repeat Done\n");
+
+  // Create cumulative distribution.
+  std::vector<ProbPay> cumulative;
+  cumulative.reserve(100);
+
+  const unsigned int num_bets = num_lines * num_games;
+  double total_prob = 0.0;
+  int bracket = 1;
+  double limit = static_cast<double>(bracket) / 100;
+  for (const auto &[prob, pay] : total_pays.distribution()) {
+    total_prob += prob;
+    if (total_prob >= limit) {
+      cumulative.emplace_back(total_prob, static_cast<int>(pay - num_bets));
+      limit = static_cast<double>(++bracket) / 100;
+    }
   }
+  total_prob += total_pays.cutoff_prob();
+  if (total_prob >= limit) {
+    cumulative.emplace_back(total_prob,
+                            static_cast<int>(total_pays.cutoff() - num_bets));
+    limit = static_cast<double>(++bracket) / 100;
+  }
+#if 0
+  cumulative.emplace_back(
+      1.0, static_cast<int>(total_pays.back().payoff - num_bets));
+#endif
+
+  fprintf(output, "distribution = [\n");
+  for (const auto &[prob, pay] : cumulative) {
+    fprintf(output, "(%.8e,%5d),\n", prob, pay);
+  }
+  fprintf(output, "]\n");
 
   fclose(output);
   printf("Output is in %s\n", filename);

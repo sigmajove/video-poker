@@ -5,6 +5,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <numeric>
 #include <stdexcept>
 
 // This is a little weird.
@@ -26,14 +27,34 @@ ProbPay::ProbPay(double prob, double pay) : probability(prob) {
   payoff = static_cast<int>(pay);
 }
 
-void normalize(PayDistribution &dist) {
-  if (dist.empty()) {
+double PayDistribution::expected() const {
+  return std::accumulate(dist_.begin(), dist_.end(), cutoff_prob_ * cutoff_,
+                         [](float sum, const ProbPay &pp) {
+                           return sum + pp.probability * pp.payoff;
+                         });
+}
+
+double PayDistribution::total_prob() const {
+  return std::accumulate(
+      dist_.begin(), dist_.end(), cutoff_prob_,
+      [](float sum, const ProbPay &pp) { return sum + pp.probability; });
+}
+
+void PayDistribution::scale(double prob) {
+  for (ProbPay &pp : dist_) {
+    pp.probability *= prob;
+  }
+  cutoff_prob_ *= prob;
+}
+
+void PayDistribution::normalize() {
+  if (dist_.empty()) {
     return;
   }
 
-  int min_pay = dist[0].payoff;
+  int min_pay = dist_[0].payoff;
   int max_pay = min_pay;
-  for (const auto [prob, pay] : dist) {
+  for (const auto [prob, pay] : dist_) {
     if (pay < min_pay) {
       min_pay = pay;
     }
@@ -43,14 +64,14 @@ void normalize(PayDistribution &dist) {
   }
   const int table_size = max_pay - min_pay + 1;
   std::unique_ptr<double[]> table(new double[table_size]());
-  for (const auto [prob, pay] : dist) {
+  for (const auto [prob, pay] : dist_) {
     table[pay - min_pay] += prob;
   }
 
-  dist.clear();
+  dist_.clear();
   for (int i = 0; i < table_size; ++i) {
     if (table[i] > 0.0) {
-      dist.emplace_back(table[i], min_pay + i);
+      dist_.emplace_back(table[i], min_pay + i);
     }
   }
 }
@@ -58,37 +79,57 @@ void normalize(PayDistribution &dist) {
 PayDistribution succession(const PayDistribution &first,
                            const PayDistribution &second) {
   PayDistribution result;
-  result.reserve(first.size() * second.size());
-  for (const ProbPay &f : first) {
-    for (const ProbPay &s : second) {
-      result.emplace_back(f.probability * s.probability, f.payoff + s.payoff);
+  result.cutoff_ = std::min(first.cutoff_, second.cutoff_);
+
+  // The probability that that either first or second is past
+  // the cutoff_. Then the result is past the cutoff_.
+  result.cutoff_prob_ = first.cutoff_prob_ + second.cutoff_prob_ -
+                        first.cutoff_prob_ * second.cutoff_prob_;
+
+  // Now examine all the cases where both distributions are less
+  // than their respective cutoffs.
+  result.dist_.reserve(first.dist_.size() * second.dist_.size());
+  for (const ProbPay &f : first.dist_) {
+    for (const ProbPay &s : second.dist_) {
+      const double prob = f.probability * s.probability;
+      const int pay = f.payoff + s.payoff;
+      if (pay >= result.cutoff_) {
+        result.cutoff_prob_ += prob;
+      } else {
+        result.dist_.emplace_back(prob, pay);
+      }
     }
   }
 
-  normalize(result);
+  result.normalize();
   return result;
 }
 
 PayDistribution repeat(const PayDistribution &wager, unsigned int n) {
-  if (n == 0) {
-    return {{1.0, 0}};
-  }
-  PayDistribution power = wager;
   PayDistribution result;
-  unsigned int bits = n;
-  for (;;) {
-    if (bits & 1) {
-      if (result.empty()) {
-        result = power;
-      } else {
-        result = succession(result, power);
+  if (n == 0) {
+    result.cutoff_ = wager.cutoff_;
+    result.cutoff_prob_ = 0.0;
+    result.dist_ = {ProbPay(1.0, 0)};
+  } else {
+    PayDistribution power = wager;
+    unsigned int bits = n;
+    bool first = true;
+    for (;;) {
+      if (bits & 1) {
+        if (first) {
+          result = power;
+          first = false;
+        } else {
+          result = succession(result, power);
+        }
       }
+      bits >>= 1;
+      if (bits == 0) {
+        break;
+      }
+      power = succession(power, power);
     }
-    bits >>= 1;
-    if (bits == 0) {
-      break;
-    }
-    power = succession(power, power);
   }
   return result;
 }
@@ -96,24 +137,35 @@ PayDistribution repeat(const PayDistribution &wager, unsigned int n) {
 PayDistribution merge(const PayDistribution &first,
                       const PayDistribution &second) {
   PayDistribution result;
-  result.reserve(first.size() + second.size());
-  auto it1 = first.begin(), it2 = second.begin();
+  result.cutoff_ = std::min(first.cutoff_, second.cutoff_);
+  result.cutoff_prob_ = first.cutoff_prob_ + second.cutoff_prob_;
 
-  while (it1 != first.end() && it2 != second.end()) {
+  result.dist_.reserve(first.dist_.size() + second.dist_.size());
+  auto it1 = first.dist_.begin(), it2 = second.dist_.begin();
+
+  while (it1 != first.dist_.end() && it2 != second.dist_.end()) {
     if (it1->payoff == it2->payoff) {
-      result.emplace_back(it1->probability + it2->probability, it1->payoff);
+      result.dist_.emplace_back(it1->probability + it2->probability,
+                                it1->payoff);
       ++it1;
       ++it2;
     } else if (it1->payoff < it2->payoff) {
-      result.push_back(*it1++);
+      result.dist_.push_back(*it1++);
     } else {
-      result.push_back(*it2++);
+      result.dist_.push_back(*it2++);
     }
   }
 
   // Append the remaining elements of the input that was not exhausted.
-  result.insert(result.end(), it1, first.end());
-  result.insert(result.end(), it2, second.end());
+  result.dist_.insert(result.dist_.end(), it1, first.dist_.end());
+  result.dist_.insert(result.dist_.end(), it2, second.dist_.end());
+
+  // Handle the unexpected case where first and second have different cutoffs.
+  while (not result.dist_.empty() &&
+         result.dist_.back().payoff >= result.cutoff_) {
+    result.cutoff_prob_ += result.dist_.back().probability;
+    result.dist_.pop_back();
+  }
 
   return result;
 }
