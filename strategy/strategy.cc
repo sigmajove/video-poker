@@ -1,4 +1,7 @@
+#include <stdio.h>
+
 #include <algorithm>
+#include <cerrno>
 #include <cstddef>
 #include <format>
 #include <fstream>
@@ -207,7 +210,12 @@ const char *choose_file(const char *f1, const char *f2) { return f1 ? f1 : f2; }
 void parser(const char *name, const char *output_file = 0) {
   std::ifstream infile(name);
   if (!infile.is_open()) {
-    printf("Could not open %s\n", name);
+    char buffer[100];
+    if (strerror_s(buffer, sizeof(buffer), errno) == 0) {
+      printf("Could not open %s %s\n", name, buffer);
+    } else {
+      printf("Could not open %s\n", name);
+    }
   }
 
   enum { ps_game_name, ps_command_line, ps_parsing } state = ps_game_name;
