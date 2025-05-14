@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include <cstddef>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -67,7 +68,7 @@ void LineParser::parse_error() {
   msg.append("/-->/");
   msg.append(parse_input + head);
 
-  throw msg;
+  throw std::runtime_error(msg);
 }
 
 bool LineParser::match(const char *pat) {
