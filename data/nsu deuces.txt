@@ -1,149 +1,57 @@
 NSU Deuces Wild
-box score
+eval
 
 0 Deuces
 Natural Royal Flush
 RF 4
 Straight, Flush, or Straight Flush
-SF 4
 Full House or Quads
 Trips
-Two Pair
+SF 4 any
 RF 3
-SF 4 i
+Two Pair
+Flush 4
+SF 3 (7-Q high)
 One Pair
 Straight 4 (7-K high)
-Flush 4
-SF 3 i (5-Q high)
-SF 3 (5-6 high)
-SF 3 (7-J high)
-
-SF 3 di (A35) [dsc K] [suited]
-SF 3 di (A35) [dsc 67, no fp]
-
-SF 3 di (A45)
-SF 3 di (6 high)
-SF 3 di (7-K high)
-SF 3 di (A high)
-
+SF 3 any (no A)
 RF 2 (Q or J high)
-SF 3 i (A low) [no sp]
-SF 3 i (A low) [dsc sp]
-SF 3 di (A low)
 AKQJ or 3456
-
-Straight 4 i (J987)
-Straight 4 i (JT87)
-Straight 4 i (JT97)
-Straight 4 i (7 high)
-Straight 4 i (8-T high)
-#Straight 4 i (J high) [dsc K]
-#Straight 4 i (J high) [others]
-Straight 4 i (Q high)
-Straight 4 i (K high)
-Straight 4 i (A high)
-
-#Straight 4 i (3457)
-#Straight 4 i (3567)
-#Straight 4 i (3467)
-#Straight 4 i (8 high)
-#Straight 4 i (9 high)
-#Straight 4 i (T high)
-#Straight 4 i (Q high)
-#Straight 4 i (K high)
-#Straight 4 i (A high)
-
-RF 2 (AT) [no fp, dsc 579] [3 suits]
+SF 3 any (A low)
+Straight 4 i (7-A high)
 RF 2 (K high) [no fp]
-RF 2 (K high) [dsc fp]
-
-SF 2 (67) [no fp, no sp]
-SF 2 (78) [no fp, no sp] 
-SF 2 (78) [no fp, no sp]
-SF 2 (89) [no fp, no sp]
-SF 2 (9T) [no fp, no sp] 
-SF 2 (67) [no fp]
-
-SF 2 (78) [no fp] [suited] 
-SF 2 (78) [no fp] [2 suits] [dsc A3, dsc J, Q, or K]
-SF 2 (78) [no fp] [3 suits] [dsc A3, dsc J, Q, or K]
-SF 2 (78) [no fp] [2 suits] [others]
-SF 2 (78) [no fp] [3 suits] [others]
-
-SF 2 (78) [no fp] 
-SF 2 (89) [no fp]
-SF 2 (9T) [no fp] 
-SF 2 (67) [no sp]
-SF 2 (78) [no sp] 
-SF 2 (78) [no sp]
-SF 2 (89) [no sp]
-SF 2 (9T) [no sp] 
-SF 2 (67) [others]
-SF 2 (78) [others]
-SF 2 (78) [others] 
-SF 2 (89) [others]
-SF 2 (9T) [others] 
-
-
+RF 2 (K high) [no A3]
+SF 2 (7-T high) [no fp, no sp]
 Nothing
 
 1 Deuce
 Wild Royal Flush
 Straight Flush
 RF 4
-SF 4 (5-Q high)
-Full House
-Flush
-Straight
 Quints
 Quads
-Trips
-SF 4 any (A low)
-SF 4 (3 high)
-SF 4 (4 high)
+Full House
+Flush
+SF 4 (no A)
+SF 4 i (7-A high)
+Straight
 SF 4 i (6 high)
-SF 4 i (7-Q high)
-SF 4 di (3 high)
-SF 4 di (4 high)
-SF 4 di (5 high)
-SF 4 di (6-K high)
-SF 4 di (A high)
-Straight 4 i (5 high)
-Straight 4 i (6 high)
-Straight 4 i (7 high)
-Straight 4 i (8 high)
-Straight 4 i (9 high)
-Straight 4 i (T high)
-Straight 4 i (J high)
-Straight 4 i (Q high)
-Straight 4 i (K high)
-Straight 4 i (A high)
-
-Straight 4 (567) [dsc J or T]
-Straight 4 (678) [dsc K offsuit, Q, or J]
-
-Straight 4 (789) [dsc K or Q]
-Straight 4 (789) [dsc A]
-Straight 4 (789) [dsc 4 offsuit]
-
-Straight 4 (89T)
-Straight 4 (JT9)
-Straight 4 (QJT) [dsc 4, 5, 6, or 7]
-
+SF 4 di (no A)
+Trips
 RF 3 (K, Q, or J high)
-RF 3 (AT) [no fp]
-RF 3 (AT) [no K]
-RF 3 (AT) [dsc fp] [dsc K]
-RF 3 (AQ or AJ)
-RF 3 (AK) [no T8 suited]
 SF 3 (7-T high)
-
-SF 3 (45) [no fp]
-SF 3 (45) [no <= 8]
-SF 3 (45) [others]
-
+RF 3 (A high)
+SF 3 i (7-Q high)
 SF 3 (56)
-SF 3 i (7-J high)
+Straight (567) [dsc J or T]
+Straight (678) [dsc K offsuit, Q, or J]
+Straight (789) [dsc 4 offsuit, A, K, or Q]
+Straight (89T)
+Straight (JT9)
+Straight (QJT) [dsc 4, 5, 6, or 7]
+SF 4 any (A low)
+SF 3 (45) [no fp, no 3]
+SF 3 (45) [dsc fp, no A, 2, 3, 4, 5, 6, 7, or 8]
 Just the deuce
 
 2 Deuces
