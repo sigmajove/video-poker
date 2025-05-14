@@ -41,6 +41,7 @@ def test(strategy_file, golden_file):
 def run_tests():
     test("jacks-96.txt", "golden.txt")
     test("fpdw_practical.txt", "golden_deuces.txt")
+    test("multi-jacks.txt", "multi-golden.txt")
 
 if __name__ == "__main__":
     run_tests()
