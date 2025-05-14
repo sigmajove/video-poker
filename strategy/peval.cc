@@ -534,7 +534,8 @@ static PayDistribution evaluate_multi(const hand_iter &h, int deuces,
   }
   left.replace(matcher.hand, matcher.hand_size, deuces);
 
-  PayDistribution dist(pd);
+  // Stop keeping track of details after three royal flushes.
+  PayDistribution dist(5 * parms.pay_table[N_royal_flush], 0, pd);
   dist.normalize();
   return dist;
 }
@@ -595,8 +596,8 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
 
       counter += mult;
     }
-    printf("\n");
   }
+  printf("\n");
   if (counter != total_hands) {
     throw std::runtime_error("Iteration counter wrong\n");
   }
@@ -619,13 +620,20 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
 
   total_pays = repeat(total_pays, num_games);
 
-  printf("Repeat Done\n");
-
   // Create cumulative distribution.
   std::vector<ProbPay> cumulative;
   cumulative.reserve(100);
 
   const unsigned int num_bets = num_lines * num_games;
+  auto [worst_prob, worst_outcome] = total_pays.distribution().front();
+  printf("prob %.10e worst %d\n", worst_prob, worst_outcome - num_bets);
+
+  auto [best_prob, best_outcome] = total_pays.distribution().back();
+  printf("prob %.10e best %d\n", best_prob, best_outcome - num_bets);
+
+  printf("prob %.10e cutoff %d\n", total_pays.cutoff_prob(),
+         total_pays.cutoff() - num_bets);
+
   double total_prob = 0.0;
   int bracket = 1;
   double limit = static_cast<double>(bracket) / 100;
