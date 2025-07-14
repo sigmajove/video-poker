@@ -22,7 +22,7 @@ RF 2 (no T)
 Straight 4 i h3
 Just an A
 KQJ
-SF 3 i (no Ace)
+SF 3 i (5-T high)
 SF 3 di h1
 Straight 4 i h2
 SF 3 (234)
