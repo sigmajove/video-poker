@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cstddef>
 #include <format>
+#include <iomanip>
+#include <iostream>
 #include <map>
 #include <numeric>
 #include <stdexcept>
@@ -602,6 +604,14 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
     throw std::runtime_error("Iteration counter wrong\n");
   }
 
+  for (const auto &[prob, pay] : total_pays.distribution()) {
+#if 0
+    printf("prob %.6f, pay %d\n", prob, pay);
+#else
+    std::cout << "prob " << std::hexfloat << prob << " pay " << pay << "\n";
+#endif
+  }
+
   const double payback = total_pays.expected();
   const double percent = 100 * payback / num_lines;
   fprintf(output, "Payback %.6f%%\n", percent);
@@ -612,15 +622,20 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
     const double delta = payback - pay;
     variance += prob * delta * delta;
   }
+
+  // Not sure why we maintain a cutoff for the multi distribution.
+  printf("cutoff prob %.6e\n", total_pays.cutoff_prob());
   const double delta = payback - total_pays.cutoff();
   variance += total_pays.cutoff_prob() * delta * delta;
 
   fprintf(output, "Variance = %.4f\n", variance);
   printf("Variance = %.4f\n", variance);
 
+  // The actual cutoff we will use is based on the number of games.
+  total_pays.set_cutoff(num_games + 2001);
   total_pays = repeat(total_pays, num_games);
 
-  // Create cumulative distribution.
+  // Create cumulative distribution./
   std::vector<ProbPay> cumulative;
   cumulative.reserve(100);
 
@@ -634,7 +649,16 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
   printf("prob %.10e cutoff %d\n", total_pays.cutoff_prob(),
          total_pays.cutoff() - num_bets);
 
-  double total_prob = 0.0;
+  double total_prob = 0;
+  for (const auto &[prob, pay] : total_pays.distribution()) {
+    total_prob += prob;
+    if (total_prob >= 0.001) {
+      printf("lower %.2f %d\n", total_prob * 100, pay - num_bets);
+      break;
+    }
+  }
+
+  total_prob = 0.0;
   int bracket = 1;
   double limit = static_cast<double>(bracket) / 100;
   for (const auto &[prob, pay] : total_pays.distribution()) {

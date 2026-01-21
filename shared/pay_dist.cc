@@ -1,6 +1,7 @@
 #include "pay_dist.h"
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <iostream>
 #include <limits>
@@ -79,7 +80,8 @@ void PayDistribution::normalize() {
 PayDistribution succession(const PayDistribution &first,
                            const PayDistribution &second) {
   PayDistribution result;
-  result.cutoff_ = std::min(first.cutoff_, second.cutoff_);
+  assert(first.cutoff_ == second.cutoff_);
+  result.cutoff_ = first.cutoff_;
 
   // The probability that that either first or second is past
   // the cutoff_. Then the result is past the cutoff_.

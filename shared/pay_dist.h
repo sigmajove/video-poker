@@ -37,6 +37,7 @@ class PayDistribution {
   // A constant view of the distribution.
   const std::vector<ProbPay> &distribution() const { return dist_; }
   int cutoff() const { return cutoff_; }
+  void set_cutoff(int cutoff) { cutoff_ = cutoff; }
   double cutoff_prob() const { return cutoff_prob_; }
 
   // Returns the expected value of the distribution.
