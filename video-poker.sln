@@ -13,6 +13,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "google_test", "google_test\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "monte-carlo", "monte-carlo\monte-carlo.vcxproj", "{4F5B963F-1A34-4E07-933F-36D360047045}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "edge", "edge\edge.vcxproj", "{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5150F835-1BF0-4B95-B718-C84278EACD2B} = {5150F835-1BF0-4B95-B718-C84278EACD2B}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +66,14 @@ Global
 		{4F5B963F-1A34-4E07-933F-36D360047045}.Release|x64.Build.0 = Release|x64
 		{4F5B963F-1A34-4E07-933F-36D360047045}.Release|x86.ActiveCfg = Release|Win32
 		{4F5B963F-1A34-4E07-933F-36D360047045}.Release|x86.Build.0 = Release|Win32
+		{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}.Debug|x64.ActiveCfg = Debug|x64
+		{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}.Debug|x64.Build.0 = Debug|x64
+		{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}.Debug|x86.ActiveCfg = Debug|Win32
+		{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}.Debug|x86.Build.0 = Debug|Win32
+		{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}.Release|x64.ActiveCfg = Release|x64
+		{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}.Release|x64.Build.0 = Release|x64
+		{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}.Release|x86.ActiveCfg = Release|Win32
+		{091CEEAF-CA73-4DEA-9ADD-5E95FEB36390}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
