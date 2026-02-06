@@ -11,7 +11,6 @@
 #include <string>
 #include <vector>
 
-#include "../shared/hand_iter.h"
 #include "combin.h"
 #include "enum_match.h"
 #include "kept.h"
