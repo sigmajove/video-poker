@@ -1,4 +1,4 @@
-#include "new_hand_iter.h"
+#include "hand_iter.h"
 
 // The iterator returns all possible N-card poker hands that
 // contain no wild cards, ignoring hands that are isomporphic

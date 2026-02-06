@@ -132,6 +132,7 @@
     <ClCompile Include="combin.cc" />
     <ClCompile Include="enum_match.cc" />
     <ClCompile Include="game.cc" />
+    <ClCompile Include="hand_iter.cc" />
     <ClCompile Include="kept.cc" />
     <ClCompile Include="multi_command.cc" />
     <ClCompile Include="parse_line.cc" />
@@ -142,6 +143,7 @@
     <ClInclude Include="combin.h" />
     <ClInclude Include="enum_match.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="hand_iter.h" />
     <ClInclude Include="kept.h" />
     <ClInclude Include="multi_command.h" />
     <ClInclude Include="parse_line.h" />
