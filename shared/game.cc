@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "vpoker.h"
+
 game_parameters::game_parameters(const vp_game &g)
     : kind(g.kind), min_high_pair(g.min_high_pair), deck_size(52) {
   for (int j = first_pay; j <= last_pay; j++) {

@@ -126,9 +126,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="edge.cpp" />
+    <ClCompile Include="eval_game.cc" />
     <ClCompile Include="read_file.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="eval_game.h" />
     <ClInclude Include="read_file.h" />
   </ItemGroup>
   <ItemGroup>

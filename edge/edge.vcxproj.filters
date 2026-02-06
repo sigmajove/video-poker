@@ -21,9 +21,15 @@
     <ClCompile Include="read_file.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="eval_game.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="read_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eval_game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

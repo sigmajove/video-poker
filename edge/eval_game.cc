@@ -6,6 +6,7 @@
 #include <windows.h>
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <format>
 #include <iomanip>
@@ -16,13 +17,13 @@
 #include <utility>
 #include <vector>
 
+#include "../shared/combin.h"
+#include "../shared/enum_match.h"
+#include "../shared/game.h"
 #include "../shared/hand_iter.h"
-#include "combin.h"
-#include "enum_match.h"
-#include "game.h"
-#include "kept.h"
-#include "pay_dist.h"
-#include "vpoker.h"
+#include "../shared/kept.h"
+#include "../shared/pay_dist.h"
+#include "../shared/vpoker.h"
 
 using std::vector;
 
@@ -49,6 +50,7 @@ struct line_info {
   }
 };
 
+#if 0
 struct error_info {
   char *image;
   double error;
@@ -83,16 +85,14 @@ error_info::error_info(line_info &l, char *im)
 
 typedef std::vector<error_info> error_list;
 
-static const int max_trace = 10;
+#endif
 
+static const int max_trace = 10;
 struct estate {
   double multiplier;
-  double strategy_return;
   double optimal_return;
-  line_info *strategy_info;
   int trace_count;
   FILE *trace_file[max_trace];
-  StrategyLine *trace_line[max_trace];
 };
 
 static void evaluate(hand_iter &h, int deuces, C_left &left,
@@ -185,6 +185,7 @@ static void evaluate(hand_iter &h, int deuces, C_left &left,
   const double mb = e.multiplier * best_value;
   e.optimal_return += mb;
 
+#if 0
   const double ms = e.multiplier * strategy_value;
   e.strategy_return += ms;
 
@@ -227,9 +228,12 @@ static void evaluate(hand_iter &h, int deuces, C_left &left,
       }
     }
   }
+#endif
 
   left.replace(matcher.hand, matcher.hand_size, deuces);
 }
+
+#if 0
 
 static void print_detail(FILE *file, const card *hand, int hand_size,
                          unsigned mask, C_left &left, game_parameters &parms) {
@@ -257,197 +261,6 @@ static void print_detail(FILE *file, const card *hand, int hand_size,
   const double value = result / current_total;
   fprintf(file, "Total %8.6f\n", value);
   left.replace(hand, hand_size, deuces);
-}
-
-void eval_strategy(const vp_game &game, StrategyLine *lines[],
-                   const char *filename) {
-  int counter = 0;
-  int timer = 0;
-
-  game_parameters parms(game);
-  C_left left(parms);
-
-  const int total_hands = combin.choose(parms.deck_size, 5);
-
-  estate e;
-  e.optimal_return = 0.0;
-  e.strategy_return = 0.0;
-
-  printf("Evaluating strategy for %s\n", game.name);
-
-  error_list error_report;
-
-  FILE *output = NULL;
-  fopen_s(&output, filename, "w");
-  if (output == 0) {
-    printf("fopen failed\n");
-    throw 0;
-  }
-
-  fprintf(output, "Evaluating strategy for %s\n", game.name);
-
-  printf("Computing");
-
-  for (int wild_cards = 0; wild_cards <= parms.number_wild_cards;
-       wild_cards++) {
-    const int hand_size = 5 - wild_cards;
-
-    const int wmult = combin.choose(parms.number_wild_cards, wild_cards);
-
-    StrategyLine *strategy_w = lines[wild_cards];
-
-    // Scan the strategy looking for trace directives */
-    {
-      e.trace_count = 0;
-      StrategyLine *rover = strategy_w;
-      while (rover->pattern) {
-        if (rover->options && strncmp(rover->options, " trace ", 7) == 0) {
-          if (e.trace_count >= max_trace) {
-            printf("Too many trace directives\n");
-            throw 0;
-          }
-
-          e.trace_line[e.trace_count] = rover;
-
-          char *filename = rover->options + 7;
-
-          e.trace_file[e.trace_count] = fopen(filename, "w");
-
-          if (e.trace_file[e.trace_count] == NULL) {
-            printf("Cannot create %s\n", filename);
-            throw 0;
-          }
-
-          fprintf(e.trace_file[e.trace_count], "%s errors\n", rover->image);
-
-          e.trace_count += 1;
-        }
-
-        rover += 1;
-      }
-    }
-
-    // Allocate structure for strategy eval
-    {
-      StrategyLine *rover = strategy_w;
-
-      while (rover->pattern) {
-        rover += 1;
-      }
-      std::size_t n = rover - lines[wild_cards];
-      e.strategy_info = new line_info[n];
-    }
-
-    hand_iter iter(hand_size, parms.kind, wild_cards);
-    while (!iter.done()) {
-      if (++timer > 102359 / 40) {
-        printf(".");
-        timer = 0;
-      }
-
-      const int mult = wmult * iter.multiplier();
-      e.multiplier = (double)mult / double(total_hands);
-
-      evaluate(iter, wild_cards, left, strategy_w, e, parms);
-      counter += mult;
-
-      iter.next();
-    }
-
-    for (int j = 0; j < e.trace_count; j++) {
-      fclose(e.trace_file[j]);
-    }
-
-    // Print out errors in the strategy and their cost.
-
-    {
-      bool header_printed = false;
-
-      for (int j = 0; strategy_w[j].pattern; j++) {
-        line_info &inf = e.strategy_info[j];
-
-        if (inf.erroneous) {
-          error_report.push_back(error_info(inf, strategy_w[j].image));
-#if 0
-          if (!header_printed) {
-            header_printed = true;
-
-            if (parms.number_wild_cards) {
-              fprintf (output, "Errors with %d wild cards\n\n", wild_cards);
-            } else {
-              fprintf (output,"Errors in strategy\n\n");
-            }
-          }
-
-          fprintf (output,"Move: %s\n", strategy_w[j].image);
-          fprintf (output,"Error: %0.8f\n", 100.0 * inf.total_error);
-
-          if (inf.best_shortfall >= 0) {
-          fprintf (output,"\nBad play is\n");
-          print_move(output, inf.worst_hand,
-                     inf.worst_hsize, inf.worst_play);
-          }
-
-          fprintf (output,"\nBad play is\n");
-          print_move(output, inf.worst_hand,
-                     inf.worst_hsize, inf.worst_play);
-
-          fprintf (output,"Optimal play is\n");
-          print_move(output, inf.worst_hand, inf.worst_hsize,
-                     inf.optimal_play);
-          fprintf (output,"\n");
-#endif
-        }
-      }
-    }
-  }
-  printf("\n");
-
-  if (counter != total_hands) {
-    printf("Iteration counter wrong\n");
-    throw 0;
-  }
-
-  std::sort<error_list::iterator>(error_report.begin(), error_report.end());
-
-  if (error_report.begin() == error_report.end()) {
-    fprintf(output, "The strategy contains no errors\n");
-  } else {
-    fprintf(output, "Errors in strategy\n\n");
-  }
-
-  for (error_list::iterator rover = error_report.begin();
-       rover != error_report.end(); ++rover) {
-    error_info &inf = *rover;
-
-    fprintf(output, "Move: %s\n", inf.image);
-    fprintf(output, "Error: %0.8f\n", 100.0 * inf.error);
-
-    fprintf(output, "\nGood play is\n");
-    print_move(output, inf.best_hand, inf.best_hsize, inf.best_play);
-    print_detail(output, inf.best_hand, inf.best_hsize, inf.best_play, left,
-                 parms);
-
-    fprintf(output, "\nBad play is\n");
-    print_move(output, inf.hand, inf.hsize, inf.worst_play);
-    print_detail(output, inf.hand, inf.hsize, inf.worst_play, left, parms);
-
-    fprintf(output, "Optimal play is\n");
-    print_move(output, inf.hand, inf.hsize, inf.optimal_play);
-    print_detail(output, inf.hand, inf.hsize, inf.optimal_play, left, parms);
-    fprintf(output, "\n");
-  };
-
-  printf("The optimal return is %0.8f%%\n", 100.0 * e.optimal_return);
-
-  printf("This strategy returns %0.8f%%\n", 100.0 * e.strategy_return);
-
-  fprintf(output, "The optimal return is %0.8f%%\n", 100.0 * e.optimal_return);
-
-  fprintf(output, "This strategy returns %0.8f%%\n", 100.0 * e.strategy_return);
-
-  fclose(output);
-  printf("Report is in %s\n", filename);
 }
 
 static double evaluate_play(card *hand, int hand_size, bool *result_vector,
@@ -605,11 +418,7 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
   }
 
   for (const auto &[prob, pay] : total_pays.distribution()) {
-#if 0
-    printf("prob %.6f, pay %d\n", prob, pay);
-#else
     std::cout << "prob " << std::hexfloat << prob << " pay " << pay << "\n";
-#endif
   }
 
   const double payback = total_pays.expected();
@@ -674,10 +483,6 @@ void multi_distribution(const vp_game &game, StrategyLine *lines[],
                             static_cast<int>(total_pays.cutoff() - num_bets));
     limit = static_cast<double>(++bracket) / 100;
   }
-#if 0
-  cumulative.emplace_back(
-      1.0, static_cast<int>(total_pays.back().payoff - num_bets));
-#endif
 
   fprintf(output, "distribution = [\n");
   for (const auto &[prob, pay] : cumulative) {
@@ -832,12 +637,11 @@ void prune_strategy(const vp_game &game, StrategyLine *lines[],
   fclose(output);
   printf("Report is in %s\n", filename);
 }
-
-typedef double prob_vector[last_pay + 1];
+#endif
 
 static void evaluate(hand_iter &h, int deuces, C_left &left,
                      game_parameters &parms, double multiplier,
-                     prob_vector &prob_pays) {
+                     pay_prob &prob_pays) {
   // Compute the expected value of an initial five-card hand
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
@@ -916,27 +720,13 @@ static void evaluate(hand_iter &h, int deuces, C_left &left,
     }
   }
 
-#if 0
-  static int limit = 2000;
-  if (limit > 0) {
-    limit -= 1;
-    fprintf (trace_file, "counter = %d\n", counter);
-    print_move(trace_file, hand, hand_size, optimal_mask);
-    for (int j = first_pay; j <= last_pay; j++) if (parms.pay_table[j] != 0.0) {
-        fprintf (trace_file, "%d ", pays[j]);
-      }
-    fprintf (trace_file, "\n");
-
-  }
-#endif
-
   _ASSERT(total_pays ==
           combin.choose(parms.deck_size - 5, kept.number_of_discards()));
 
   left.replace(hand, hand_size, deuces);
 }
 
-void eval_game(const vp_game &game, prob_vector &prob_pays) {
+void eval_game(const vp_game &game, pay_prob &prob_pays) {
   int counter = 0;
   int timer = 0;
 
@@ -983,8 +773,16 @@ void eval_game(const vp_game &game, prob_vector &prob_pays) {
     printf("Iteration counter wrong\n");
     throw 0;
   }
+
+  double ev = 0.0;
+  for (std::size_t i = first_pay; i <= last_pay; ++i) {
+    ev += prob_pays[i] * (*game.pay_table)[i];
+  }
+
+  printf("Return %.5f%%\n", ev * 100.0);
 }
 
+#if 0
 typedef struct {
   double abs, rel;
 } ppair;
@@ -1028,7 +826,7 @@ static int double_to_int(double x) {
   return static_cast<int>(x);
 }
 
-void median_length(FILE *output, game_parameters &game, prob_vector &prob_pays,
+void median_length(FILE *output, game_parameters &game, pay_prob &prob_pays,
                    int starting_bankroll, int goal) {
   double *current = new double[goal];
   double *next = new double[goal];
@@ -1092,7 +890,7 @@ void median_length(FILE *output, game_parameters &game, prob_vector &prob_pays,
   delete next;
 }
 
-static double ror_func(double r, prob_vector &prob_pays,
+static double ror_func(double r, pay_prob &prob_pays,
                        game_parameters &game) {
   double result = -r;
   for (int j = first_pay; j <= last_pay; j++) {
@@ -1102,63 +900,7 @@ static double ror_func(double r, prob_vector &prob_pays,
   return result;
 }
 
-void risk_of_ruin(FILE *output, game_parameters &game, prob_vector &prob_pays) {
-  double delta = 0.45;
-
-  double lo = 1.0 - 2 * delta;
-  double hi = 1.0 - delta;
-
-  double f_lo = ror_func(lo, prob_pays, game);
-  double f_hi = ror_func(hi, prob_pays, game);
-
-  for (;;) {
-    if ((f_lo < 0.0) != (f_hi < 0.0)) {
-      break;
-    }
-
-    delta = 0.5 * delta;
-
-    if (delta == 0.0) {
-      fprintf(output, "couldn't find initial interval\n");
-      return;
-    }
-
-    lo = hi;
-    f_lo = f_hi;
-
-    hi = 1.0 - delta;
-    f_hi = ror_func(hi, prob_pays, game);
-  }
-
-  for (int j = 0; j < 500; j++) {
-    double mid = 0.5 * (lo + hi);
-
-    if (mid == lo || mid == hi) {
-      if (fabs(f_hi) < fabs(f_lo)) {
-        lo = hi;
-      }
-      break;
-    }
-
-    double f_mid = ror_func(mid, prob_pays, game);
-
-    if ((f_lo < 0.0) == (f_mid < 0.0)) {
-      lo = mid;
-      f_lo = f_mid;
-    } else {
-      hi = mid;
-      f_hi = f_mid;
-    }
-  }
-
-  double log_r = log(lo);
-
-  fprintf(output, " 1%% RoR = $%.2f\n", 1.25 * log(.01) / log_r);
-  fprintf(output, "10%% RoR = $%.2f\n", 1.25 * log(.10) / log_r);
-  fprintf(output, "50%% RoR = $%.2f\n", 1.25 * log(.50) / log_r);
-}
-
-double bust_prob(game_parameters &game, prob_vector &prob_pays,
+double bust_prob(game_parameters &game, pay_prob &prob_pays,
                  int initial_bankroll, int goal) {
   if (goal <= initial_bankroll) {
     return 0.0;
@@ -1202,7 +944,7 @@ double bust_prob(game_parameters &game, prob_vector &prob_pays,
   return result;
 }
 
-int break_even_goal(game_parameters &game, prob_vector &prob_pays,
+int break_even_goal(game_parameters &game, pay_prob &prob_pays,
                     int initial_bankroll) {
   // Find a goal for which the bust probability is > 0.5
   int winnings = 1;
@@ -1230,7 +972,7 @@ int break_even_goal(game_parameters &game, prob_vector &prob_pays,
   return left;
 }
 
-void eval_bankroll(FILE *output, game_parameters &game, prob_vector &prob_pays,
+void eval_bankroll(FILE *output, game_parameters &game, pay_prob &prob_pays,
                    int initial_bankroll, int goal) {
   _ASSERT(goal >= initial_bankroll);
   _ASSERT(outcome::first == NULL);
@@ -1401,9 +1143,7 @@ void eval_bankroll(FILE *output, game_parameters &game, prob_vector &prob_pays,
   median_length(output, game, prob_pays, initial_bankroll, goal);
 }
 
-#if 0
-
-void cost_of_royal (FILE *output, game_parameters &game, prob_vector &prob_pays) {
+void cost_of_royal (FILE *output, game_parameters &game, pay_prob &prob_pays) {
 
   int goal = game.pay_table[N_royal_flush];
   ppair *royal = new ppair[goal];
@@ -1539,11 +1279,9 @@ void cost_of_royal (FILE *output, game_parameters &game, prob_vector &prob_pays)
   median_length(output, game, prob_pays, j, goal);
 }
 
-#endif
-
 struct vstate {
   double multiplier;
-  prob_vector prob_pays;
+  pay_prob prob_pays;
 };
 
 static void variance(hand_iter &h, int deuces, C_left &left,
@@ -1675,30 +1413,6 @@ void box_score(const vp_game &game, StrategyLine *lines[],
 
   {
     double ev = 0.0;
-#if 0
-    // Temporary code for exact output
-    {
-      fprintf(output, "Begin hex payoffs\n");
-      double prob_nothing = 0;
-      for (int j = first_pay; j <= last_pay; j++)
-        if (parms.pay_table[j] == 0) {
-          prob_nothing += v.prob_pays[j];
-        }
-      fprintf(output, "%a%7.1f\n", prob_nothing, 0.0);
-      for (int j = first_pay; j <= last_pay; j++)
-        if (parms.pay_table[j] != 0) {
-          double p = v.prob_pays[j];
-
-          fprintf(output, "%a%7.1f\n", p, parms.pay_table[j]);
-
-          ev += p * static_cast<double>(parms.pay_table[j]);
-        }
-
-      fprintf(output, "Expected value = %.4f%%\n", 100.0 * ev);
-      fprintf(output, "End hex payoffs\n");
-    }
-#endif
-
     // Hack for one-eyed jacks.  A "high pair" has a nonzero probability,
     // but pays nothing.
     static const char *const format = "%6.2f%% %8.2f %s\n";
@@ -1875,7 +1589,7 @@ void half_life(const vp_game &game, StrategyLine *lines[],
 
 void optimal_box_score(const vp_game &game, const char *filename) {
   game_parameters parms(game);
-  prob_vector prob_pays;
+  pay_prob prob_pays;
 
   FILE *output = fopen(filename, "w");
   if (output == 0) {
@@ -2106,3 +1820,4 @@ void check_union(const vp_game &game, StrategyLine *lines[],
   fclose(output);
   printf("\nUnion report in %s\n", filename);
 }
+#endif

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <iostream>
 
+#include "eval_game.h"
 #include "read_file.h"
 
 int main() {
@@ -25,6 +26,8 @@ int main() {
   // Enough information to get started.
   vp_game the_game(contents->game_name.c_str(), contents->kind, contents->high,
                    &pay_table);
+  pay_prob prob_pays;
+  eval_game(the_game, prob_pays);
 
   return 0;
 }

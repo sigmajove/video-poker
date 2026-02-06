@@ -127,8 +127,5 @@ std::optional<FileContents> read_file(const std::string& filename) {
       }
     }
   }
-  std::cout << "Used elements: "
-            << std::count_if(used.begin(), used.end(), [](bool x) { return x; })
-            << "\n";
   return contents;
 }
