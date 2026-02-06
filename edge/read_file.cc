@@ -90,6 +90,8 @@ std::optional<FileContents> read_file(const std::string& filename) {
   std::string line;
   int line_number = 0;
   std::array<bool, static_cast<std::size_t>(last_pay) + 1> used = {};
+  bool has_aces = false;
+  bool has_aces_with_kicker = false;
 
   while (std::getline(file, line)) {
     ++line_number;
@@ -121,11 +123,27 @@ std::optional<FileContents> read_file(const std::string& filename) {
         }
         used[index] = true;
         contents.pay_table[index] = val->second;
+        switch (index) {
+          case N_quad_aces:
+            has_aces = true;
+            break;
+          case N_quad_aces_kicker:
+            has_aces_with_kicker = true;
+            break;
+          default:
+            break;
+        }
       } else {
         std::cout << "Error on line " << line_number << "\n";
         return std::nullopt;
       }
     }
   }
+  if (has_aces_with_kicker) {
+    contents.kind = GK_bonus_with_kicker;
+  } else if (has_aces) {
+    contents.kind = GK_bonus;
+  }
+
   return contents;
 }
