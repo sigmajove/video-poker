@@ -21,9 +21,6 @@
     <ClCompile Include="main.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="new_hand_iter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="peval.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="find_order.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="new_hand_iter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="peval.h">

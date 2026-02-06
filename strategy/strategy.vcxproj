@@ -139,14 +139,12 @@
   <ItemGroup>
     <ClCompile Include="find_order.cc" />
     <ClCompile Include="main.cc" />
-    <ClCompile Include="new_hand_iter.cc" />
     <ClCompile Include="peval.cc" />
     <ClCompile Include="pstrat.cc" />
     <ClCompile Include="strategy.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="find_order.h" />
-    <ClInclude Include="new_hand_iter.h" />
     <ClInclude Include="peval.h" />
     <ClInclude Include="pstrat.h" />
     <ClInclude Include="strategy.h" />

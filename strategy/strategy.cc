@@ -11,11 +11,11 @@
 #include <string>
 #include <vector>
 
+#include "../shared/hand_iter.h"
 #include "combin.h"
 #include "enum_match.h"
 #include "kept.h"
 #include "multi_command.h"
-#include "new_hand_iter.h"
 #include "parse_line.h"
 #include "peval.h"
 #include "pstrat.h"

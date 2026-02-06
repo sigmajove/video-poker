@@ -7,12 +7,12 @@
 #include <string>
 #include <vector>
 
+#include "../shared/hand_iter.h"
 #include "combin.h"
 #include "enum_match.h"
 #include "find_order.h"
 #include "game.h"
 #include "kept.h"
-#include "new_hand_iter.h"
 #include "vpoker.h"
 
 using std::vector;
@@ -107,7 +107,6 @@ struct move_data {
   unsigned char mask;
   double best, worst;
 };
-
 
 int trace_countdown = 500;
 
@@ -339,7 +338,7 @@ void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
     print_hand(file, matcher.hand, matcher.hand_size);
 
     fprintf(file, "good: %s\n", good_move.front().move->name());
-    for (const move_data& b : bad_move) {
+    for (const move_data &b : bad_move) {
       fprintf(file, "bad: %s\n", b.move->name());
     }
     fprintf(file, "\n");

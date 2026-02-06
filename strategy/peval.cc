@@ -16,11 +16,11 @@
 #include <utility>
 #include <vector>
 
+#include "../shared/hand_iter.h"
 #include "combin.h"
 #include "enum_match.h"
 #include "game.h"
 #include "kept.h"
-#include "new_hand_iter.h"
 #include "pay_dist.h"
 #include "vpoker.h"
 
