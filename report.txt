@@ -1,0 +1,407 @@
+Evaluating strategy for 8/5 Bonus Poker
+Errors in strategy
+
+Move: SF 3 i h0
+Error: 0.00016308
+
+Good play is
+ As 2s 3h 4h 6h
+       == == ==
+
+      21 0.019426 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      26 0.096207 Straight
+      43 0.198890 Flush
+       2 0.092507 Straight Flush
+Total 0.481961
+
+Bad play is
+ As 2h 3h 5h 6c
+    == == ==   
+
+      21 0.019426 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      22 0.081406 Straight
+      43 0.198890 Flush
+       2 0.092507 Straight Flush
+Total 0.467160
+Optimal play is
+ As 2h 3h 5h 6c
+ ==            
+
+   45456 0.254848 High Pair
+    8874 0.099504 Two Pair
+    4102 0.068993 Trips
+     362 0.008118 Straight
+     493 0.013820 Flush
+     288 0.012917 Full House
+       7 0.000981 Quads
+      44 0.019735 Quad Aces
+       1 0.000224 Quad 2,3 or 4
+       1 0.000280 Straight Flush
+       1 0.004485 Royal Flush
+Total 0.483907
+
+Move: RF 2 (no T)
+Error: 0.00015331
+
+Good play is
+ As 2s 3s Jh Qh
+          == ==
+
+    4914 0.303053 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     173 0.042677 Straight
+     162 0.049954 Flush
+      18 0.008881 Full House
+       2 0.003084 Quads
+       2 0.006167 Straight Flush
+       1 0.049337 Royal Flush
+Total 0.602837
+
+Bad play is
+ As 9h Th Jh Ks
+ ==          ==
+
+    4914 0.303053 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+      35 0.008634 Straight
+     164 0.050570 Flush
+      18 0.008881 Full House
+       1 0.001542 Quads
+       1 0.004934 Quad Aces
+       1 0.049337 Royal Flush
+Total 0.566636
+Optimal play is
+ As 9h Th Jh Ks
+    == == ==   
+
+     126 0.116559 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      41 0.151711 Straight
+      42 0.194265 Flush
+       3 0.138760 Straight Flush
+Total 0.676226
+
+Move: AK, AQ, or AJ
+Error: 0.00008884
+
+Good play is
+ As 2s 3h 4h Jh
+ ==          ==
+
+    5022 0.309713 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+      64 0.015788 Straight
+      18 0.008881 Full House
+       1 0.001542 Quads
+       1 0.004934 Quad Aces
+Total 0.480543
+
+Bad play is
+ As 2h 3c Th Jh
+ ==          ==
+
+    5022 0.309713 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+      48 0.011841 Straight
+      18 0.008881 Full House
+       1 0.001542 Quads
+       1 0.004934 Quad Aces
+Total 0.476596
+Optimal play is
+ As 2h 3c Th Jh
+          == ==
+
+    2847 0.175578 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     236 0.058218 Straight
+     116 0.035769 Flush
+      18 0.008881 Full House
+       2 0.003084 Quads
+       3 0.009251 Straight Flush
+       1 0.049337 Royal Flush
+Total 0.479803
+
+Move: SF 3 h0
+Error: 0.00005091
+
+Good play is
+ As 2s 4h 5h 6h
+       == == ==
+
+      21 0.019426 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      41 0.151711 Straight
+      42 0.194265 Flush
+       3 0.138760 Straight Flush
+Total 0.579093
+
+Bad play is
+ As 2h 3h 4h 6c
+    == == ==   
+
+      21 0.019426 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      22 0.081406 Straight
+      43 0.198890 Flush
+       2 0.092507 Straight Flush
+Total 0.467160
+Optimal play is
+ As 2h 3h 4h 6c
+ ==            
+
+   45456 0.254848 High Pair
+    8874 0.099504 Two Pair
+    4102 0.068993 Trips
+     362 0.008118 Straight
+     493 0.013820 Flush
+     288 0.012917 Full House
+       8 0.001121 Quads
+      44 0.019735 Quad Aces
+       1 0.000280 Straight Flush
+       1 0.004485 Royal Flush
+Total 0.483822
+
+Move: SF 3 any h2
+Error: 0.00003844
+
+Good play is
+ As 2s 8h Jh Qh
+       == == ==
+
+     237 0.219241 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      15 0.055504 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.599445
+
+Bad play is
+ As 9h Jh Qc Kh
+    == ==    ==
+
+     234 0.216466 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      11 0.040703 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.581869
+Optimal play is
+ As 9h Jh Qc Kh
+ ==    == == ==
+
+      12 0.255319 High Pair
+       4 0.340426 Straight
+Total 0.595745
+
+Move: QJ
+Error: 0.00002680
+
+Good play is
+ As 2s 3h Jh Qc
+          == ==
+
+    4914 0.303053 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     176 0.043417 Straight
+      18 0.008881 Full House
+       2 0.003084 Quads
+Total 0.498119
+
+Bad play is
+ As 7h 9h Jh Qc
+          == ==
+
+    4914 0.303053 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     144 0.035523 Straight
+      18 0.008881 Full House
+       2 0.003084 Quads
+Total 0.490225
+Optimal play is
+ As 7h 9h Jh Qc
+    == == ==   
+
+     126 0.116559 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      15 0.055504 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.496762
+
+Move: SF 3 di h1
+Error: 0.00001264
+
+Good play is
+ As 2s 3h 5s 6h
+ == ==    ==   
+
+     132 0.122109 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      11 0.040703 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.487512
+
+Bad play is
+ 7s 8s 9h Js Kc
+ == ==    ==   
+
+     129 0.119334 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      11 0.040703 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.484736
+Optimal play is
+ 7s 8s 9h Js Kc
+          == ==
+
+    5022 0.309713 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     112 0.027629 Straight
+      18 0.008881 Full House
+       2 0.003084 Quads
+Total 0.488992
+
+Move: SF 3 i h1
+Error: 0.00000251
+
+Good play is
+ As 2s 3h 4s 6h
+ == ==    ==   
+
+     132 0.122109 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      11 0.040703 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.487512
+
+Bad play is
+ As 2s 4s Jh Qc
+ == == ==      
+
+     126 0.116559 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      15 0.055504 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.496762
+Optimal play is
+ As 2s 4s Jh Qc
+          == ==
+
+    4914 0.303053 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     176 0.043417 Straight
+      18 0.008881 Full House
+       2 0.003084 Quads
+Total 0.498119
+
+Move: RF 2 (JT) [no fp]
+Error: 0.00000171
+
+Good play is
+ As 2s 3h Tc Jc
+          == ==
+
+    2847 0.175578 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     236 0.058218 Straight
+     161 0.049645 Flush
+      18 0.008881 Full House
+       2 0.003084 Quads
+       3 0.009251 Straight Flush
+       1 0.049337 Royal Flush
+Total 0.493679
+
+Bad play is
+ 5s 7s 8s Th Jh
+          == ==
+
+    2955 0.182239 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     208 0.051311 Straight
+     161 0.049645 Flush
+      18 0.008881 Full House
+       2 0.003084 Quads
+       3 0.009251 Straight Flush
+       1 0.049337 Royal Flush
+Total 0.493432
+Optimal play is
+ 5s 7s 8s Th Jh
+ == == ==      
+
+      21 0.019426 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      30 0.111008 Straight
+      43 0.198890 Flush
+       2 0.092507 Straight Flush
+Total 0.496762
+
+Move: SF 3 h1
+Error: 0.00000125
+
+Good play is
+ As 2s 3s 4h 6h
+ == == ==      
+
+     132 0.122109 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      11 0.040703 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.487512
+
+Bad play is
+ As 2s 3s Jh Qc
+ == == ==      
+
+     126 0.116559 High Pair
+      27 0.049954 Two Pair
+       9 0.024977 Trips
+      15 0.055504 Straight
+      44 0.203515 Flush
+       1 0.046253 Straight Flush
+Total 0.496762
+Optimal play is
+ As 2s 3s Jh Qc
+          == ==
+
+    4914 0.303053 High Pair
+     711 0.087697 Two Pair
+     281 0.051989 Trips
+     176 0.043417 Straight
+      18 0.008881 Full House
+       2 0.003084 Quads
+Total 0.498119
+
+The optimal return is 99.16597319%
+This strategy returns 99.16543370%

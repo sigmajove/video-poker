@@ -1,5 +1,5 @@
 8/5 Bonus Poker
-box score
+eval
 Royal Flush, Straight Flush, Quads, or Full House
 Trips or Two Pair
 RF 4
