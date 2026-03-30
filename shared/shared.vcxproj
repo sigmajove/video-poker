@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="combin.cc" />
     <ClCompile Include="enum_match.cc" />
+    <ClCompile Include="eval_game.cc" />
     <ClCompile Include="game.cc" />
     <ClCompile Include="hand_iter.cc" />
     <ClCompile Include="kept.cc" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="combin.h" />
     <ClInclude Include="enum_match.h" />
+    <ClInclude Include="eval_game.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="hand_iter.h" />
     <ClInclude Include="kept.h" />

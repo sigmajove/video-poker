@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "eval_game.h"
+#include "../shared/eval_game.h"
 #include "read_file.h"
 
 int main(int argc, const char* argv[]) {

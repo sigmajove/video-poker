@@ -42,6 +42,9 @@
     <ClCompile Include="hand_iter.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="eval_game.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hand_iter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eval_game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
