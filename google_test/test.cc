@@ -4,6 +4,8 @@
 #include <numeric>
 #include <random>
 
+#include "..\shared\eval_game.h"
+#include "..\shared\vpoker.h"
 #include "combin.h"
 #include "gtest/gtest.h"
 #include "multi_command.h"
@@ -190,4 +192,113 @@ TEST(MultiCommand, Only) {
   bad_multi("multi 0");
   bad_multi("multi 5 0");
   bad_multi("multi 5555555555555555555555555555");
+}
+
+TEST(GetPayback, Jacks) {
+  const int jb_table[] = {
+      0,   // nothing,
+      1,   // high_pair,
+      2,   // two_pair,
+      3,   // trips,
+      4,   // straight,
+      6,   // flush,
+      9,   // full_house,
+      25,  // quads,
+      0,   // quad aces",
+      0,   // quad aces w/low kicker",
+      0,   // quad 2-4",
+      0,   // quad 2-4 w/low kicker",
+      50,  // straight_flush,
+      0,   // quints,
+      0,   // wild_royal,
+      0,   // four_deuces,
+      800  // royal_flush
+  };
+
+  const vp_game jacks_or_better("9/6 Jacks or Better", GK_no_wild, jack,
+                                &jb_table);
+  pay_prob prob_pays;
+  const double ev = get_payback(jacks_or_better, prob_pays);
+  ASSERT_DOUBLE_EQ(ev, 0.99543904369518432);
+}
+
+TEST(GetPayback, DoubleBonus) {
+  const int db_table[] = {
+      0,    // nothing,
+      1,    // high_pair,
+      1,    // two_pair,
+      3,    // trips,
+      5,    // straight,
+      7,    // flush,
+      10,   // full_house,
+      50,   // quads,
+      160,  // quad aces
+      0,    // quad aces w/low kicker
+      80,   // quad 2-4
+      0,    // quad 2-4 w/low kicker
+      50,   // straight_flush,
+      0,    // quints,
+      0,    // wild_royal,
+      0,    // four_deuces,
+      800   // royal_flush
+  };
+  const vp_game double_bonus("10/7 Double Bonus Poker", GK_bonus, jack,
+                             &db_table);
+  pay_prob prob_pays;
+  const double ev = get_payback(double_bonus, prob_pays);
+  ASSERT_DOUBLE_EQ(ev, 1.0017252235510166);
+}
+
+TEST(GetPayback, DoubleDoubleBonus) {
+  const int ddb_table[] = {
+      0,    // nothing
+      1,    // high_pair,
+      1,    // two_pair,
+      3,    // trips,
+      4,    // straight,
+      6,    // flush,
+      10,   // full_house,
+      50,   // quads,
+      160,  // quad aces
+      400,  // quad aces w/low kicker
+      80,   // quad 2-4
+      160,  // quad 2-4 w/low kicker
+      40,   // straight_flush,
+      0,    // quints,
+      0,    // wild_royal,
+      0,    // four_deuces,
+      800   // royal_flush
+  };
+  const vp_game double_double_bonus("Double Double Bonus Poker",
+                                    GK_bonus_with_kicker, jack, &ddb_table);
+  pay_prob prob_pays;
+  const double ev = get_payback(double_double_bonus, prob_pays);
+  ASSERT_DOUBLE_EQ(ev, 0.999576698739713);
+}
+
+TEST(GetPayback, KingsOrBetterJokersWild) {
+  const int kb_table[] = {
+      0,    // nothing,
+      1,    // high_pair,
+      1,    // two_pair,
+      2,    // trips,
+      3,    // straight,
+      5,    // flush,
+      7,    // full_house,
+      20,   // quads,
+      0,    // quad aces",
+      0,    // quad aces w/low kicker",
+      0,    // quad 2-4",
+      0,    // quad 2-4 w/low kicker",
+      50,   // straight_flush,
+      200,  // quints,
+      100,  // wild_royal,
+      0,    // four_deuces,
+      800   // royal_flush
+  };
+  const vp_game kb_joker("Kings or Better Joker's Wild", GK_joker_wild, king,
+                         &kb_table);
+  pay_prob prob_pays;
+  const double ev = get_payback(kb_joker, prob_pays);
+  ASSERT_DOUBLE_EQ(ev, 1.0064629663459064);
 }

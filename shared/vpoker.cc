@@ -243,7 +243,7 @@ static const int bdlx96_table[] = {
     0,   // quad 2-4 w/low kicker",
     50,  // straight_flush,
     0,   // quints,
-    0,   // wild_royal,
+    0,   // wild_royal,//
     0,   // four_deuces,
     800  // royal_flush
 };
