@@ -62,7 +62,7 @@ class LineParser {
 };
 
 void LineParser::parse_error() {
-  int head = parse_ptr - parse_input;
+  const std::ptrdiff_t head = parse_ptr - parse_input;
   std::string msg;
   msg.append(parse_input, head);
   msg.append("/-->/");
@@ -72,7 +72,7 @@ void LineParser::parse_error() {
 }
 
 bool LineParser::match(const char *pat) {
-  const int n = strlen(pat);
+  const std::size_t n = strlen(pat);
   if (strncmp(pat, parse_ptr, n) == 0) {
     parse_ptr += n;
     return true;
@@ -129,7 +129,7 @@ void LineParser::opt_inside() {
 
 // Look for the pattern followed by the digit 0-5.
 bool LineParser::peek_n(const char *pat, int &mask) {
-  const int n = strlen(pat);
+  const std::size_t n = strlen(pat);
   if (strncmp(pat, parse_ptr, n) == 0) {
     switch (parse_ptr[n]) {
       case '0':
@@ -212,7 +212,7 @@ int LineParser::card_value(char p) {
   const char *rover = denom_image;
   for (;;) {
     if (*rover == p) {
-      return rover - denom_image;
+      return static_cast<int>(rover - denom_image);
     }
     if (*rover == 0) {
       return -1;
@@ -329,7 +329,7 @@ write_mask:
 
 void LineParser::sequence_op(int op_code, char *start, char *end) {
   parse_output->push_back(op_code);
-  parse_output->push_back(end - start);
+  parse_output->push_back(static_cast<unsigned char>(end - start));
   for (char *rover = start; rover < end; rover++) {
     parse_output->push_back(card_value(*rover));
   }
@@ -471,7 +471,7 @@ void LineParser::with_or_no(int op_code) {
 }
 
 void LineParser::make_patch(int where) {
-  int delta = parse_output->size() - (where + 1);
+  int delta = static_cast<int>(parse_output->size() - (where + 1));
   if (delta < 0 || delta > 255) {
     printf("Patch offset error %d\n", delta);
     throw 0;
@@ -535,7 +535,7 @@ void LineParser::paren_clause() {
     parse_error();
   }
 
-  const const char *cno = strstr(parse_ptr, ", no ");
+  const char *cno = strstr(parse_ptr, ", no ");
   if (cno && cno < final) {
     final = cno;
   }
@@ -628,7 +628,7 @@ void LineParser::opt_paren_modifiers() {
 }
 
 bool LineParser::peek(const char *pat) {
-  const int n = strlen(pat);
+  const std::size_t n = strlen(pat);
   if (strncmp(pat, parse_ptr, n) == 0) {
     return true;
   }
@@ -757,7 +757,7 @@ bool LineParser::low_sequence() {
 }
 
 void LineParser::sequence(bool is_no) {
-  int patch_loc = parse_output->size();
+  std::size_t patch_loc = parse_output->size();
   int op_code;
 
   if (high_sequence() || low_sequence()) {
