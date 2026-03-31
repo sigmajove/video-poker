@@ -59,7 +59,7 @@ class Evaluator {
 
   using EvalCache = CacheEntry[1 << 5];
 
-  double get_mask_value(unsigned char mask, enum_match &matcher,
+  double get_mask_value(unsigned char mask, EnumerateMatches &matcher,
                         EvalCache &cache, int keep_deuces,
                         game_parameters &parms, C_left &left);
   strategy_move *get_move(std::size_t line, StrategyLine *s);
@@ -128,7 +128,7 @@ void Evaluator::print_entry(FILE *f, CacheEntry &e, game_parameters &parms) {
   fprintf(f, "\n");
 };
 
-double Evaluator::get_mask_value(unsigned char mask, enum_match &matcher,
+double Evaluator::get_mask_value(unsigned char mask, EnumerateMatches &matcher,
                                  EvalCache &cache, int keep_deuces,
                                  game_parameters &parms, C_left &left) {
   if (cache[mask].valid) {
@@ -165,7 +165,7 @@ void Evaluator::evaluate(hand_iter &h, int deuces, C_left &left,
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
 
-  enum_match matcher;
+  EnumerateMatches matcher;
 
   matcher.hand_size = h.size();
   h.current(matcher.hand[0]);

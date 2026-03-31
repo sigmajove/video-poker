@@ -129,9 +129,9 @@ struct StrategyLine {
   std::vector<unsigned char> pattern_buffer;
 };
 
-class enum_match {
+class EnumerateMatches {
  public:
-  enum_match() {}
+  EnumerateMatches() {}
 
   // Input parameters
   card hand[5];

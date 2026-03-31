@@ -35,7 +35,7 @@ static int count_suits(unsigned x) {
   }
 }
 
-bool enum_match::matches_tail(unsigned mask, unsigned char *pattern) {
+bool EnumerateMatches::matches_tail(unsigned mask, unsigned char *pattern) {
   // Analyze the discards for penalty cards
 
   bool suited = true;
@@ -618,7 +618,7 @@ fail:
 }
 }
 
-void enum_match::check(unsigned mask) {
+void EnumerateMatches::check(unsigned mask) {
   unsigned char *save_pat_eof = pat_eof;
 
   if (*pat == pc_eof || *pat == pc_prefer) {
@@ -644,7 +644,7 @@ void enum_match::check(unsigned mask) {
   }
 }
 
-void enum_match::find(unsigned char *pattern) {
+void EnumerateMatches::find(unsigned char *pattern) {
   const unsigned end_marker = 0xff;
   pat = pattern;
 

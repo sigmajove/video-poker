@@ -198,7 +198,7 @@ void erase_hands() {
   cache.clear();
 }
 
-void sort_hand(enum_match &matcher, card *hand, int *perm,
+void sort_hand(EnumerateMatches &matcher, card *hand, int *perm,
                unsigned &wild_mask) {
   // Count and sort the non-wild cards and place them
   // into matcher for analysis.  Also return a permutation
@@ -254,7 +254,7 @@ unsigned invert_mask(int hand_size, unsigned mask, int *perm) {
 }
 
 bool is_right_move(card *hand, unsigned mask) {
-  enum_match matcher;
+  EnumerateMatches matcher;
   int j;
   int perm[5];
   unsigned wild_mask;
@@ -280,7 +280,7 @@ bool is_right_move(card *hand, unsigned mask) {
 }
 
 void find_right_move(card *hand, unsigned &mask, const char *&name) {
-  enum_match matcher;
+  EnumerateMatches matcher;
   int perm[5];
   unsigned wild_mask;
 
@@ -303,7 +303,7 @@ void find_right_move(card *hand, unsigned &mask, const char *&name) {
 }
 
 void analyze_hand(card *hand, triple &result, difficulty &diff) {
-  enum_match matcher;
+  EnumerateMatches matcher;
 
   int perm[5];
   unsigned wild_mask;

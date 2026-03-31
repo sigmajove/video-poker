@@ -101,7 +101,7 @@ static void evaluate(hand_iter &h, int deuces, C_left &left,
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
 
-  enum_match matcher;
+  EnumerateMatches matcher;
   matcher.wild_cards = deuces;
   matcher.parms = &parms;
 
@@ -490,7 +490,7 @@ static PayDistribution evaluate_multi(const hand_iter &h, int deuces,
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
 
-  enum_match matcher;
+  EnumerateMatches matcher;
   matcher.wild_cards = deuces;
   matcher.parms = &parms;
 
@@ -699,7 +699,7 @@ static void evaluate_for_prune(hand_iter &h, int deuces, C_left &left,
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
 
-  enum_match matcher;
+  EnumerateMatches matcher;
   matcher.wild_cards = deuces;
   matcher.parms = &parms;
 
@@ -1552,7 +1552,7 @@ static void variance(hand_iter &h, int deuces, C_left &left,
   // hand consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
 
-  enum_match matcher;
+  EnumerateMatches matcher;
   matcher.wild_cards = deuces;
   matcher.parms = &parms;
 
@@ -1943,7 +1943,7 @@ static void union_evaluate(hand_iter &h, int deuces, C_left &left,
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
 
-  enum_match matcher;
+  EnumerateMatches matcher;
   matcher.wild_cards = deuces;
   matcher.parms = &parms;
 

@@ -5,8 +5,6 @@
                   // and numeric_limits<int>::max()
 #include <windows.h>
 
-#include "eval_game.h"
-
 #include <algorithm>
 #include <array>
 #include <cstddef>
@@ -18,6 +16,8 @@
 #include <stdexcept>
 #include <utility>
 #include <vector>
+
+#include "eval_game.h"
 
 #include "combin.h"
 #include "enum_match.h"
@@ -66,7 +66,7 @@ static void evaluate(hand_iter &h, int deuces, C_left &left,
   // consisting of the cards returned by the iterator plus
   // the indicated number of deuces.
 
-  enum_match matcher;
+  EnumerateMatches matcher;
   matcher.wild_cards = deuces;
   matcher.parms = &parms;
 
