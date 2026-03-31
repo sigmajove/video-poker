@@ -89,13 +89,13 @@ struct StrategyLine {
   }
 
   // Copy constructor.
-  StrategyLine(const StrategyLine& other) {
-      pattern_buffer = other.pattern_buffer;  // Makes a copy
-      pattern = pattern_buffer.data();
+  StrategyLine(const StrategyLine &other) {
+    pattern_buffer = other.pattern_buffer;  // Makes a copy
+    pattern = pattern_buffer.data();
 
-      // Who owns this stuff?
-      image = other.image;
-      options = other.options;
+    // Who owns this stuff?
+    image = other.image;
+    options = other.options;
   }
 
   // Assignment constructor
