@@ -213,9 +213,6 @@ static void evaluate(hand_iter &h, int deuces, C_left &left,
     }
   }
 
-  static int counter = 0;
-  counter += 1;
-
   kept_description kept(hand, hand_size, optimal_mask, parms);
   pay_dist pays;
 
