@@ -3,6 +3,8 @@
 #include <iostream>
 #include <numeric>
 #include <random>
+#include <sstream>
+#include <string>
 
 #include "..\shared\eval_game.h"
 #include "..\shared\vpoker.h"
@@ -194,6 +196,35 @@ TEST(MultiCommand, Only) {
   bad_multi("multi 5555555555555555555555555555");
 }
 
+enum Deck { cards52, cards53 };
+std::string PrintCombinations(const pay_prob& prob_pays,
+                              const int (&pay_table)[], Deck deck) {
+  double total_combinations;
+  switch (deck) {
+    case cards52:
+      // The number 1,661,102,543,100 represents the total number of distinct
+      // final 5-card hands possible in video poker games like Jacks or Better,
+      // after accounting for all possible player decisions on holding cards and
+      // drawing replacements from a standard 52-card deck.
+      total_combinations = 1661102543100.0;
+      break;
+    case cards53:
+      // Joker's Wild games use a different value because it has a 53-card deck.
+      total_combinations = 2047405460100.0;
+      break;
+  }
+
+  std::stringstream ss;
+  for (int j = first_pay; j <= last_pay; j++) {
+    const double prob = prob_pays[j];
+    if (pay_table[j] != 0) {
+      ss << std::llround(total_combinations * prob_pays[j]) << " "
+         << payoff_image[j] << "\n";
+    }
+  }
+  return ss.str();
+}
+
 TEST(GetPayback, Jacks) {
   const int jb_table[] = {
       0,   // nothing,
@@ -220,6 +251,18 @@ TEST(GetPayback, Jacks) {
   pay_prob prob_pays;
   const double ev = get_payback(jacks_or_better, prob_pays);
   ASSERT_DOUBLE_EQ(ev, 0.99543904369518432);
+  const std::string combos = PrintCombinations(prob_pays, jb_table, cards52);
+  EXPECT_EQ(combos,
+            R"(356447740914 High Pair
+214745513679 Two Pair
+123666922527 Trips
+18653130482 Straight
+18296232180 Flush
+19122956883 Full House
+3924430647 Quads
+181573608 Straight Flush
+41126022 Royal Flush
+)");
 }
 
 TEST(GetPayback, DoubleBonus) {
@@ -247,6 +290,20 @@ TEST(GetPayback, DoubleBonus) {
   pay_prob prob_pays;
   const double ev = get_payback(double_bonus, prob_pays);
   ASSERT_DOUBLE_EQ(ev, 1.0017252235510166);
+  const std::string combos = PrintCombinations(prob_pays, db_table, cards52);
+  EXPECT_EQ(combos,
+            R"(319561323444 High Pair
+207070336215 Two Pair
+119930687197 Trips
+24948778786 Straight
+24839043284 Flush
+18587554884 Full House
+2670499348 Quads
+330211491 Quad Aces
+870522057 Quad 2,3 or 4
+187878280 Straight Flush
+34571706 Royal Flush
+)");
 }
 
 TEST(GetPayback, DoubleDoubleBonus) {
@@ -274,6 +331,22 @@ TEST(GetPayback, DoubleDoubleBonus) {
   pay_prob prob_pays;
   const double ev = get_payback(double_double_bonus, prob_pays);
   ASSERT_DOUBLE_EQ(ev, 0.999576698739713);
+  const std::string combos = PrintCombinations(prob_pays, ddb_table, cards52);
+  EXPECT_EQ(combos,
+            R"(351476355342 High Pair
+204537482307 Two Pair
+125098748131 Trips
+21203534298 Straight
+18754389656 Flush
+18047434611 Full House
+2709448318 Quads
+288413337 Quad Aces
+102334500 Quad Aces w/low kicker
+638537018 Quad 2,3 or 4
+237869374 Quad 2,3 or 4 w/low kicker
+180935528 Straight Flush
+40428326 Royal Flush
+)");
 }
 
 TEST(GetPayback, KingsOrBetterJokersWild) {
@@ -300,5 +373,79 @@ TEST(GetPayback, KingsOrBetterJokersWild) {
                          &kb_table);
   pay_prob prob_pays;
   const double ev = get_payback(kb_joker, prob_pays);
+
+  std::ios_base::fmtflags original_flags = std::cout.flags();
+  std::streamsize original_precision = std::cout.precision();
+  char original_fill = std::cout.fill();
+  std::cout << std::fixed << std::setprecision(4) << "Frequencies\n";
+
+  for (int j = first_pay; j <= last_pay; j++) {
+    const double prob = prob_pays[j];
+    if (kb_table[j] != 0) {
+      std::cout << 1.0 / prob << " " << payoff_image[j] << "\n";
+    }
+  }
+  std::cout.flags(original_flags);
+  std::cout.precision(original_precision);
+  std::cout.fill(original_fill);
+
   ASSERT_DOUBLE_EQ(ev, 1.0064629663459064);
+  const std::string combos = PrintCombinations(prob_pays, kb_table, cards53);
+
+  // This test reflects what my code does, but it is slightly different
+  // from what the Wizard of Odds reports. Not sure why.
+  EXPECT_EQ(combos,
+            R"(290649393121 High Pair
+227002401450 Two Pair
+274223843817 Trips
+33975984497 Straight
+31891371778 Flush
+32101477947 Full House
+17516371686 Quads
+1176962909 Straight Flush
+191113461 Quints
+213027379 Wild Royal
+49677654 Royal Flush
+)");
+}
+
+TEST(GetPayback, NsuDeuces) {
+  const int nsu_table[] = {
+      0,    // nothing,
+      0,    // high_pair,
+      0,    // two_pair,
+      1,    // trips,
+      2,    // straight,
+      3,    // flush,
+      4,    // full_house,
+      4,    // quads,
+      0,    // quad aces",
+      0,    // quad aces w/low kicker",
+      0,    // quad 2-4",
+      0,    // quad 2-4 w/low kicker",
+      10,   // straight_flush,
+      16,   // quints,
+      25,   // wild_royal,
+      200,  // four_deuces,
+      800   // royal_flush
+  };
+
+  const vp_game nsu_deuces_wild("NSU Deuces Wild", GK_deuces_wild, ace,
+                                &nsu_table);
+  pay_prob prob_pays;
+  const double ev = get_payback(nsu_deuces_wild, prob_pays);
+  ASSERT_DOUBLE_EQ(ev, 0.99728294651662486);
+  const std::string combos = PrintCombinations(prob_pays, nsu_table, cards52);
+  EXPECT_EQ(combos,
+            R"(443825967643 Trips
+95240456400 Straight
+34489242338 Flush
+43380578592 Full House
+101390107459 Quads
+8532702998 Straight Flush
+5163436138 Quints
+3167246872 Wild Royal
+310144767 Four Deuces
+38224692 Royal Flush
+)");
 }
