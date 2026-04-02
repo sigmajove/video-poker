@@ -57,7 +57,7 @@ TEST(Distribution, Normalize3) {
 }
 
 TEST(Distribution, Cutoff) {
-  const PayDistribution dist1(100, .0625,
+  const PayDistribution dist1(50, .0625,
                               {{0.5, 0}, {0.25, 1}, {0.125, 7}, {0.0625, 11}});
   EXPECT_EQ(dist1.total_prob(), 1.0);
   const PayDistribution dist2(
