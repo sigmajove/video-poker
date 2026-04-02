@@ -5,153 +5,16 @@
                   // and numeric_limits<int>::max()
 #include <windows.h>
 
-#include <algorithm>
-#include <array>
-#include <cstddef>
-#include <format>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <numeric>
-#include <stdexcept>
-#include <utility>
-#include <vector>
-
 #include "eval_game.h"
 
+#include <cstddef>
+
 #include "combin.h"
-#include "enum_match.h"
 #include "game.h"
 #include "hand_iter.h"
 #include "kept.h"
 #include "pay_dist.h"
 #include "vpoker.h"
-
-using std::vector;
-
-struct line_info {
-  bool erroneous;
-  double total_error;
-
-  card worst_hand[5];
-  unsigned char worst_hsize;
-  double worst_shortfall;
-  unsigned char worst_play;
-  unsigned char optimal_play;
-  card best_hand[5];
-  unsigned char best_hsize;
-  double best_shortfall;
-  unsigned char best_play;
-
-  line_info() {
-    erroneous = false;
-    total_error = 0.0;
-    worst_shortfall = 0.0;
-    best_shortfall = -1.0;
-    best_hsize = 0;
-  }
-};
-
-static const int max_trace = 10;
-struct estate {
-  double multiplier;
-  double optimal_return;
-  int trace_count;
-  FILE *trace_file[max_trace];
-};
-
-static void evaluate(hand_iter &h, int deuces, C_left &left,
-                     StrategyLine *lines, estate &e, game_parameters &parms) {
-  // Compute the expected value of an initial five-card hand
-  // consisting of the cards returned by the iterator plus
-  // the indicated number of deuces.
-
-  EnumerateMatches matcher;
-  matcher.wild_cards = deuces;
-  matcher.parms = &parms;
-
-  matcher.hand_size = h.size();
-  h.current(matcher.hand[0]);
-
-  left.remove(matcher.hand, matcher.hand_size, deuces);
-  // Subtract the hand to be evaluated from the left structure
-
-  unsigned power = 1 << matcher.hand_size;
-
-  unsigned optimal_mask;
-  int optimal_deuces;
-
-  double best_value = -1.0, strategy_value = -1.0;
-
-  StrategyLine *best_strategy = lines;
-  unsigned strategy_mask = 0;
-
-  // Incrementing the binary mask iterates over all
-  // 2^hand_size combinations of cards to be kept.
-
-  for (;;) {
-    matcher.find(best_strategy->pattern);
-    if (matcher.match_count != 0) {
-      break;
-    }
-
-    best_strategy += 1;
-  }
-
-  unsigned mask;
-
-  for (mask = 0; mask < power; mask++) {
-    kept_description kept(matcher.hand, matcher.hand_size, mask, parms);
-    // Build the description of subset of the hand
-    // indicated by mask.
-
-    // In real video poker games offered by casinos you never
-    // disard a wild card.  But it's possible to concoct
-    // pay tables where that is the right move.
-    // (four deuces pays 0; natural royal plays Avagadro's Number)
-
-    for (int keep_deuces = 0; keep_deuces <= deuces; keep_deuces++) {
-      pay_dist pays;
-
-      kept.all_draws(keep_deuces, left, pays);
-
-      {
-        int total_pays = 0;
-        double result = 0.0;
-
-        for (int j = first_pay; j <= last_pay; j++) {
-          const int pay = pays[j];
-          total_pays += pay;
-          result += (double)pay * parms.pay_table[j];
-        }
-
-        const double current_total = (double)total_pays;
-        const double value = result / current_total;
-
-        if (keep_deuces == deuces && matcher.result_vector[mask]) {
-          if (strategy_value < 0.0 || value < strategy_value) {
-            strategy_value = value;
-            strategy_mask = mask;
-          }
-        }
-
-        if (value > best_value) {
-          best_value = value;
-          optimal_mask = mask;
-          optimal_deuces = deuces;
-        }
-      }
-    }
-  }
-
-  _ASSERT(best_value >= 0);
-  _ASSERT(strategy_value >= 0);
-
-  const double mb = e.multiplier * best_value;
-  e.optimal_return += mb;
-
-  left.replace(matcher.hand, matcher.hand_size, deuces);
-}
 
 static void evaluate(hand_iter &h, int deuces, C_left &left,
                      game_parameters &parms, double multiplier,
