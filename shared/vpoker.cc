@@ -292,7 +292,7 @@ static const int bp_table[] = {
     800  // royal_flush
 };
 
-const vp_game eight_five_bonus("8/5 Bonus Poker", GK_bonus, jack, &bp_table);
+const vp_game eight_five_bonus("8/5 Bonus Poker", GK_no_wild, jack, &bp_table);
 
 static const int sa_table[] = {
     0,    // nothing,
@@ -314,7 +314,7 @@ static const int sa_table[] = {
     800   // royal_flush
 };
 
-const vp_game super_aces("Super Aces", GK_bonus, jack, &sa_table);
+const vp_game super_aces("Super Aces", GK_no_wild, jack, &sa_table);
 
 static const int bp75_table[] = {
     0,   // nothing,
@@ -336,7 +336,8 @@ static const int bp75_table[] = {
     800  // royal_flush
 };
 
-const vp_game seven_five_bonus("7/5 Bonus Poker", GK_bonus, jack, &bp75_table);
+const vp_game seven_five_bonus("7/5 Bonus Poker", GK_no_wild, jack,
+                               &bp75_table);
 
 static const int db_table[] = {
     0,    // nothing,
@@ -358,7 +359,7 @@ static const int db_table[] = {
     800   // royal_flush
 };
 
-const vp_game double_bonus("10/7 Double Bonus Poker", GK_bonus, jack,
+const vp_game double_bonus("10/7 Double Bonus Poker", GK_no_wild, jack,
                            &db_table);
 
 static const int tbp_table[] = {
@@ -381,7 +382,7 @@ static const int tbp_table[] = {
     800   // royal_flush
 };
 
-const vp_game triple_bonus_plus("9/5 Triple Bonus Plus", GK_bonus, jack,
+const vp_game triple_bonus_plus("9/5 Triple Bonus Plus", GK_no_wild, jack,
                                 &tbp_table);
 
 static const int tdb_table[] = {
@@ -404,8 +405,8 @@ static const int tdb_table[] = {
     800   // royal_flush
 };
 
-const vp_game triple_double_bonus("9/6 Triple Double Bonus",
-                                  GK_bonus_with_kicker, jack, &tdb_table);
+const vp_game triple_double_bonus("9/6 Triple Double Bonus", GK_no_wild, jack,
+                                  &tdb_table);
 static const int db96_table[] = {
     0,    // nothing,
     1,    // high_pair,
@@ -426,7 +427,7 @@ static const int db96_table[] = {
     800   // royal_flush
 };
 
-const vp_game double_bonus96("9/6 Double Bonus Poker", GK_bonus, jack,
+const vp_game double_bonus96("9/6 Double Bonus Poker", GK_no_wild, jack,
                              &db96_table);
 
 static const int db_97_table[] = {
@@ -449,7 +450,7 @@ static const int db_97_table[] = {
     800   // royal_flush
 };
 
-const vp_game double_bonus_il("9/7 Double Bonus Poker", GK_bonus, jack,
+const vp_game double_bonus_il("9/7 Double Bonus Poker", GK_no_wild, jack,
                               &db_97_table);
 
 static const int ddb_table[] = {
@@ -472,8 +473,8 @@ static const int ddb_table[] = {
     800   // royal_flush
 };
 
-const vp_game double_double_bonus("Double Double Bonus Poker",
-                                  GK_bonus_with_kicker, jack, &ddb_table);
+const vp_game double_double_bonus("Double Double Bonus Poker", GK_no_wild, jack,
+                                  &ddb_table);
 
 static const int fpdw_table[] = {
     0,    // nothing,

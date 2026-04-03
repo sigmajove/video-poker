@@ -72,8 +72,6 @@ const payoff_name last_pay = N_royal_flush;
 
 enum game_kind {
   GK_no_wild,
-  GK_bonus,
-  GK_bonus_with_kicker,
   GK_deuces_wild,
   GK_joker_wild,
   GK_one_eyed_jacks_wild

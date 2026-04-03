@@ -8,13 +8,8 @@ game_parameters::game_parameters(const vp_game &g)
     pay_table[j] = static_cast<double>((*g.pay_table)[j]);
   }
 
-  bonus_quads = (g.kind == GK_bonus || g.kind == GK_bonus_with_kicker);
-  bonus_quads_kicker = g.kind == GK_bonus_with_kicker;
-
   switch (g.kind) {
     case GK_no_wild:
-    case GK_bonus:
-    case GK_bonus_with_kicker:
       number_wild_cards = 0;
       break;
 

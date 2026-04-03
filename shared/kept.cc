@@ -47,8 +47,6 @@ C_left::C_left(game_parameters &parms) : parms(parms) {
 
   switch (parms.kind) {
     case GK_no_wild:
-    case GK_bonus:
-    case GK_bonus_with_kicker:
       jokers = 0;
       break;
 

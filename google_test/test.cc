@@ -285,7 +285,7 @@ TEST(GetPayback, DoubleBonus) {
       0,    // four_deuces,
       800   // royal_flush
   };
-  const vp_game double_bonus("10/7 Double Bonus Poker", GK_bonus, jack,
+  const vp_game double_bonus("10/7 Double Bonus Poker", GK_no_wild, jack,
                              &db_table);
   pay_prob prob_pays;
   const double ev = get_payback(double_bonus, prob_pays);
@@ -327,7 +327,7 @@ TEST(GetPayback, DoubleDoubleBonus) {
       800   // royal_flush
   };
   const vp_game double_double_bonus("Double Double Bonus Poker",
-                                    GK_bonus_with_kicker, jack, &ddb_table);
+                                    GK_no_wild, jack, &ddb_table);
   pay_prob prob_pays;
   const double ev = get_payback(double_double_bonus, prob_pays);
   ASSERT_DOUBLE_EQ(ev, 0.999576698739713);
