@@ -377,14 +377,6 @@ TEST(GetPayback, KingsOrBetterJokersWild) {
   std::ios_base::fmtflags original_flags = std::cout.flags();
   std::streamsize original_precision = std::cout.precision();
   char original_fill = std::cout.fill();
-  std::cout << std::fixed << std::setprecision(4) << "Frequencies\n";
-
-  for (int j = first_pay; j <= last_pay; j++) {
-    const double prob = prob_pays[j];
-    if (kb_table[j] != 0) {
-      std::cout << 1.0 / prob << " " << payoff_image[j] << "\n";
-    }
-  }
   std::cout.flags(original_flags);
   std::cout.precision(original_precision);
   std::cout.fill(original_fill);
@@ -392,8 +384,14 @@ TEST(GetPayback, KingsOrBetterJokersWild) {
   ASSERT_DOUBLE_EQ(ev, 1.0064629663459064);
   const std::string combos = PrintCombinations(prob_pays, kb_table, cards53);
 
-  // This test reflects what my code does, but it is slightly different
-  // from what the Wizard of Odds reports. Not sure why.
+  // This test result is slightly different from what the Wizard of Odds
+  // reports. The reason is rare hands like 9s Js 6h Ah joker. 
+  // There is no single best play for this hand. Keeping 9J+joker has
+  // an expected value identical to that of keeping A+joker. This choice
+  // does not affect the final house edge but does affect the totals for
+  // the combinations. For example, keeping A+joker has Quints as a possible
+  // outcome, but 9J+joker does not. Apparently my code and the Wizard make
+  // different choices in situtations like this. 
   EXPECT_EQ(combos,
             R"(290649393121 High Pair
 227002401450 Two Pair
