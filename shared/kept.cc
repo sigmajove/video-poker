@@ -1319,40 +1319,37 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
             case 1:
               // Holding one card, which will be the kicker.
               // Draw four other cards.
-              {
-                for (int match = 0; match < num_denoms; match++) {
-                  if (left.denoms[match] == 4) {
-                    int low_kicker;
+              for (int match = 0; match < num_denoms; match++) {
+                if (left.denoms[match] == 4) {
+                  int low_kicker;
 
-                    switch (m_denom[1]) {
-                      case ace:
-                      case deuce:
-                      case three:
-                      case four:
-                        low_kicker = 1;
-                        break;
-                      default:
-                        low_kicker = 0;
-                        break;
-                    }
+                  switch (m_denom[1]) {
+                    case ace:
+                    case deuce:
+                    case three:
+                    case four:
+                      low_kicker = 1;
+                      break;
+                    default:
+                      low_kicker = 0;
+                      break;
+                  }
 
-                    switch (match) {
-                      case ace:
-                        combos[low_kicker ? N_quad_aces_kicker : N_quad_aces] +=
-                            1;
-                        break;
+                  switch (match) {
+                    case ace:
+                      combos[low_kicker ? N_quad_aces_kicker : N_quad_aces] +=
+                          1;
+                      break;
 
-                      case deuce:
-                      case three:
-                      case four:
-                        combos[low_kicker ? N_quad_low_kicker : N_quad_low] +=
-                            1;
-                        break;
+                    case deuce:
+                    case three:
+                    case four:
+                      combos[low_kicker ? N_quad_low_kicker : N_quad_low] += 1;
+                      break;
 
-                      default:
-                        combos[N_quads] += 1;
-                        break;
-                    }
+                    default:
+                      combos[N_quads] += 1;
+                      break;
                   }
                 }
               }
@@ -1453,7 +1450,6 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
               }
             }
           }
-
           break;
       }
 
