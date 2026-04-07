@@ -39,7 +39,8 @@ typedef class C_kept_description {
   int num_jokers;
 
   int multi[num_suits + 1];
-  // multi[1] = the number of singletons
+  // multi[0] = zero
+  // multi[1] = the number of unpaired cards
   // multi[2] = the number of pairs
   // multi[3] = the number of trips
   // multi[4] = the number of quads

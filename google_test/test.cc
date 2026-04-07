@@ -326,8 +326,8 @@ TEST(GetPayback, DoubleDoubleBonus) {
       0,    // four_deuces,
       800   // royal_flush
   };
-  const vp_game double_double_bonus("Double Double Bonus Poker",
-                                    GK_no_wild, jack, &ddb_table);
+  const vp_game double_double_bonus("Double Double Bonus Poker", GK_no_wild,
+                                    jack, &ddb_table);
   pay_prob prob_pays;
   const double ev = get_payback(double_double_bonus, prob_pays);
   ASSERT_DOUBLE_EQ(ev, 0.999576698739713);
@@ -349,6 +349,48 @@ TEST(GetPayback, DoubleDoubleBonus) {
 )");
 }
 
+TEST(GetPayback, DoubleDoubleBonusNoAces) {
+  const int pay_table[] = {
+      0,    // nothing
+      1,    // high_pair,
+      1,    // two_pair,
+      3,    // trips,
+      4,    // straight,
+      6,    // flush,
+      10,   // full_house,
+      50,   // quads,
+      0,    // quad aces
+      0,    // quad aces w/low kicker
+      80,   // quad 2-4
+      160,  // quad 2-4 w/low kicker
+      50,   // straight_flush,
+      0,    // quints,
+      0,    // wild_royal,
+      0,    // four_deuces,
+      800   // royal_flush
+  };
+  const vp_game game_desc("Double Double Bonus No Ace Bonus", GK_no_wild, jack,
+                          &pay_table);
+  pay_prob prob_pays;
+  const double ev = get_payback(game_desc, prob_pays);
+  ASSERT_DOUBLE_EQ(ev, 0.95490742757086533);
+  const std::string combos = PrintCombinations(prob_pays, pay_table, cards52);
+  EXPECT_EQ(combos,
+            R"(351476355342 High Pair
+204537482307 Two Pair
+125098748131 Trips
+21203534298 Straight
+18754389656 Flush
+18047434611 Full House
+2709448318 Quads
+288413337 Quad Aces
+102334500 Quad Aces w/low kicker
+638537018 Quad 2,3 or 4
+237869374 Quad 2,3 or 4 w/low kicker
+180935528 Straight Flush
+40428326 Royal Flush
+)");
+}
 TEST(GetPayback, KingsOrBetterJokersWild) {
   const int kb_table[] = {
       0,    // nothing,
@@ -385,13 +427,13 @@ TEST(GetPayback, KingsOrBetterJokersWild) {
   const std::string combos = PrintCombinations(prob_pays, kb_table, cards53);
 
   // This test result is slightly different from what the Wizard of Odds
-  // reports. The reason is rare hands like 9s Js 6h Ah joker. 
+  // reports. The reason is rare hands like 9s Js 6h Ah joker.
   // There is no single best play for this hand. Keeping 9J+joker has
   // an expected value identical to that of keeping A+joker. This choice
   // does not affect the final house edge but does affect the totals for
   // the combinations. For example, keeping A+joker has Quints as a possible
   // outcome, but 9J+joker does not. Apparently my code and the Wizard make
-  // different choices in situtations like this. 
+  // different choices in situtations like this.
   EXPECT_EQ(combos,
             R"(290649393121 High Pair
 227002401450 Two Pair

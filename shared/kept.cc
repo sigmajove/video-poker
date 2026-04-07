@@ -1,5 +1,6 @@
 #include "kept.h"
 
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -184,6 +185,11 @@ C_kept_description::C_kept_description(const card *hand, int hand_size,
         if (end_index < 2) end_index += 1;
         endpoint[end_index] = d;
 
+        // This code is fragile. It appears to require that all cards
+        // of the same demonination in a hand are adjacent. It looks
+        // like we can get away with this assumption because all the
+        // hands come from the call hand_iter, and have this property.
+        // TODO: Add an assertion to check for the adjacency property.
         if (multi_count != 0) {
           // Process one of the multiples
           multi[multi_count] += 1;
@@ -260,7 +266,7 @@ C_kept_description::C_kept_description(const card *hand, int hand_size,
       break;
 
     default:
-      _ASSERT(false);
+      assert(false);
   }
 
   if (multi_count != 0) {
@@ -519,7 +525,7 @@ denom_list::denom_list(int *left_table) {
 }
 
 int denom_list::no_pair(int n) {
-  _ASSERT(n >= 0);
+  assert(n >= 0);
   // Everything is unrolled here; we know num_suits=4
 
   int sum4 = avail[4];
@@ -587,7 +593,7 @@ int denom_list::no_pair(int n) {
         int f3 = combin.choose(avail[3], j3) * power * f2;
 
         int j4 = n - j3;
-        _ASSERT(0 <= j4 && j4 <= avail[4]);
+        assert(0 <= j4 && j4 <= avail[4]);
 
         int f4 = combin.choose(avail[4], j4) * (1 << (2 * j4)) * f3;
         // (1<<(2*j4)) == 4**j4
@@ -605,7 +611,7 @@ int denom_list::no_pair(int n) {
 }
 
 int denom_list::multi(int m, int n) {
-  _ASSERT(m >= 1);
+  assert(m >= 1);
 
   if (m == 1) return no_pair(n);
 
@@ -1085,7 +1091,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
 
               case 1:
                 // Start with a full house.  Get no help.
-                _ASSERTE(must_draw == 0);
+                assert(must_draw == 0);
                 combos[N_full_house] += 1;
             }
           }
@@ -1136,7 +1142,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
 
               case 2:
                 // Start with two pair and a deuce.
-                _ASSERT(must_draw == 0);
+                assert(must_draw == 0);
                 combos[N_full_house] += 1;
                 break;
             }
@@ -1158,21 +1164,17 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
           {
             int match = 2 - jokers;
 
-            // if (match == 0)
-            //{
-            //	combos [trips] += not_kept.no_pair (must_draw);
-            //}
-            // else
             if (must_draw >= match && match > 0) {
               combos[N_trips] += any_kept.multi(match, match) *
                                  not_kept.no_pair(must_draw - match);
             }
           }
 
+          /////////////////////////////////////////////////////////////
           // Draw three to make quads
           if (parms.pay_table[N_quad_aces] > 0.0 ||
               parms.pay_table[N_quad_low] > 0.0) {
-            _ASSERT(jokers == 0);
+            assert(jokers == 0);
 
             switch (multi[1]) {
               case 1:
@@ -1181,41 +1183,45 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
                 {
                   const int d = m_denom[1];
                   if (left.denoms[d] == 3) {
+                    // kickers are the number of cards left
+                    // in the deck whose denominations are not d.
                     const int kickers = parms.deck_size - 5 - 3;
 
+                    // low_kickers are the number of cards left
+                    // in the deck whose denominations are not d,
+                    // and are in the range ace-four. high_kickers
+                    // are the number of kickers that are not low_kickers.
+                    // high_kickers and low_kickers will be computed
+                    // only if they will be used.
                     int low_kickers = 0;
-                    if (d != ace) low_kickers += left.denoms[ace];
-                    if (d != deuce) low_kickers += left.denoms[deuce];
-                    if (d != three) low_kickers += left.denoms[three];
-                    if (d != four) low_kickers += left.denoms[four];
+                    int high_kickers = 0;
 
-                    const int high_kickers = kickers - low_kickers;
-                    switch (d) {
-                      case ace:
-                        if (parms.pay_table[N_quad_aces_kicker] > 0.0) {
-                          combos[N_quad_aces] += high_kickers;
-                          combos[N_quad_aces_kicker] += low_kickers;
+                    if (parms.pay_table[N_quad_aces_kicker] > 0.0 ||
+                        parms.pay_table[N_quad_low_kicker] > 0.0) {
+                      if (d != ace) low_kickers += left.denoms[ace];
+                      if (d != deuce) low_kickers += left.denoms[deuce];
+                      if (d != three) low_kickers += left.denoms[three];
+                      if (d != four) low_kickers += left.denoms[four];
+                      high_kickers = kickers - low_kickers;
+                    }
+                    if (parms.pay_table[N_quad_aces] > 0.0 && d == ace) {
+                      if (parms.pay_table[N_quad_aces_kicker] > 0.0) {
+                        combos[N_quad_aces] += high_kickers;
+                        combos[N_quad_aces_kicker] += low_kickers;
+                      } else {
+                        combos[N_quad_aces] += kickers;
+                      }
+                    } else if (parms.pay_table[N_quad_low] > 0.0 &&
+                               (d == deuce || d == three || d == four)) {
+                      if (parms.pay_table[N_quad_low_kicker] > 0.0) {
+                        combos[N_quad_low] += high_kickers;
+                        combos[N_quad_low_kicker] += low_kickers;
 
-                        } else {
-                          combos[N_quad_aces] += kickers;
-                        }
-                        break;
-
-                      case deuce:
-                      case three:
-                      case four:
-                        if (parms.pay_table[N_quad_low_kicker] > 0.0) {
-                          combos[N_quad_low] += high_kickers;
-                          combos[N_quad_low_kicker] += low_kickers;
-
-                        } else {
-                          combos[N_quad_low] += kickers;
-                        }
-                        break;
-
-                      default:
-                        combos[N_quads] += kickers;
-                        break;
+                      } else {
+                        combos[N_quad_low] += kickers;
+                      }
+                    } else {
+                      combos[N_quads] += kickers;
                     }
                   }
                 }
@@ -1236,44 +1242,35 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
                   }
 
                   if (left.denoms[match] == 3) {
-                    int low_kicker;
+                    bool low_kicker = false;
 
                     switch (kicker) {
                       case ace:
                       case deuce:
                       case three:
                       case four:
-                        low_kicker = 1;
-                        break;
-                      default:
-                        low_kicker = 0;
+                        low_kicker = true;
                         break;
                     }
 
-                    switch (match) {
-                      case ace:
-                        if (parms.pay_table[N_quad_aces_kicker] > 0.0) {
-                          combos[low_kicker ? N_quad_aces_kicker
-                                            : N_quad_aces] += 1;
-                        } else {
-                          combos[N_quad_aces] += 1;
-                        }
-                        break;
-
-                      case deuce:
-                      case three:
-                      case four:
-                        if (parms.pay_table[N_quad_low_kicker] > 0.0) {
-                          combos[low_kicker ? N_quad_low_kicker : N_quad_low] +=
-                              1;
-                        } else {
-                          combos[N_quad_low] += 1;
-                        }
-                        break;
-
-                      default:
+                    if (match == ace && low_kicker &&
+                        parms.pay_table[N_quad_aces_kicker] > 0.0) {
+                      combos[N_quad_aces_kicker] += 1;
+                    } else if (match == ace && !low_kicker &&
+                               parms.pay_table[N_quad_aces] > 0.0) {
+                      combos[N_quad_aces] += 1;
+                    } else {
+                      const bool match_is_low =
+                          match == deuce || match == three || match == four;
+                      if (match_is_low && low_kicker &&
+                          parms.pay_table[N_quad_low_kicker] > 0.0) {
+                        combos[N_quad_low_kicker] += 1;
+                      } else if (match_is_low && !low_kicker &&
+                                 parms.pay_table[N_quad_low] > 0.0) {
+                        combos[N_quad_low] += 1;
+                      } else {
                         combos[N_quads] += 1;
-                        break;
+                      }
                     }
                   }
                 }
@@ -1287,6 +1284,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
                                  not_kept.no_pair(must_draw - match);
             }
           }
+          /////////////////////////////////////////////////////////////
 
           // Draw four to make five of a kind
           {
@@ -1305,9 +1303,16 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
           }
           combos[N_quints] += not_kept.multi(5 - jokers, must_draw);
 
+          // Count the number of ways we can make quads.
+          // This is trickier, since we have to decide which slot of combos
+          // we must increment.
           if (parms.pay_table[N_quad_aces] > 0.0 ||
-              parms.pay_table[N_quad_low] > 0.0) {
-            _ASSERT(jokers == 0);
+              parms.pay_table[N_quad_low] > 0.0 ||
+              parms.pay_table[N_quad_aces_kicker] > 0.0 ||
+              parms.pay_table[N_quad_low_kicker] > 0.0) {
+            // TBD: handle games with wild cards and different
+            // flavors of quad payouts.
+            assert(jokers == 0);
 
             switch (multi[1]) {
               case 0:
@@ -1415,22 +1420,23 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
           // The hand contains a single multiple denomination.
           // It must be extended make the hand.
           {
-            int c, d;
+            // We have num_matching cards all with the denomination d.
+            int num_matching, d;
 
             if (multi[2] == 1) {
-              c = 2;
+              num_matching = 2;
               d = m_denom[2];
             } else if (multi[3] == 1) {
-              c = 3;
+              num_matching = 3;
               d = m_denom[3];
             } else {
-              _ASSERT(multi[4] == 1);
-              c = 4;
+              assert(multi[4] == 1);
+              num_matching = 4;
               d = m_denom[4];
             }
 
             {
-              int match = 3 - c - jokers;
+              int match = 3 - num_matching - jokers;
               if (must_draw >= match && match >= 0) {
                 combos[N_trips] += combin.choose(left.denoms[d], match) *
                                    not_kept.no_pair(must_draw - match);
@@ -1438,7 +1444,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
             }
 
             {
-              int match = 4 - c - jokers;
+              int match = 4 - num_matching - jokers;
               if (must_draw >= match && match >= 0) {
                 // The number of ways of completing the four of a kind.
                 const int quads_combos = combin.choose(left.denoms[d], match);
@@ -1476,10 +1482,23 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
                     break;
 
                   default:
-                    _ASSERT(false);
+                    assert(false);
                 }
 
                 int high_kickers = kickers - low_kickers;
+
+                if (d == ace) {
+                  if (parms.pay_table[N_quad_aces_kicker] > 0.0) {
+                    combos[N_quad_aces_kicker] += quads_combos * low_kickers;
+                    combos[N_quad_aces] += quads_combos * high_kickers;
+                  } else {
+                    combos[N_quad_aces] += quads_combos * kickers;
+                  }
+
+                } else if (d == deuce || d == three || d == 4) {
+                } else {
+                  combos[N_quads] += quads_combos * kickers;
+                }
 
                 if (parms.pay_table[N_quad_aces] > 0.0 ||
                     parms.pay_table[N_quad_low] > 0.0) {
@@ -1516,7 +1535,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
             }
 
             {
-              int match = 5 - c - jokers;
+              int match = 5 - num_matching - jokers;
               if (must_draw >= match && match >= 0) {
                 combos[N_quints] += combin.choose(left.denoms[d], match) *
                                     not_kept.no_pair(must_draw - match);
@@ -2025,7 +2044,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
           break;
 
         default:
-          _ASSERT(false);
+          assert(false);
       }
     }
 
@@ -2786,7 +2805,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
             break;
 
           default:
-            _ASSERT(false);
+            assert(false);
         }
       }
     }
@@ -2865,7 +2884,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
       switch (deuces_kept) {
         case 0:
           // We kept none but drew one.
-          _ASSERT(joker_factor == 2);
+          assert(joker_factor == 2);
 
           // We have added into pays all four combinations of
           // the suited royals and the wild jacks.  On each
@@ -2874,7 +2893,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
           break;
 
         case 1:
-          _ASSERT(joker_factor == 1);
+          assert(joker_factor == 1);
           // If we've saved the jack, by convention we can deem it
           // to be suit zero.  We only promote royals of that suit.
           // In this case, the iterator never considers suits 0 and
@@ -2882,12 +2901,12 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
           break;
 
         default:
-          _ASSERT(0);
+          assert(false);
       }
       // We must convert all the wild royals of the suit that
       // matches the joker to natural royal flushes.
 
-      _ASSERT(pays[N_wild_royal] >= promote_wild_royals);
+      assert(pays[N_wild_royal] >= promote_wild_royals);
       pays[N_wild_royal] -= promote_wild_royals;
       pays[N_royal_flush] += promote_wild_royals;
     }
@@ -2907,10 +2926,7 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
 
     {
       const int correct = combin.choose(parms.deck_size - 5, cards_to_draw);
-
-      if (total_pays != correct) {
-        _ASSERT(0);
-      }
+      assert(total_pays == correct);
     }
   }
 }
@@ -2938,7 +2954,7 @@ payoff_name C_kept_description::name() {
       }
     }
 
-    _ASSERT(min_denom >= 0);
+    assert(min_denom >= 0);
 
     if (have[ace] && all_over_ten) {
       // If we have a straight, it will be Ace high
