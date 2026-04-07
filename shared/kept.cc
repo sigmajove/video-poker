@@ -1,9 +1,10 @@
+#include "kept.h"
+
 #include <iostream>
 #include <sstream>
 #include <string>
 
 #include "combin.h"
-#include "kept.h"
 
 static const bool trace = true;
 
@@ -46,8 +47,6 @@ C_left::C_left(game_parameters &parms) : parms(parms) {
 
   switch (parms.kind) {
     case GK_no_wild:
-    case GK_bonus:
-    case GK_bonus_with_kicker:
       jokers = 0;
       break;
 
@@ -55,7 +54,7 @@ C_left::C_left(game_parameters &parms) : parms(parms) {
       // Remove the deuces from the deck.
       // They are considered to be four identical jokers that
       // are tracked separately.
-     {
+      {
         jokers = num_suits;
 
         for (int s = 0; s < num_suits; s++) {
@@ -1171,121 +1170,93 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
           }
 
           // Draw three to make quads
-          if (parms.bonus_quads) {
-            _ASSERT(jokers == 0);
+          // _ASSERT(jokers == 0);
 
-            switch (multi[1]) {
-              case 1:
-                // Holding one card.
-                // Draw the other three plus a kicker
-                {
-                  const int d = m_denom[1];
-                  if (left.denoms[d] == 3) {
-                    const int kickers = parms.deck_size - 5 - 3;
+          switch (multi[1]) {
+            case 1:
+              // Holding one card.
+              // Draw the other three plus a kicker
+              {
+                const int d = m_denom[1];
+                if (left.denoms[d] == 3) {
+                  const int kickers = parms.deck_size - 5 - 3;
 
-                    int low_kickers = 0;
-                    if (d != ace) low_kickers += left.denoms[ace];
-                    if (d != deuce) low_kickers += left.denoms[deuce];
-                    if (d != three) low_kickers += left.denoms[three];
-                    if (d != four) low_kickers += left.denoms[four];
+                  int low_kickers = 0;
+                  if (d != ace) low_kickers += left.denoms[ace];
+                  if (d != deuce) low_kickers += left.denoms[deuce];
+                  if (d != three) low_kickers += left.denoms[three];
+                  if (d != four) low_kickers += left.denoms[four];
 
-                    const int high_kickers = kickers - low_kickers;
-                    switch (d) {
-                      case ace:
-                        if (parms.bonus_quads_kicker) {
-                          combos[N_quad_aces] += high_kickers;
-                          combos[N_quad_aces_kicker] += low_kickers;
+                  const int high_kickers = kickers - low_kickers;
+                  switch (d) {
+                    case ace:
+                      combos[N_quad_aces] += high_kickers;
+                      combos[N_quad_aces_kicker] += low_kickers;
+                      break;
 
-                        } else {
-                          combos[N_quad_aces] += kickers;
-                        }
-                        break;
+                    case deuce:
+                    case three:
+                    case four:
+                      combos[N_quad_low] += high_kickers;
+                      combos[N_quad_low_kicker] += low_kickers;
+                      break;
 
-                      case deuce:
-                      case three:
-                      case four:
-                        if (parms.bonus_quads_kicker) {
-                          combos[N_quad_low] += high_kickers;
-                          combos[N_quad_low_kicker] += low_kickers;
-
-                        } else {
-                          combos[N_quad_low] += kickers;
-                        }
-                        break;
-
-                      default:
-                        combos[N_quads] += kickers;
-                        break;
-                    }
+                    default:
+                      combos[N_quads] += kickers;
+                      break;
                   }
                 }
-                break;
+              }
+              break;
 
-              case 2:
-                // Holding two cards.
-                // Draw three to match one,
-                // the other is the kicker
-                for (int j = 0; j < 2; j++) {
-                  int match, kicker;
-                  if (j) {
-                    match = m_denom[1];
-                    kicker = other_singleton;
-                  } else {
-                    kicker = m_denom[1];
-                    match = other_singleton;
+            case 2:
+              // Holding two cards.
+              // Draw three to match one,
+              // the other is the kicker
+              for (int j = 0; j < 2; j++) {
+                int match, kicker;
+                if (j) {
+                  match = m_denom[1];
+                  kicker = other_singleton;
+                } else {
+                  kicker = m_denom[1];
+                  match = other_singleton;
+                }
+
+                if (left.denoms[match] == 3) {
+                  int low_kicker;
+
+                  switch (kicker) {
+                    case ace:
+                    case deuce:
+                    case three:
+                    case four:
+                      low_kicker = 1;
+                      break;
+                    default:
+                      low_kicker = 0;
+                      break;
                   }
 
-                  if (left.denoms[match] == 3) {
-                    int low_kicker;
+                  switch (match) {
+                    case ace:
+                      combos[low_kicker ? N_quad_aces_kicker : N_quad_aces] +=
+                          1;
+                      break;
 
-                    switch (kicker) {
-                      case ace:
-                      case deuce:
-                      case three:
-                      case four:
-                        low_kicker = 1;
-                        break;
-                      default:
-                        low_kicker = 0;
-                        break;
-                    }
+                    case deuce:
+                    case three:
+                    case four:
+                      combos[low_kicker ? N_quad_low_kicker : N_quad_low] += 1;
+                      break;
 
-                    switch (match) {
-                      case ace:
-                        if (parms.bonus_quads_kicker) {
-                          combos[low_kicker ? N_quad_aces_kicker
-                                            : N_quad_aces] += 1;
-                        } else {
-                          combos[N_quad_aces] += 1;
-                        }
-                        break;
-
-                      case deuce:
-                      case three:
-                      case four:
-                        if (parms.bonus_quads_kicker) {
-                          combos[low_kicker ? N_quad_low_kicker : N_quad_low] +=
-                              1;
-                        } else {
-                          combos[N_quad_low] += 1;
-                        }
-                        break;
-
-                      default:
-                        combos[N_quads] += 1;
-                        break;
-                    }
+                    default:
+                      combos[N_quads] += 1;
+                      break;
                   }
                 }
-                break;
-            }
-          } else {
-            int match = 3 - jokers;
-
-            if (must_draw >= match && match > 0) {
-              combos[N_quads] += any_kept.multi(match, match) *
-                                 not_kept.no_pair(must_draw - match);
-            }
+              }
+              break;
           }
 
           // Draw four to make five of a kind
@@ -1305,108 +1276,87 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
           }
           combos[N_quints] += not_kept.multi(5 - jokers, must_draw);
 
-          if (parms.bonus_quads) {
-            _ASSERT(jokers == 0);
+          // _ASSERT(jokers == 0);
 
-            switch (multi[1]) {
-              case 0:
-                // Holding no cards.
-                // Draw draw four plus a kicker
-                {
-                  for (int d = 0; d < num_denoms; d++) {
-                    if (left.denoms[d] == 4) {
-                      const int kickers = parms.deck_size - 5 - 4;
+          switch (multi[1]) {
+            case 0:
+              // Holding no cards.
+              // Draw draw four plus a kicker
+              {
+                for (int d = 0; d < num_denoms; d++) {
+                  if (left.denoms[d] == 4) {
+                    const int kickers = parms.deck_size - 5 - 4;
 
-                      int low_kickers = 0;
-                      if (d != ace) low_kickers += left.denoms[ace];
-                      if (d != deuce) low_kickers += left.denoms[deuce];
-                      if (d != three) low_kickers += left.denoms[three];
-                      if (d != four) low_kickers += left.denoms[four];
+                    int low_kickers = 0;
+                    if (d != ace) low_kickers += left.denoms[ace];
+                    if (d != deuce) low_kickers += left.denoms[deuce];
+                    if (d != three) low_kickers += left.denoms[three];
+                    if (d != four) low_kickers += left.denoms[four];
 
-                      const int high_kickers = kickers - low_kickers;
-                      switch (d) {
-                        case ace:
-                          if (parms.bonus_quads_kicker) {
-                            combos[N_quad_aces] += high_kickers;
-                            combos[N_quad_aces_kicker] += low_kickers;
+                    const int high_kickers = kickers - low_kickers;
+                    switch (d) {
+                      case ace:
+                        combos[N_quad_aces] += high_kickers;
+                        combos[N_quad_aces_kicker] += low_kickers;
+                        break;
 
-                          } else {
-                            combos[N_quad_aces] += kickers;
-                          }
-                          break;
+                      case deuce:
+                      case three:
+                      case four:
+                        combos[N_quad_low] += high_kickers;
+                        combos[N_quad_low_kicker] += low_kickers;
+                        break;
 
-                        case deuce:
-                        case three:
-                        case four:
-                          if (parms.bonus_quads_kicker) {
-                            combos[N_quad_low] += high_kickers;
-                            combos[N_quad_low_kicker] += low_kickers;
-                          } else {
-                            combos[N_quad_low] += kickers;
-                          }
-                          break;
-
-                        default:
-                          combos[N_quads] += kickers;
-                          break;
-                      }
+                      default:
+                        combos[N_quads] += kickers;
+                        break;
                     }
                   }
                 }
-                break;
+              }
+              break;
 
-              case 1:
-                // Holding one card, which will be the kicker.
-                // Draw four other cards.
-                {
-                  for (int match = 0; match < num_denoms; match++) {
-                    if (left.denoms[match] == 4) {
-                      int low_kicker;
+            case 1:
+              // Holding one card, which will be the kicker.
+              // Draw four other cards.
+              {
+                for (int match = 0; match < num_denoms; match++) {
+                  if (left.denoms[match] == 4) {
+                    int low_kicker;
 
-                      switch (m_denom[1]) {
-                        case ace:
-                        case deuce:
-                        case three:
-                        case four:
-                          low_kicker = 1;
-                          break;
-                        default:
-                          low_kicker = 0;
-                          break;
-                      }
+                    switch (m_denom[1]) {
+                      case ace:
+                      case deuce:
+                      case three:
+                      case four:
+                        low_kicker = 1;
+                        break;
+                      default:
+                        low_kicker = 0;
+                        break;
+                    }
 
-                      switch (match) {
-                        case ace:
-                          if (parms.bonus_quads_kicker) {
-                            combos[low_kicker ? N_quad_aces_kicker
-                                              : N_quad_aces] += 1;
-                          } else {
-                            combos[N_quad_aces] += 1;
-                          }
-                          break;
+                    switch (match) {
+                      case ace:
+                        combos[low_kicker ? N_quad_aces_kicker : N_quad_aces] +=
+                            1;
+                        break;
 
-                        case deuce:
-                        case three:
-                        case four:
-                          if (parms.bonus_quads_kicker) {
-                            combos[low_kicker ? N_quad_low_kicker
-                                              : N_quad_low] += 1;
-                          } else {
-                            combos[N_quad_low] += 1;
-                          }
-                          break;
+                      case deuce:
+                      case three:
+                      case four:
+                        combos[low_kicker ? N_quad_low_kicker : N_quad_low] +=
+                            1;
+                        break;
 
-                        default:
-                          combos[N_quads] += 1;
-                          break;
-                      }
+                      default:
+                        combos[N_quads] += 1;
+                        break;
                     }
                   }
                 }
-                break;
-            }
-          } else {
-            combos[N_quads] += not_kept.multi(4 - jokers, must_draw);
+              }
+              break;
           }
           break;
 
@@ -1450,26 +1400,22 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
                     kickers =
                         parms.deck_size - 5 - left.denoms[d] - left.jokers;
 
-                    if (parms.bonus_quads_kicker) {
-                      if (d != ace) low_kickers += left.denoms[ace];
-                      if (d != deuce) low_kickers += left.denoms[deuce];
-                      if (d != three) low_kickers += left.denoms[three];
-                      if (d != four) low_kickers += left.denoms[four];
-                    }
+                    if (d != ace) low_kickers += left.denoms[ace];
+                    if (d != deuce) low_kickers += left.denoms[deuce];
+                    if (d != three) low_kickers += left.denoms[three];
+                    if (d != four) low_kickers += left.denoms[four];
                     break;
 
                   case 1:
                     kickers = 1;
 
-                    if (parms.bonus_quads_kicker) {
-                      switch (m_denom[1]) {
-                        case ace:
-                        case deuce:
-                        case three:
-                        case four:
-                          low_kickers = 1;
-                          break;
-                      }
+                    switch (m_denom[1]) {
+                      case ace:
+                      case deuce:
+                      case three:
+                      case four:
+                        low_kickers = 1;
+                        break;
                     }
                     break;
 
@@ -1479,34 +1425,22 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
 
                 int high_kickers = kickers - low_kickers;
 
-                if (parms.bonus_quads) {
-                  switch (d) {
-                    case ace:
-                      if (parms.bonus_quads_kicker) {
-                        combos[N_quad_aces_kicker] += n * low_kickers;
-                        combos[N_quad_aces] += n * high_kickers;
-                      } else {
-                        combos[N_quad_aces] += n * kickers;
-                      }
-                      break;
+                switch (d) {
+                  case ace:
+                    combos[N_quad_aces_kicker] += n * low_kickers;
+                    combos[N_quad_aces] += n * high_kickers;
+                    break;
 
-                    case deuce:
-                    case three:
-                    case four:
-                      if (parms.bonus_quads_kicker) {
-                        combos[N_quad_low_kicker] += n * low_kickers;
-                        combos[N_quad_low] += n * high_kickers;
-                      } else {
-                        combos[N_quad_low] += n * kickers;
-                      }
-                      break;
+                  case deuce:
+                  case three:
+                  case four:
+                    combos[N_quad_low_kicker] += n * low_kickers;
+                    combos[N_quad_low] += n * high_kickers;
+                    break;
 
-                    default:
-                      combos[N_quads] += n * kickers;
-                      break;
-                  }
-                } else {
-                  combos[N_quads] += n * kickers;
+                  default:
+                    combos[N_quads] += n * kickers;
+                    break;
                 }
               }
             }
