@@ -373,7 +373,7 @@ TEST(GetPayback, DoubleDoubleBonusNoAces) {
                           &pay_table);
   pay_prob prob_pays;
   const double ev = get_payback(game_desc, prob_pays);
-  ASSERT_DOUBLE_EQ(ev, 0.95490742757086533);
+  EXPECT_DOUBLE_EQ(ev, 0.96434646237586685);
   const std::string combos = PrintCombinations(prob_pays, pay_table, cards52);
   EXPECT_EQ(combos,
             R"(351476355342 High Pair
@@ -382,9 +382,7 @@ TEST(GetPayback, DoubleDoubleBonusNoAces) {
 21203534298 Straight
 18754389656 Flush
 18047434611 Full House
-2709448318 Quads
-288413337 Quad Aces
-102334500 Quad Aces w/low kicker
+3036163866 Quads
 638537018 Quad 2,3 or 4
 237869374 Quad 2,3 or 4 w/low kicker
 180935528 Straight Flush

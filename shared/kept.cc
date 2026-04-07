@@ -782,6 +782,15 @@ int denom_list::full_house(int n) {
   return result;
 }
 
+// Define an object with a function parameter such that
+// the function gets called when the object is destroyed.
+template <typename F>
+struct ScopeGuard {
+  F f;
+  ~ScopeGuard() { f(); }
+  ScopeGuard(F f) : f(f) {}
+};
+
 void C_kept_description::all_draws(int deuces_kept, C_left &left,
                                    pay_dist &pays) {
   {
@@ -789,6 +798,32 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
       pays[j] = 0;
     }
   }
+
+  auto guard = ScopeGuard([this, &pays]() {
+    // Runs before return. It would be more straightforward to simply
+    // put this code at the end of the function, but this code handles
+    // return statements correctly.
+    const pay_values &pay_table = parms.pay_table;
+
+    // For combos with no payoff, move their pays into the next more
+    // general category.
+    if (pay_table[N_quad_aces_kicker] == 0.0) {
+      pays[N_quad_aces] += pays[N_quad_aces_kicker];
+      pays[N_quad_aces_kicker] = 0;
+    }
+    if (pay_table[N_quad_aces] == 0.0) {
+      pays[N_quads] += pays[N_quad_aces];
+      pays[N_quad_aces] = 0;
+    }
+    if (pay_table[N_quad_low_kicker] == 0.0) {
+      pays[N_quad_low] += pays[N_quad_low_kicker];
+      pays[N_quad_low_kicker] = 0;
+    }
+    if (pay_table[N_quad_low] == 0.0) {
+      pays[N_quads] += pays[N_quad_low];
+      pays[N_quad_low] = 0;
+    }
+  });
 
   const int all_multiples = multi[2] + multi[3] + multi[4];
 
