@@ -878,7 +878,6 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
         // If we began with a high card we have a wild high pair
         combos[N_high_pair] += no_pair;
       } else {  // Begin with no natural pairs or high cards
-
         const int no_pair_no_high = low_not_kept.no_pair(must_draw);
         // The number of draws that do not improve
 
@@ -901,7 +900,6 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
     }
 
     if (jokers + all_multiples == 0) {  // Start with nothing
-
       // Draw a card that pairs one you kept
       if (must_draw >= 1) {
         int high_pairing_cards = 0;
@@ -952,7 +950,6 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
     if (jokers + multi[3] + multi[4] == 0) {
       switch (multi[2]) {
         case 0:  // Start with no pairs
-
           // Two split pairs
           if (must_draw >= 2) {
             combos[N_two_pair] +=
@@ -967,7 +964,6 @@ void C_kept_description::all_draws(int deuces_kept, C_left &left,
 
           // Two new pair.
           combos[N_two_pair] += not_kept.two_pair(must_draw);
-
           break;
 
         case 1:  // Start with one pair
