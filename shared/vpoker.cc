@@ -37,6 +37,22 @@ const char *short_payoff_image[] = {
     static_cast<const char *>("WR"), static_cast<const char *>("FD"),
     static_cast<const char *>("RF")};
 
+std::string format_hand(const card *hand, int size) {
+  std::string result;
+  result.reserve(3 * size);
+  for (int j = 0; j < size;) {
+    result.push_back(denom_image[pips(*hand)]);
+    result.push_back(suit_image[suit(*hand)]);
+    ++hand;
+    ++j;
+
+    if (j < size) {
+      result.push_back(' ');
+    }
+  }
+  return result;
+}
+
 std::string move_image(const card *hand, int hand_size, unsigned mask) {
   std::string result;
 

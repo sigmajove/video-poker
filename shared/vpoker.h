@@ -39,6 +39,7 @@ extern const char suit_image[];
 
 inline bool is_black(int suit) { return (suit & 1) == 0; }
 
+std::string format_hand(const card *hand, int size);
 std::string move_image(const card *hand, int hand_size, unsigned mask);
 void print_move(FILE *file, const card *hand, int hand_size, unsigned mask);
 
