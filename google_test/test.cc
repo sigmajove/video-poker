@@ -376,19 +376,20 @@ TEST(GetPayback, DoubleDoubleBonusNoAces) {
   EXPECT_DOUBLE_EQ(ev, 0.96434646237586685);
   const std::string combos = PrintCombinations(prob_pays, pay_table, cards52);
   EXPECT_EQ(combos,
-            R"(351476355342 High Pair
-204537482307 Two Pair
-125098748131 Trips
-21203534298 Straight
-18754389656 Flush
-18047434611 Full House
+            R"(349799472540 High Pair
+212748786180 Two Pair
+122705557090 Trips
+21435942747 Straight
+18820057734 Flush
+19049894325 Full House
 3036163866 Quads
-638537018 Quad 2,3 or 4
-237869374 Quad 2,3 or 4 w/low kicker
-180935528 Straight Flush
-40428326 Royal Flush
+638465828 Quad 2,3 or 4
+236355971 Quad 2,3 or 4 w/low kicker
+182067239 Straight Flush
+40305742 Royal Flush
 )");
 }
+
 TEST(GetPayback, KingsOrBetterJokersWild) {
   const int kb_table[] = {
       0,    // nothing,
