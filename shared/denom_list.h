@@ -1,11 +1,13 @@
+#include <array>
+
 #include "vpoker.h"
 
 class denom_list {
  public:
-  denom_list(int *left_table);
+  explicit denom_list(int *const left) : left_(left), avail_{} {};
 
-  inline void add(int denom) { avail[left[denom]]++; }
-  inline void remove(int denom) { avail[left[denom]]--; }
+  inline void add(int denom) { avail_[left_[denom]]++; }
+  inline void remove(int denom) { avail_[left_[denom]]--; }
   // The client must not add the same denomination twice,
   // and must only remove denominations that have been
   // added.  There is no checking of these restrictions.
@@ -25,9 +27,9 @@ class denom_list {
   // m = 3 => triple, etc.
 
  private:
-  int *const left;
+  const int *left_;
 
-  int avail[num_suits + 1];
+  std::array<int, num_suits + 1> avail_;
   // For each denomination added, we need to know the number of
   // that kind of card is available.  This information is stored
   // inverted-- for each number that might be available 0, 1, 2, 3, 4,
